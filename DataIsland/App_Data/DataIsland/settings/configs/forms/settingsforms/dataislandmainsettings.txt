@@ -1,0 +1,56 @@
+{
+	"Scopes": ["admin"],
+    "Form": {
+        "Title": "[tr]Main Settings[/tr]",
+        "FormName": "maindisettings",
+        "SubmitButtonText":"[tr]Save Changes[/tr]",
+        "Entries": [
+            {
+                "Name": "dataislandname",
+                "Label": "[tr]DataIsland Name[/tr]",
+                "ControlType": "textbox",
+                "Value": "",
+                "Validators": {
+                    "Required": false
+                }
+            },
+            {
+                "Name": "dataislanddomain",
+                "Label": "[tr]DataIsland Domain[/tr]",
+                "ControlType": "textbox",
+                "Value": "",
+                "Validators": {
+                    "Required": true
+                }
+            },
+            {
+                "Name": "dataislandwebpage",
+                "Label": "[tr]Webpage[/tr]",
+                "ControlType": "textbox",
+                "Value": "",
+                "Validators": {
+                    "Required": false
+                }
+            },
+            {
+                "Name": "dataislandispublic",
+                "Label": "[tr]DataIsland is public[/tr]",
+                "ControlType": "checkbox",
+                "Value": "",
+                "Validators": {
+                    "Required": false
+                }
+            },
+            {
+                "Name": "dataislandadminemail",
+                "Label": "[tr]Administrator email[/tr]",
+                "ControlType": "email",
+                "Value": "",
+                "Validators": {
+                    "Required": true
+                }
+            }
+
+        ]
+    }
+}

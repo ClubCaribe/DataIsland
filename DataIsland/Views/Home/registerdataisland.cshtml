@@ -1,0 +1,146 @@
+﻿@model DataIsland.Models.RegisterDataislandModel
+
+@{
+    ViewBag.Title = "registerdataisland";
+    Layout = "~/Views/Shared/_login_layout.cshtml";
+}
+
+@section headerdescription{
+    [tr]DataIsland hasn't been initialised yet.[/tr]<br />
+[tr]Enter information about server and create adminstrator account.[/tr]
+}
+
+@using (Html.BeginForm("registerdataisland", "home", FormMethod.Post, new { id = "form_register" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    <div class="form-register-success" style="background-color:red; display:@((ViewBag.ShowError)?"block":"none")">
+        <i style="background-color:darkred" class="entypo-block"></i>
+        <h3>@ViewBag.InformationHeadline</h3>
+        <p>@ViewBag.InformationDescription</p>
+    </div>
+    
+    <div class="form-steps">
+        <div class="step current" id="step-1">
+
+            <div class="form-group">
+                <div class="input-group" data-original-title="[tr]DataIsland Name[/tr]" data-content="[tr]Enter your DataIsland's name. This name will be visible in search results[/tr]" data-placement="top" data-trigger="hover" data-toggle="popover">
+                    <div class="input-group-addon">
+                        <i class="entypo-network"></i>
+                    </div>
+                    @Html.TextBoxFor(model => model.DataIslandName, new { placeholder = "[tr]DataIsland Name[/tr]", @class = "form-control", })
+                </div>
+                @Html.ValidationMessageFor(model => model.DataIslandName)
+            </div>
+
+            <div class="form-group">
+                <div class="input-group" data-original-title="[tr]DataIsland domain[/tr]" data-content="[tr]Enter domain name where DataIsland can be found. for instance http://localhost or http://www.mydataisland.com[/tr]" data-placement="top" data-trigger="hover" data-toggle="popover">
+                    <div class="input-group-addon">
+                        <i class="entypo-address"></i>
+                    </div>
+                    @Html.TextBoxFor(model => model.Domain, new { placeholder = "[tr]DataIsland domain[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Domain)
+            </div>
+
+            <div class="form-group">
+                <div class="input-group" data-original-title="[tr]Description (optional)[/tr]" data-content="[tr]Enter DataIsland description. It will be visible in search results.[/tr]" data-placement="top" data-trigger="hover" data-toggle="popover">
+                    <div class="input-group-addon">
+                        <i class="entypo-book-open"></i>
+                    </div>
+                    @Html.TextAreaFor(model => model.Description, new { placeholder = "[tr]Description[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+
+            <div class="form-group">
+                <div class="input-group" data-original-title="[tr]DataIsland Website (optional)[/tr]" data-content="[tr]Enter website url where more information can be found[/tr]" data-placement="top" data-trigger="hover" data-toggle="popover">
+                    <div class="input-group-addon">
+                        <i class="entypo-help"></i>
+                    </div>
+                    @Html.TextBoxFor(model => model.WebPage, new { placeholder = "[tr]DataIsland Website[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.WebPage)
+            </div>
+
+            <div class="form-group">
+                <div class="input-group" data-original-title="[tr]DataIsland Visibility[/tr]" data-content="[tr]Indicate whether your DataIsland is public therefore visible in search results and everyone can register or it's private and new users can be registered only by administrators[/tr]" data-placement="top" data-trigger="hover" data-toggle="popover">
+                    <div class="input-group-addon">
+                        <i class="entypo-user-add"></i>
+                    </div>
+                    <div style="text-align: left; padding-left: 10px;">
+                        @Html.CheckBoxFor(model => model.IsPublic)
+                        <label>[tr]DataIsland is public[/tr]</label>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.IsPublic)
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary btn-block btn-login" data-step="step-2" type="button">
+                    <i class="entypo-right-open-mini"></i>
+                    [tr]Administrator account[/tr]
+                </button>
+            </div>
+
+            <div class="form-group">
+                [tr]Step 1 of 2[/tr]
+            </div>
+
+        </div>
+
+        <div class="step" id="step-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="entypo-user"></i>
+                    </div>
+                    @Html.TextBoxFor(model => model.Username, new { placeholder = "[tr]Administrator Username[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="entypo-key"></i>
+                    </div>
+                    @Html.PasswordFor(model => model.AdministratorPassword, new { placeholder = "[tr]Administrator password[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.AdministratorPassword)
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="entypo-mail"></i>
+                    </div>
+                    @Html.TextBoxFor(model => model.Email, new { placeholder = "[tr]Administrator email[/tr]", @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary btn-block btn-login" data-step="step-1" data-stepdirection="back" type="button">
+                    <i class="entypo-left-open-mini"></i>
+                    [tr]Back to step 1[/tr]
+                </button>
+            </div>
+
+            <div class="form-group" style="">
+                <button class="btn btn-success btn-block btn-login" type="submit">
+                    <i class="entypo-right-open-mini"></i>
+                    [tr]Complete Registration[/tr]
+                </button>
+            </div>
+
+             <div class="form-group">
+                [tr]Step 2 of 2[/tr]
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="~/Scripts/pages/register-dataisland.js"></script>
+}

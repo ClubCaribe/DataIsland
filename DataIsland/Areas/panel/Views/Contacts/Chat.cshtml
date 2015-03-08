@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section mainappjsfile{
+    <script src="~/Areas/panel/app/modules/mainApp.js"></script>
+}
+
+
+@section bodyngcontroller{
+    ng-controller="userChatController as userChatCtrl"
+}
+
+<div class="profile-env">
+    <header class="row">
+
+        <div class="col-sm-2">
+
+            <div class="profile-picture" >
+                <img id="chatUserProfileImage" class="img-responsive img-circle" ng-src="/panel/contacts/contactthumbnail/{{userChatCtrl.GetEscapedUseId(userChatCtrl.UserID)}}/60/sqr/1">
+            </div>
+
+        </div>
+
+        <div class="col-sm-7">
+
+            <ul class="profile-info-sections">
+                <li>
+                    <div class="profile-name">
+                        <strong>
+                            <a href="#">[tr]Chat with[/tr] {{::userChatCtrl.ChatUser.Name}}</a>
+                        </strong>
+                        <span>{{::userChatCtrl.ChatUser.Username}}</span>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </header>
+
+    <section id="profileInfoTabs"  class="profile-info-tabs">
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-10">
+                <!-- tabs for the profile links -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile-info">[tr]Messages[/tr]</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+        <div id="chatMainContainer" class="user-chat-container">
+            <div id="conversationArea" class="user-chat-conversation-area">
+                <div class="profile-stories">
+                    <article class="story" ng-repeat="message in userChatCtrl.Messages | orderBy:'SendTime':false">
+                        <aside class="user-thumb">
+                            <a href="#" ng-if="!userChatCtrl.IsMessageSenderMe(message.SenderID)">
+                                <img class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{userChatCtrl.GetEscapedUseId(message.SenderID)}}/44/sqr/1">
+                            </a>
+                        </aside>
+                        <div class="story-content">
+                            <!-- story header -->
+                            <header>
+                                <div class="publisher">
+                                    <em>{{::message.SendTime | date:'shortTime'}}&nbsp;{{::message.SendTime | FriendlyDate}}</em>
+                                </div>
+                            </header>
+                            <div class="story-main-content">
+                                <p>{{::message.Message}}</p>
+                            </div>
+                            <!-- separator -->
+                            <hr>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div style="position:absolute; left:10px; right:10px; bottom:0px; height:162px;">
+                <form method="post" class="profile-post-form">
+
+                    <textarea ng-disabled="userChatCtrl.NewMessage.IsDisabled" ng-keypress="userChatCtrl.MessageTextKeyPressed($event)" ng-model="userChatCtrl.NewMessage.Message" placeholder="What's on your mind?" class="form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 80px;"></textarea>
+
+                    <div class="user-chat-editor-options">
+
+                        <div class="user-chat-editor-post-type">
+
+                            <a data-original-title="Upload a Picture" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
+                                <i class="entypo-camera"></i>
+                            </a>
+
+                            <a data-original-title="Attach a file" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
+                                <i class="entypo-attach"></i>
+                            </a>
+
+                            <a data-original-title="Check-in" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
+                                <i class="entypo-location"></i>
+                            </a>
+                        </div>
+
+                        <div class="user-chat-editor-submit">
+                            <button ng-click="userChatCtrl.SendTextMessage()" class="btn btn-primary" type="button">[tr]Send[/tr]</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+     
+
+
+@section scripts{
+    <script src="~/Areas/panel/app/controllers/userChatController.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var evt = $.Event('initChat');
+            evt.UserID = "@ViewBag.UserID";
+            $(window).trigger(evt);
+        });
+    </script>
+}
+

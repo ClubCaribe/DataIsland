@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "settings";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section mainappjsfile{
+    
+    <script src="~/Areas/panel/app/modules/mainApp.js"></script>
+}
+
+@section bodyngcontroller{
+    ng-controller="diSettingsController"
+}
+
+<h1 class="margin-bottom">settings</h1>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div data-collapsed="0" class="panel panel-primary">
+
+            <div class="panel-heading">
+                <div class="panel-title">
+                    {{mainSettingsForm.Title}}
+                </div>
+                <div class="panel-options">
+                    <a data-rel="collapse" href="#"><i class="entypo-down-open"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <di-dynamic-settings-form form-model="mainSettingsForm" on-submit-form="saveMainSettings()"></di-dynamic-settings-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Areas/panel/app/controllers/diSettingsController.js"></script>
+}
+

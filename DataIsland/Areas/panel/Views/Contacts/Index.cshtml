@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "Contacts";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section mainappjsfile{
+    <link href="~/Areas/panel/Content/css/usercontacts.css" rel="stylesheet" />
+    <script src="~/Areas/panel/app/modules/mainApp.js"></script>
+}
+
+
+@section bodyngcontroller{
+    ng-controller="userContactsController"
+}
+
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-8 col-sm-7">
+        <h2>[tr]Contacts[/tr]</h2>
+    </div>
+    <div class="col-md-4 col-sm-5" style="text-align: right;">
+        <button class="btn btn-default btn-icon icon-left" type="button" style="margin-top:15px;" ng-show="SelectedAction == 'contacts'" ng-click="ChangeAction('addContact')">
+            [tr]Add Contact[/tr]
+            <i class="entypo-user-add"></i>
+        </button>
+        <button class="btn btn-default btn-icon icon-left" type="button" style="margin-top:15px;" ng-show="SelectedAction == 'addContact'" ng-click="ChangeAction('contacts')">
+            [tr]Back to Contacts[/tr]
+            <i class="entypo-back"></i>
+        </button>
+    </div>
+</div>
+
+<div id="contactsPanel" ng-show="SelectedAction == 'contacts'">
+    <div class="panel minimal minimal-gray">
+        <div class="panel-heading">
+            <div class="panel-title"><h4>[tr]My Contacts[/tr]</h4></div>
+            <div class="panel-options">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#" ng-click="ChangeTab('all')" data-toggle="tab">[tr]All Contacts[/tr]</a></li>
+                    <li ><a href="#" ng-click="ChangeTab('favourites')" data-toggle="tab">[tr]Favourites[/tr]</a></li>
+                    <li ><a href="#" ng-click="ChangeTab('requests')" data-toggle="tab">[tr]Contacts to accept[/tr] <span ng-show="NumOfApprovals()>0" class="badge badge-secondary" style="margin-left:5px">{{NumOfApprovals()}}</span></a></li>
+                    <li ><a href="#" ng-click="ChangeTab('notaccepted')" data-toggle="tab">[tr]Contact Requests[/tr]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-9">
+                </div>
+                <div class="col-md-3 col-sm-5">
+                    <form class="search-form-full" role="form" name="searchForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search..." id="search-input" name="s" class="form-control" ng-model="Contacts.SearchPhrase">
+                            <i class="entypo-search"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;"></th>
+                                <th>[tr]Username[/tr]</th>
+                                <th style="width:40px; text-align:center;"></th>
+                                <th style="width:40px; text-align:center;"></th>
+                                <th style="width:150px;text-align:center;"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="user in Contacts.Contacts | filter:Contacts.SearchPhrase | filterByContactTab:SelectedTab" ng-mouseenter="user.MouseOver = true" ng-mouseleave="user.MouseOver = false">
+                                <td><img width="44" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{user.Username}}/44/sqr" src="~/Content/panel/images/thumb-1@2x.png"></td>
+                                <td style="line-height:44px;">
+                                    <h4 style="margin-top:12px !important;">
+                                        {{user.Name}}
+                                        <small>({{user.Username}})</small>
+                                        <small ng-show="!user.RequestToAccept && !user.Accepted">
+                                            [tr]Pending Contact Request[/tr]
+                                        </small>
+                                        <small ng-show="user.RequestToAccept">
+                                            [tr]Contact waiting for your approval[/tr]
+                                        </small>
+                                    </h4>
+                                </td>
+                                <td>
+                                    <a ng-href="/panel/contacts/chat/{{user.Username}}" style="line-height:45px;" title="[tr]Open chat[/tr]" >
+                                        <i style="color:#ff0000;" class="entypo-chat"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-white" type="button" style="margin-top:6px;" ng-click="SetFavourite(user)" title="[tr]Add to/Remove from favourites[/tr] ">
+                                        <i style="color:#ff0000;" ng-class="{'entypo-star-empty':user.IsFavourite==false || user.IsFavourite == undefined, 'entypo-star':user.IsFavourite}"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="btn-group" ng-show="user.MouseOver" style="margin-top:6px;">
+                                        <button data-toggle="dropdown" class="btn btn-blue dropdown-toggle" type="button">
+                                            [tr]Operations[/tr] <span class="caret"></span>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu dropdown-blue">
+                                            <li ng-show="user.RequestToAccept">
+                                                <a href="#" ng-click="AcceptRequest(user)">[tr]Accept Request[/tr]</a>
+                                            </li>
+                                            <li ng-show="!user.RequestToAccept && !user.Accepted">
+                                                <a href="#" ng-click="ResendContactRequest(user)">[tr]Resend Contact Request[/tr]</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" ng-click="DeleteContact(user)">[tr]Delete User[/tr]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addContactPanel" ng-show="SelectedAction == 'addContact'" ng-controller="userAddContactsController">
+    <div class="panel minimal minimal-gray">
+        <div class="panel-heading">
+            <div class="panel-title"><h4>[tr]Add Contact[/tr]</h4></div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form class="search-form-full" role="form" name="searchForContactsForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="[tr]Search...[/tr]" id="search-input" name="s" class="form-control" ng-model="SearchPhrase" ng-keypress="SearchKeyPressed($event)">
+                            <i class="entypo-search"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-blue btn-icon" type="button" ng-click="FindUsers()" style="margin-top:15px;">
+                        [tr]Search[/tr]
+                        <i class="entypo-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;"></th>
+                                <th>[tr]Username[/tr]</th>
+                                <th style="width:150px;">[tr]Action[/tr]</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="user in ExternalUsers">
+                                <td><img width="44" class="img-circle" alt="" ng-src="{{user.AvatarPath}}" src="~/Content/panel/images/thumb-1@2x.png"></td>
+                                <td style="line-height:44px;">{{user.Username}}</td>
+                                <td>
+                                    <a style="margin-top:8px;" class="btn btn-default btn-sm btn-icon icon-left" href="#" ng-click="AddContact(user)">
+                                        <i class="entypo-user-add"></i>
+                                        [tr]Add Contact[/tr]
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Areas/panel/app/controllers/userContactsController.js"></script>
+    <script src="~/Areas/panel/app/controllers/userAddContactsController.js"></script>
+}

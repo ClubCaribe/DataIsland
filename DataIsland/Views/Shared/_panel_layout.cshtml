@@ -1,0 +1,288 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" ng-app="DiPanel" style="width: 100% !important; height: 100% !important;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sealcast DataIsland" />
+    <meta name="author" content="" />
+
+    <title>DataIsland | @ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/Scripts/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
+    <link rel="stylesheet" href="~/Content/panel/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/panel/css/neon-core.css">
+    <link rel="stylesheet" href="~/Content/panel/css/neon-theme.css">
+    <link rel="stylesheet" href="~/Content/panel/css/neon-forms.css">
+    <link rel="stylesheet" href="~/Content/panel/css/font-icons/entypo/css/entypo.css">
+    <link rel="stylesheet" href="~/Content/panel/css/font-icons/entypo/css/animation.css">
+    <link rel="stylesheet" href="~/Content/panel/css/font-icons/font-awesome/css/font-awesome.css">    
+    <link href="~/Content/css/mainstyle.css" rel="stylesheet" />
+    @RenderSection("layoutskin",false)
+    <link rel="stylesheet" href="~/Content/css/form-validation-helpers.css">
+    @RenderSection("styles", false)
+    <script src="~/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="~/Scripts/json2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="/home/getConstantsVariables"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
+    <script src="~/Scripts/angular-cookies.min.js"></script>
+    <script src="~/Scripts/angular-loader.min.js"></script>
+    <script src="~/Scripts/angular-mocks.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-sanitize.min.js"></script>
+    <script src="~/Scripts/angular-scenario.js"></script>
+    <script src="~/Scripts/angular-touch.min.js"></script>
+    <script src="~/Areas/panel/app/commonmodules/interceptor.js" ></script>
+    <script src="~/Areas/panel/app/directives/dirPagination.js"></script>
+    <script src="~/Areas/panel/app/directives/diDynamicForm.js"></script>
+    @RenderSection("mainappjsfile",false)
+    <script src="~/Areas/panel/app/controllers/mainHeaderController.js"></script>
+    <script src="~/Areas/panel/app/controllers/chatController.js"></script>
+
+    <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+
+</head>
+<body class="page-body" style="width:100% !important; height:100% !important;" @RenderSection("bodyngcontroller",false)>
+    <div style="position:absolute; top:0; bottom:0; right:0; left:0; overflow:auto;">
+        <div class="page-container page-container-height  @RenderSection("additionalcontainerstyles",false)" style="height:100%;">
+
+            <div class="sidebar-menu fixed" ng-controller="sidebarcontroller">
+                <!-- set fixed position by adding class "navbar-fixed-top" -->
+
+                <header class="logo-env">
+                    <!-- logo -->
+                    <div class="logo">
+                        <a href="/panel">
+                            <img width="120" alt="" src="~/Content/panel/images/logo@2x.png">
+                        </a>
+                    </div>
+                    <!-- logo collapse icon -->
+                    <div class="sidebar-collapse">
+                        <a class="sidebar-collapse-icon with-animation" href="#">
+                            <!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+                            <i class="entypo-menu"></i>
+                        </a>
+                    </div>
+                    <!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
+                    <div class="sidebar-mobile-menu visible-xs">
+                        <a class="with-animation" href="#">
+                            <!-- add class "with-animation" to support animation -->
+                            <i class="entypo-menu"></i>
+                        </a>
+                    </div>
+                </header>
+
+                <ul id="main-menu" class="" style="">
+                    <li class="root-level">
+                        <a href="/panel">
+                            <i class="entypo-gauge"></i>
+                            <span>[tr]Dashboard[/tr]</span>
+                        </a>
+                    </li>
+                    <li class="root-level has-sub">
+                        <a href="#">
+                            <i class="entypo-user"></i>
+                            <span>[tr]User Account[/tr]</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/panel/settings/user">
+                                    <i class="entypo-tools"></i>
+                                    <span>[tr]User Settings[/tr]</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/panel/contacts/">
+                                    <i class="entypo-users"></i>
+                                    <span>[tr]Contacts[/tr]</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="root-level has-sub">
+                        <a href="#">
+                            <i class="entypo-docs"></i>
+                            <span>[tr]Applications[/tr]</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/filemanager/">
+                                    <i class="entypo-window"></i>
+                                    <span>[tr]File Manager[/tr]</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="root-level has-sub" ng-show="Menus.DataIsland.length>0">
+                        <a href="#">
+                            <i class="entypo-address"></i>
+                            <span>[tr]Server Settings[/tr]</span>
+                        </a>
+                        <ul>
+                            <li ng-repeat="menu in Menus.DataIsland">
+                                <a ng-href="{{menu.Link}}">
+                                    <i class="{{menu.IconClass}}"></i>
+                                    <span>{{menu.Name}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            @RenderSection("sliders", false)
+            <div class="main-content page-container-height" style="">
+                <div class="row" ng-controller="mainHeaderController">
+
+                    <!-- Profile Info and Notifications -->
+                    <div class="col-md-6 col-sm-8 clearfix">
+
+                        <ul class="user-info pull-left pull-none-xsm">
+
+                            <!-- Profile Info -->
+                            <li class="profile-info dropdown">
+                                <!-- add class "pull-right" if you want to place this from right -->
+
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <img width="44" id="topheaderavatar" class="img-circle diuseravatar" alt="" ng-src="/utilities/userAvatar/{{Username}}/44/sqr">
+                                    {{Username}}
+                                </a>
+
+                                <ul class="dropdown-menu">
+
+                                    <!-- Reverse Caret -->
+                                    <li class="caret"></li>
+
+                                    <!-- Profile sub-links -->
+                                    <li>
+                                        <a href="/panel/settings/user">
+                                            <i class="entypo-user"></i>
+                                            [tr]Edit Profile[/tr]
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <!-- Raw Links -->
+                    <div class="col-md-6 col-sm-4 clearfix hidden-xs">
+
+                        <ul class="list-inline links-list pull-right">
+                            <li class="sep"></li>
+                            <li>
+                                <a data-collapse-sidebar="1" data-animate="1" data-toggle="chat" href="#">
+                                    <i class="entypo-chat"></i>
+                                    [tr]Chat[/tr]
+                                    <span class="badge badge-success chat-notifications-badge" ng-show="NumberOfChatUnreadedMessages>0">{{NumberOfChatUnreadedMessages}}</span>
+                                </a>
+                            </li>
+                            <li class="sep"></li>
+                            <li>
+                                <a href="#" ng-click="logout()">
+                                    [tr]Log Out[/tr] <i class="entypo-logout right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr />
+                @RenderBody()
+            </div>
+            <div ng-controller="chatController as chatCtrl" data-max-chat-history="25" data-order-by-status="1" data-current-user="Art Ramadani" class="fixed" id="chat" style="min-height: 1417px;">
+                <div class="chat-inner" style="overflow: hidden;" tabindex="5000">
+                    <h2 class="chat-header">
+                        <a data-animate="1" class="chat-close" data-toggle="chat" data-collapse-sidebar="1" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
+                        <i class="entypo-users"></i>
+                        Chat
+                        <span ng-show="chatCtrl.TotalUnreadMessages>0" class="badge badge-success">{{chatCtrl.TotalUnreadMessages}}</span>
+                    </h2>
+                    <div id="group-1" class="chat-group">
+                        <strong>[tr]Favorites[/tr]</strong>
+                        <a ng-repeat="contact in chatCtrl.ChatList | filterChatByFavourite:true | filterChatExcludeUnaccepted | orderBy:'Name'" href="#" ng-click="chatCtrl.SetActiveChat(contact);">
+                            <span class="user-status is-offline"></span>
+                            <em>{{contact.Name}} <span style="font-size:0.9em; color:#949494;">({{::contact.Username}})</span></em>
+                            <span class="badge badge-info" ng-show="contact.NumberOfUnreadMessages > 0">{{contact.NumberOfUnreadMessages}}</span>
+                        </a>
+                    </div>
+                    <div id="group-2" class="chat-group">
+                        <strong>[tr]Contacts[/tr]</strong>
+                        <a ng-repeat="contact in chatCtrl.ChatList| filterChatByFavourite:false | filterChatExcludeUnaccepted | orderBy:'Name'" href="#" ng-click="chatCtrl.SetActiveChat(contact);">
+                            <span class="user-status is-offline"></span>
+                            <em>{{contact.Name}} <span style="font-size:0.9em; color:#949494;">({{::contact.Username}}) </span></em>
+                            <span class="badge badge-info" ng-show="contact.NumberOfUnreadMessages > 0">{{contact.NumberOfUnreadMessages}}</span>
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <!-- conversation template -->
+                <div class="chat-conversation" style="display: none; top: 0px; opacity: 0;">
+                    <div class="conversation-header">
+                        <a class="conversation-close" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
+                        <a style="color:#7f8186; float:right; top:3px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]Open full chat[/tr]">[tr]Open full chat[/tr]<i class="entypo-chat"></i></a>
+                        <span class="user-status"></span>
+                        <span class="display-name">{{chatCtrl.ActiveChat.Name}}</span>
+                        <small></small>
+                    </div>
+                    <ul class="conversation-body">
+                        <li ng-repeat="message in chatCtrl.ActiveChat.Messages | orderBy:'SendTime'" ng-class="{unread:chatCtrl.IsUserMessageOwner(message)}">
+                            <span class="user">{{chatCtrl.GetMessageSenderName(message)}} </span>
+                            <p>{{::message.Message}}</p>
+                            <span class="time">{{::message.SendTime | date:'medium'}}</span>
+                        </li>
+                    </ul>
+                    <div class="chat-textarea">
+                        <textarea ng-disabled="chatCtrl.NewMessage.IsDisabled" ng-keypress="chatCtrl.MessageTextKeyPressed($event)" ng-model="chatCtrl.NewMessage.Message" placeholder="Type your message" class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 32px;"></textarea>
+                    </div>
+                </div>
+                <div id="ascrail2000" class="nicescroll-rails" style="padding-right: 3px; width: 8px; z-index: 5; position: absolute; top: 0px; left: -8px; height: 100px; cursor: default; opacity: 0; display: none;">
+                    <div style="position: relative; float: right; width: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); background-clip: padding-box; border-radius: 1px; height: 0px; top: 0px;">
+                    </div>
+                </div>
+                <div id="ascrail2000-hr" class="nicescroll-rails" style="height: 5px; z-index: 5; top: 95px; left: 0px; position: absolute; cursor: default; opacity: 0; display: none;">
+                    <div style="position: relative; top: 0px; height: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); background-clip: padding-box; border-radius: 1px; width: 0px; left: 0px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("modalwindows",false)
+    <!-- Bottom Scripts -->
+    <script src="~/Scripts/gsap/main-gsap.js"></script>
+    <script src="~/Scripts/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/joinable.js"></script>
+    <script src="~/Scripts/resizeable.js"></script>
+    <script src="~/Scripts/neon-api.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.min.js"></script>
+    <script src="~/Scripts/toastr.js" ></script>
+    <script src="~/Scripts/neon-chat.js"></script>
+    <script src="~/Scripts/neon-custom.js"></script>
+    <script src="~/Scripts/pages/panel/panel-main.js"></script>
+    <script src="~/Scripts/dataisland/utilities.js"></script>
+    <script src="~/Scripts/dataisland/common.js"></script>
+    <script src="~/Areas/panel/app/commonmodules/formValidators.js"></script>
+    <script src="~/Areas/panel/app/scripts/streamails.js"></script>
+    <script src="~/Areas/panel/app/scripts/srcontacts.js"></script>
+    @RenderSection("scripts", false)
+    <script src="~/Scripts/angular-dimodule.js"></script>
+</body>
+</html>

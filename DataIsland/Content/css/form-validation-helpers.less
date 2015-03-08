@@ -1,0 +1,34 @@
+﻿@import (reference) "main.less";
+
+@controls_border_color: @slightly_less_light_gray;
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: @standard_error_color;
+    display:inline-block;
+    margin-top:5px;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid @standard_error_color;
+    background-color: @standard_error_background;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: @standard_error_color;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}

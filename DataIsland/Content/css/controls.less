@@ -1,0 +1,179 @@
+﻿@import (reference) "main.less";
+
+@controls_border_color: @slightly_less_light_gray;
+
+h1{
+	font-family: @standard_font_family;
+	font-size:24px;
+	font-weight: 300;
+}
+
+h2{
+	font-family: @standard_font_family;
+	font-size:22px;
+	font-weight: 300;
+}
+
+h3{
+	font-family: @standard_font_family;
+	font-size:20px;
+	font-weight: 500;
+}
+
+h4{
+	font-family: @standard_font_family;
+	font-size:18px;
+	font-weight: 500;
+}
+
+h5{
+	font-family: @standard_font_family;
+	font-size:14px;
+	font-weight: 500;
+}
+
+h6{
+    font-family: @standard_font_family ;
+	font-size:18px;
+	font-weight: 100;
+}
+
+a{
+	color: @top_belt_background_color;
+	text-decoration: none;
+}
+
+a:hover{
+	color: @light_blue;
+	text-decoration: none;
+}
+
+a:visited{
+	color: @light_blue;
+	text-decoration: none;
+}
+
+input[type="submit"]{
+	height:30px;
+	color:@standard_light_text_color;
+	background-color:@light_blue;
+	font-weight:500;
+	font-size:14px;
+	border: 1px solid @light_blue;
+	min-width:200px;
+	cursor:pointer;
+}
+
+input[type="submit"]:hover{
+	background-color: @slightly_lighter_blue;
+        
+}
+
+input[type="text"], input[type="password"]{
+	height: 25px;
+	border: 1px solid @controls_border_color;
+	color:@standard_text_color;
+	font-weight:100;
+	font-size:12px;
+	min-width:200px;
+}
+
+select
+{
+    height: 25px;
+	border: 1px solid @controls_border_color;
+	color:@standard_text_color;
+	font-weight:100;
+	font-size:12px;
+}
+
+textarea{
+	border: 1px solid @controls_border_color;
+	color:@standard_text_color;
+	font-weight:100;
+	font-size:14px;
+	min-width:150px;
+    min-height: 75px;
+}
+
+.datatable tr:nth-child(even){
+    background-color: @light_gray;
+}
+
+.datatable tr:nth-child(odd){
+    background-color: @standard_background_color;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:0px none transparent;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+    
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+.editor-label 
+{
+    margin: 1em 15px 0 0;
+    float:left;
+    width:150px;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: @standard_error_color;
+    display:inline-block;
+    margin-top:5px;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid @standard_error_color;
+    background-color: @standard_error_background;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: @standard_error_color;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+
+
+
+
+

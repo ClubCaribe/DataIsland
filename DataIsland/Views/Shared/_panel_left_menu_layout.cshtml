@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "_panel_left_menu_layout";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section layoutskin{
+    @RenderSection("layoutskin",false)
+}
+@section styles{
+    @RenderSection("styles",false)
+}
+@section additionalcontainerstyles{
+ with-sidebar
+}
+@section sliders{
+    <div class="sidebar-menu fixed">
+        <!--side menu -->
+        <ul id="main-menu" class="">
+        </ul>
+    </div>
+}
+@RenderBody()
+@section modalwindows{
+    @RenderSection("modalwindows", false)
+}
+@section scripts{
+    @RenderSection("scripts",false)
+}
+

@@ -1,0 +1,286 @@
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection c07e995d-fc32-4534-bfd3-51bdb0ab2636 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(c07e995d-fc32-4534-bfd3-51bdb0ab2636)
+SignalR.Transports.TransportHeartBeat Information: 0 : Dispose(). Closing all connections
+SignalR.Transports.LongPollingTransport Information: 0 : End(c07e995d-fc32-4534-bfd3-51bdb0ab2636)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(c07e995d-fc32-4534-bfd3-51bdb0ab2636)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (c07e995d-fc32-4534-bfd3-51bdb0ab2636)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8
+SignalR.Transports.LongPollingTransport Information: 0 : End(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (ef54053a-d3c7-4eaf-90d6-0ad6ef34b1d8)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection a90d3375-9236-4729-8302-6992e85bce3d is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection a90d3375-9236-4729-8302-6992e85bce3d exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection 8789e3df-03d7-46e9-9937-a212d7b9f47f is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection 8789e3df-03d7-46e9-9937-a212d7b9f47f exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection ff5c05cb-efd4-4957-bfbe-5a199b938e27 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection ff5c05cb-efd4-4957-bfbe-5a199b938e27 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : a90d3375-9236-4729-8302-6992e85bce3d is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection a90d3375-9236-4729-8302-6992e85bce3d
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.LongPollingTransport Information: 0 : End(a90d3375-9236-4729-8302-6992e85bce3d)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 8789e3df-03d7-46e9-9937-a212d7b9f47f is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection 8789e3df-03d7-46e9-9937-a212d7b9f47f
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.LongPollingTransport Information: 0 : End(8789e3df-03d7-46e9-9937-a212d7b9f47f)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : ff5c05cb-efd4-4957-bfbe-5a199b938e27 is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection ff5c05cb-efd4-4957-bfbe-5a199b938e27
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.LongPollingTransport Information: 0 : End(ff5c05cb-efd4-4957-bfbe-5a199b938e27)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Verbose: 0 : d4ba4c39-2b33-433c-9cf1-2f2f9275ae68 is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection d4ba4c39-2b33-433c-9cf1-2f2f9275ae68
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d4ba4c39-2b33-433c-9cf1-2f2f9275ae68)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0 is dead
+SignalR.Transports.TransportHeartBeat Information: 0 : Removing connection 48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0
+SignalR.Transports.LongPollingTransport Information: 0 : Abort(48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.LongPollingTransport Information: 0 : End(48a72b5f-b279-4a66-8d9f-bf18bb7d8ae0)
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.TransportHeartBeat Information: 0 : Dispose(). Closing all connections
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 is New.
+SignalR.Transports.LongPollingTransport Information: 0 : Timeout(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 exists. Closing previous connection.
+SignalR.Transports.TransportHeartBeat Information: 0 : Dispose(). Closing all connections
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection d2181e88-398b-40ab-bce2-0aeb225d1012 is New.
+SignalR.Transports.LongPollingTransport Verbose: 0 : Cancel(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.TransportHeartBeat Information: 0 : Dispose(). Closing all connections
+SignalR.Transports.LongPollingTransport Information: 0 : End(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Verbose: 0 : DrainWrites(d2181e88-398b-40ab-bce2-0aeb225d1012)
+SignalR.Transports.LongPollingTransport Information: 0 : CompleteRequest (d2181e88-398b-40ab-bce2-0aeb225d1012)

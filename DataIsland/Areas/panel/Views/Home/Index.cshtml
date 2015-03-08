@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section mainappjsfile{
+    <link href="~/Content/panel/css/vertical-timeline/component.css" rel="stylesheet" />
+    <script src="~/Areas/panel/app/modules/mainApp.js"></script>
+}
+
+@section bodyngcontroller{
+    ng-controller="dashboardController as dashboardCtrl"
+}
+
+<div id="dashboardQuickAccess" class="row">
+    
+</div>
+
+<ul class="cbp_tmtimeline">
+    <li ng-repeat="entry in dashboardCtrl.Notifications.List | orderBy:'SendTime':true">
+        <time datetime="{{::entry.SendTime}}" class="cbp_tmtime">
+            <span>{{::entry.SendTime | date:'shortTime'}}</span>
+            <span>{{::entry.SendTime | notificationFriendlyDate}}</span>
+        </time>
+
+        <div class="cbp_tmicon">
+            <i class="{{::entry.CustomFields.icon}}"></i>
+        </div>
+
+        <div class="cbp_tmlabel">
+            <h2><a>{{::entry.CustomFields.title}}</a></h2>
+            <p ng-bind-html="entry.Message | html" style="padding-top:10px;"></p>
+        </div>
+    </li>
+    
+</ul>
+
+
+@section scripts{
+    <script src="~/Areas/panel/app/controllers/dashboardController.js"></script>
+}
+

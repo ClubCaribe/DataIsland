@@ -1,0 +1,130 @@
+﻿@slightly_lighter_blue:#389fc5;
+@light_blue:#008fc4;
+@middle_blue: #005777;
+@darker_blue: #00568c;
+@dark_blue: #003244;
+
+@light_gray: #eeeeee;
+@slightly_less_light_gray: #cccccc;
+@middle_gray: #888888;
+@dark_gray: #333333;
+
+@standard_light_text_color: #ffffff;
+@standard_text_color: @dark_gray;
+@standard_error_color: #ff0000;
+@standard_error_background: #ffeeee;
+
+
+@standard_background_color: #ffffff;
+@standard_color: @dark_gray;
+@headline_background_color: #ebedee;
+@headline_color: @darker_blue;
+@headline_font_size: 20px;
+@top_belt_background_color: @middle_blue;
+@top_belt_color: #ffffff;
+@top_belt_height: 60px;
+@belt_background_color: @light_gray;
+@belt_color: @middle_gray;
+@cell_background_color: @light_blue;
+@cell_color: #ffffff;
+@toolbar_background_color: @dark_blue;
+@toolbar_color: #ffffff;
+@shadow_standard_color: rgba(0, 0, 0, 0.7);
+
+@standard_font_family: "Trebuchet MS", sans-serif;
+@standard_font_size: 13px;
+
+@block_width: 225px;
+@standard_padding: 10px;
+@standard_margin: 10px;
+
+//functions
+.left-toolbar-mixin(@width: @block_width, @top: @top_belt_height, @background_color: @toolbar_background_color, @color: @toolbar_color){
+    position: absolute;
+    left:0px;
+    top:@top;
+    bottom:0px;
+    width: @width;
+    background-color:@background_color;
+    color:@color;
+    overflow:auto;
+}
+
+.content-area-mixin(@right_margin:@block_width, @top: @top_belt_height, @background_color: @standard_background_color, @color: @standard_color){
+    position:absolute;
+    top:@top;
+    right:0px;
+    bottom:0px;
+    left:@right_margin;
+    overflow:auto;
+    background-color: @background_color;
+    color: @color;
+}
+
+//functions end
+
+html
+{
+    height:100%;
+}
+
+body {
+    margin:0px;
+    padding:0px;
+    font-family: @standard_font_family;
+    font-size: @standard_font_size;
+    background-color: @standard_background_color;
+    height:100%;
+	width:100%;
+    overflow: auto;
+}
+
+.standard-window{
+    -webkit-box-shadow:  0px 0px 20px 0px @shadow_standard_color;
+    box-shadow:  0px 0px 20px 0px @shadow_standard_color;
+    background-color: @standard_background_color;
+}
+
+// panels
+
+.top-panel{
+    position:absolute;
+    left:0px;
+    right:0px;
+    top:0px;
+    height:@top_belt_height;
+    background-color: @top_belt_background_color;
+    color:@top_belt_color;
+    -webkit-box-shadow:  0px 0px 10px 0px @shadow_standard_color;
+    box-shadow:  0px 0px 10px 0px @shadow_standard_color;
+
+    .content{
+        margin:@standard_margin;
+    }
+}
+
+.bottom-panel{
+    position:absolute;
+    left:0px;
+    top:@top_belt_height;
+    right:0px;
+    bottom:0px;
+}
+
+.left-toolbar-standard{
+    .left-toolbar-mixin(@block_width,0px,@toolbar_background_color);
+}
+
+.content-area-standard{
+    .content-area-mixin(@block_width,0px);
+}
+
+.left-toolbar-double-grey{
+    .left-toolbar-mixin(@block_width*2,0px,@light_gray,@dark_gray);
+}
+
+.content-area-double-toolbar{
+    .content-area-mixin(@block_width*2,0px);
+}
+
+// panels

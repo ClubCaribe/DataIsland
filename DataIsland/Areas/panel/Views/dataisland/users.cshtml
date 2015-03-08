@@ -1,0 +1,295 @@
+﻿
+@{
+    ViewBag.Title = "users";
+    Layout = "~/Views/Shared/_panel_layout.cshtml";
+}
+
+@section mainappjsfile{
+    <script src="~/Areas/panel/app/modules/mainApp.js"></script>
+}
+
+@section bodyngcontroller{
+    ng-controller="diUsersController"
+}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav role="navigation" class="navbar navbar-inverse">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">[tr]Toggle navigation[/tr]</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">[tr]Users[/tr]</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#newuserdialog" ng-click="InitNewUser()">[tr]Add User[/tr]</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="DeleteUsers()">[tr]Delete Selected Users[/tr]</a>
+                        </li>
+                    </ul>
+                    <form role="search" class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="searchPhrase">
+                        </div>
+                        <button class="btn btn-default" ng-click="FindUsers()">[tr]Search[/tr]</button>
+                    </form>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+        </div>
+ </div>
+
+<form name="userslist">
+    <div class="member-entry" dir-paginate="user in users | itemsPerPage: usersPerPage" total-items="totalUsers">
+
+        <a class="member-img" href="#" ng-click="ShowUserDetails(user)" data-toggle="modal" data-target="#userdetailsdialog">
+            <img class="img-rounded" ng-src="/utilities/userAvatar/{{user.Username}}/157/sqr">
+            <i class="entypo-forward"></i>
+        </a>
+
+        <div class="member-details">
+            <h4>
+                <a href="#" ng-click="ShowUserDetails(user)" data-toggle="modal" data-target="#userdetailsdialog">{{user.Name}}</a>
+            </h4>
+
+            <div class="row info-list">
+
+                <div class="col-sm-4">
+                    <i class="entypo-user"></i>
+                    {{user.Username}}
+                </div>
+                <div class="col-sm-4">
+                    <i class="entypo-tag"></i>
+                    [tr]User Roles:[/tr] <span ng-repeat="role in user.UserRoles">{{role.Role}} | </span>
+                </div>
+                <div class="col-sm-4">
+                    <i class="entypo-calendar"></i>
+                    [tr]Pro Account Expiration Date:[/tr] {{user.ProAccountExpirationDate | date: 'longDate'}}
+                </div>
+                <div class="clear"></div>
+                <div class="col-sm-4">
+                    <input type="checkbox" ng-model="user.Selected" >
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" template-url="/areas/panel/app/partials/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
+    </div>
+</form>
+
+@section modalwindows{
+
+<div class="modal fade" id="userdetailsdialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">[tr]User Details[/tr]: <b>{{UserDetails.username}}</b></h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="userdetailsform" name="userdetailsform">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-collapsed="0" class="panel panel-primary">
+
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        [tr]User Roles[/tr]
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]User Role[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox" name="userrole" id="userrole" ng-model="UserDetails.Roles.userRole" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]Admin Role[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox" name="adminrole" id="adminrole" ng-model="UserDetails.Roles.adminRole" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]SuperUser[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox" name="allrole" id="allrole" ng-model="UserDetails.Roles.allRole" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-collapsed="0" class="panel panel-primary">
+
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        [tr]Change Email[/tr]
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-5 control-label" for="dialog-userpassword">[tr]New Email[/tr]</label>
+
+                                        <div class="col-sm-5">
+                                            <input type="email" ng-model="UserDetails.email" class="form-control" id="dialog-useremail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
+                <button class="btn btn-info" ng-click="SaveUserSettings()" data-dismiss="modal" type="button">[tr]Save changes[/tr]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="newuserform" name="newuserform">
+    <div class="modal fade" id="newuserdialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">[tr]Create New User[/tr]</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-collapsed="0" class="panel panel-primary">
+
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        [tr]User details[/tr]
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-group" ng-class="{'validate-has-error':newuserform.username.$error.usernameunique}">
+                                        <label class="col-sm-5 control-label" for="dialog-newuser-username">[tr]Username[/tr]</label>
+
+                                        <div class="col-sm-5">
+                                            <input type="text" ng-model="NewUser.Username" class="form-control" name="username" id="dialog-newuser-username" required data-ws-username-unique>
+                                            <span class="validate-has-error" for="username" ng-show="newuserform.username.$error.usernameunique">
+                                                Username already in use
+                                            </span>
+                                            <span class="validate-has-error" for="username" ng-show="newuserform.username.$error.required">
+                                                Enter Username
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-class="{'validate-has-error':newuserform.usereemail.$error.email||newuserform.usereemail.$error.required}">
+                                        <label class="col-sm-5 control-label" for="dialog-newuser-username">[tr]Email[/tr]</label>
+
+                                        <div class="col-sm-5">
+                                            <input type="email" ng-model="NewUser.Email" class="form-control" name="usereemail" id="dialog-newuser-email" required>
+                                            <span class="validate-has-error" for="usereemail" ng-show="newuserform.usereemail.$error.email">
+                                                Invalid email
+                                            </span>
+                                            <span class="validate-has-error" for="usereemail" ng-show="newuserform.usereemail.$error.required">
+                                                Enter Email
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-class="{'validate-has-error':newuserform.password.$error.required}">
+                                        <label class="col-sm-5 control-label" for="dialog-newuser-password">[tr]Password[/tr]</label>
+
+                                        <div class="col-sm-5">
+                                            <input type="password" ng-model="NewUser.Password" class="form-control" name="password" id="dialog-newuser-password" required>
+                                            <span class="validate-has-error" for="password" ng-show="newuserform.password.$error.required">
+                                                Enter Password
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-collapsed="0" class="panel panel-primary">
+
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        [tr]User Roles[/tr]
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]User Role[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox"  ng-model="NewUser.Roles.userRole" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]Admin Role[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox"  ng-model="NewUser.Roles.adminRole" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">[tr]SuperUser[/tr]</label>
+
+                                        <div class="col-sm-7">
+                                            <input type="checkbox" ng-model="NewUser.Roles.allRole" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
+                    <button class="btn btn-info" type="button" ng-disabled="newuserform.username.$error.usernameunique||newuserform.password.$error.required||newuserform.username.$error.required" ng-click="RegisterUser()">[tr]Create[/tr]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+}
+
+@section scripts{
+    <script src="~/Areas/panel/app/controllers/diUsersController.js"></script>
+}
+

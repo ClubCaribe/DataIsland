@@ -1,0 +1,265 @@
+.page-container-height{
+    height:100% !important;
+}
+
+/*user chat*/
+.user-chat-container{
+    position:absolute; 
+    right:0px; 
+    top:300px; 
+    left:10px; 
+    bottom:0px; 
+    min-height:500px; 
+    
+}
+
+.user-chat-conversation-area{
+    position:absolute; 
+    left:20px; 
+    right:15px; 
+    top:0px; 
+    bottom:162px; 
+    overflow-y:scroll;
+}
+
+.user-chat-editor-options {
+    background: #f3f3f3;
+    border-top: 1px solid #ebebeb;
+    padding: 10px;
+}
+
+.user-chat-editor-options:before,
+.user-chat-editor-options:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  clear:both;
+  /* 2 */
+}
+
+.user-chat-editor-submit{
+    float:right;
+}
+
+.user-chat-editor-post-type{
+    float:left;
+    padding-top:6px;
+}
+
+.user-chat-container .profile-stories article.story {
+  margin: 30px 0;
+}
+.user-chat-container .profile-stories article.story:before,
+.user-chat-container .profile-stories article.story:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.user-chat-container .profile-stories article.story:after {
+  clear: both;
+}
+.user-chat-container .profile-stories article.story .user-thumb {
+  float: left;
+  width: 8%;
+}
+.user-chat-container .profile-stories article.story .user-thumb a img {
+  -moz-box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.04);
+  -webkit-box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.04);
+}
+.user-chat-container .profile-stories article.story .story-content {
+  float: right;
+  width: 92%;
+}
+.user-chat-container .profile-stories article.story .story-content header {
+  display: block;
+  margin-bottom: 10px;
+}
+.user-chat-container .profile-stories article.story .story-content header:before,
+.user-chat-container .profile-stories article.story .story-content header:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.user-chat-container .profile-stories article.story .story-content header:after {
+  clear: both;
+}
+.user-chat-container .profile-stories article.story .story-content header .publisher {
+  float: left;
+  color: #9b9fa6;
+  font-size: 14px;
+}
+.user-chat-container .profile-stories article.story .story-content header .publisher a {
+  color: #303641;
+}
+.user-chat-container .profile-stories article.story .story-content header .publisher em {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  color:#cccccc !important;
+}
+.user-chat-container .profile-stories article.story .story-content header .story-type {
+  float: right;
+}
+.user-chat-container .profile-stories article.story .story-content .story-main-content {
+  font-size: 13px;
+}
+.user-chat-container .profile-stories article.story .story-content .story-main-content p {
+  font-size: 13px;
+  color:#555555;
+}
+.user-chat-container .profile-stories article.story .story-content footer {
+  margin-top: 15px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .liked i {
+  color: #ff4e50;
+}
+.user-chat-container .profile-stories article.story .story-content footer > a {
+  margin-right: 30px;
+  display: inline-block;
+}
+.user-chat-container .profile-stories article.story .story-content footer > a span {
+  -webkit-opacity: 0.6;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 30px;
+  border-top: 1px solid #ebebeb;
+  padding-top: 20px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li {
+  display: table;
+  vertical-align: top;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li:before,
+.user-chat-container .profile-stories article.story .story-content footer .comments li:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li:after {
+  clear: both;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li + li {
+  margin-top: 15px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-thumb,
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content {
+  display: table-cell;
+  vertical-align: top;
+  width: 100%;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-thumb {
+  width: 1%;
+  padding-right: 20px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content {
+  border-bottom: 1px solid #ebebeb;
+  padding-bottom: 15px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-name {
+  font-weight: bold;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta {
+  font-size: 11px;
+  margin-top: 15px;
+  color: #9b9fa6;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta a {
+  color: #8d929a;
+  margin-right: 5px;
+  -moz-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta a + a {
+  margin-left: 5px;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta a i {
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  -moz-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta a:hover {
+  color: #737881;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li .user-comment-content .user-comment-meta a:hover i {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li.comment-form .user-comment-content {
+  position: relative;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li.comment-form .user-comment-content .form-control {
+  background: #eeeeee;
+  border: 0;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li.comment-form .user-comment-content .btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 0;
+  background: transparent;
+  color: #737881;
+  font-size: 13px;
+  -webkit-opacity: 0.7;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  -moz-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.user-chat-container .profile-stories article.story .story-content footer .comments li.comment-form .user-comment-content .btn:hover {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.user-chat-container .profile-stories article.story .story-content hr {
+  margin-top: 40px;
+}
+
+@media (max-width: 992px) {
+  
+  .user-chat-container .profile-stories article.story .user-thumb {
+    width: 10%;
+  }
+  .user-chat-container .profile-stories article.story .story-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 601px) {
+
+    .user-chat-container .profile-stories article.story .user-thumb {
+        width: 18%;
+    }
+
+    .user-chat-container .profile-stories article.story .story-content {
+        width: 82%;
+    }
+
+    .user-chat-container{
+        margin-top:40px;
+    }
+}

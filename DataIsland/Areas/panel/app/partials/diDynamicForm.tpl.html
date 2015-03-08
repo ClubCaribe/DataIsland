@@ -1,0 +1,16 @@
+﻿<form class="form-horizontal validate" name="{{formModel.FormName}}">
+    <div class="form-group" ng-repeat="fmodel in formModel.Entries">
+        <label class="col-sm-3 control-label" for="{{formName+'-'+fmodel.Name}}">{{fmodel.Label}}</label>
+        <div class="col-sm-5" ng-switch on="fmodel.ControlType">
+            <input type="text" ng-model="fmodel.Value" id="{{formName+'-'+fmodel.Name}}" class="form-control" ng-switch-when="textbox" ng-required="fmodel.Validators.Required">
+            <input type="email" ng-model="fmodel.Value" id="{{formName+'-'+fmodel.Name}}" class="form-control" ng-switch-when="email" ng-required="fmodel.Validators.Required">
+            <input type="password" ng-model="fmodel.Value" id="{{formName+'-'+fmodel.Name}}" class="form-control" ng-switch-when="password" ng-required="fmodel.Validators.Required">
+            <input type="checkbox" ng-model="fmodel.Value" id="{{formName+'-'+fmodel.Name}}" class="form-control" ng-switch-when="checkbox" ng-required="fmodel.Validators.Required">
+            <textarea id="{{formName+'-'+fmodel.Name}}" ng-model="fmodel.Value" class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 48px;" ng-switch-when="textarea" ng-required="fmodel.Validators.Required"></textarea>
+            <select class="form-control" ng-model="fmodel.Value" ng-options="item.Value as item.Name for item in fmodel.Options" ng-switch-when="select" ng-required="fmodel.Validators.Required"></select>
+        </div>
+    </div>
+    <div class="form-group default-padding" ng-if="formModel.SubmitButtonText.length>0">
+        <button class="btn btn-success" type="submit" data-ng-click="submitForm()">Save Changes</button>
+    </div>
+</form>

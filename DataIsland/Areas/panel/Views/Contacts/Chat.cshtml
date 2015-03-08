@@ -43,11 +43,19 @@
 
     <section id="profileInfoTabs"  class="profile-info-tabs">
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-2 col-sm-7">
                 <!-- tabs for the profile links -->
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#profile-info">[tr]Messages[/tr]</a></li>
                 </ul>
+            </div>
+            <div class="col-md-3" style="height:35px !important;">
+                <form class="search-form-full" role="form" method="get">
+                    <div class="form-group">
+                        <input type="text" placeholder="[tr]Search...[/tr]" id="search-input" name="s" class="form-control" ng-model="userChatCtrl.SearchPhrase">
+                        <i class="entypo-search"></i>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -55,8 +63,8 @@
 
         <div id="chatMainContainer" class="user-chat-container">
             <div id="conversationArea" class="user-chat-conversation-area">
-                <div class="profile-stories">
-                    <article class="story" ng-repeat="message in userChatCtrl.Messages | orderBy:'SendTime':false">
+                <div id="chatMessagesArea" class="profile-stories">
+                    <article class="story" ng-repeat="message in userChatCtrl.Messages | filter:userChatCtrl.SearchPhrase | orderBy:'SendTime':false">
                         <aside class="user-thumb">
                             <a href="#" ng-if="!userChatCtrl.IsMessageSenderMe(message.SenderID)">
                                 <img class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{userChatCtrl.GetEscapedUseId(message.SenderID)}}/44/sqr/1">
@@ -70,7 +78,7 @@
                                 </div>
                             </header>
                             <div class="story-main-content">
-                                <p>{{::message.Message}}</p>
+                                <p ng-bind-html="message.Message"></p>
                             </div>
                             <!-- separator -->
                             <hr>
@@ -86,18 +94,6 @@
                     <div class="user-chat-editor-options">
 
                         <div class="user-chat-editor-post-type">
-
-                            <a data-original-title="Upload a Picture" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
-                                <i class="entypo-camera"></i>
-                            </a>
-
-                            <a data-original-title="Attach a file" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
-                                <i class="entypo-attach"></i>
-                            </a>
-
-                            <a data-original-title="Check-in" title="" data-placement="bottom" data-toggle="tooltip" class="tooltip-primary" href="#">
-                                <i class="entypo-location"></i>
-                            </a>
                         </div>
 
                         <div class="user-chat-editor-submit">

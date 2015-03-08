@@ -67,6 +67,8 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
     self.CurrentPageNum = 1;
     self.UserID = "";
     self.ChatUser = null;
+    self.AllMessagesLoaded = false;
+    self.SearchPhrase = "";
 
     self.NewMessage = {
         Message: "",
@@ -112,6 +114,28 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
         return true;
     }
 
+    self.LoadPreviousMessages = function () {
+        if (!self.AllMessagesLoaded) {
+            var chatArea = $("#chatMessagesArea");
+            var prevHeight = $(chatArea).height();
+            var numOfMessages = self.Messages.length;
+            self.LoadMessages().then(function (result) {
+                if (numOfMessages == self.Messages.length) {
+                    self.AllMessagesLoaded = true;
+                    return;
+                }
+
+                setTimeout(function () {
+                    var container = $("#chatMessagesArea");
+                    var currHeight = $(container).height();
+                    var currscrollTop = $("#conversationArea").scrollTop();
+                    $("#conversationArea").scrollTop(currscrollTop+(currHeight - prevHeight));
+                }, 0);
+
+            });
+        }
+    }
+
     self.LoadMessages = function () {
         var deferred = $q.defer();
 
@@ -154,21 +178,26 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
 
     self.MessageTextKeyPressed = function (keyEvent) {
         if (keyEvent.which === 13 && !keyEvent.shiftKey) {
-            self.NewMessage.IsDisabled = true;
-            self.SendMessage(self.NewMessage.Message).then(function (result) {
-                self.NewMessage.IsDisabled = false;
-                self.NewMessage.Message = "";
-            });
-            
+            if (self.NewMessage.Message != "" && self.NewMessage.Message.length > 0) {
+                self.NewMessage.IsDisabled = true;
+                var newMessage = self.NewMessage.Message.replace(new RegExp('\r?\n', 'g'), '<br />');
+                self.SendMessage(newMessage).then(function (result) {
+                    self.NewMessage.IsDisabled = false;
+                    self.NewMessage.Message = "";
+                });
+            }
         }
     }
 
     self.SendTextMessage = function () {
-        self.NewMessage.IsDisabled = true;
-        self.SendMessage(self.NewMessage.Message).then(function (result) {
-            self.NewMessage.IsDisabled = false;
-            self.NewMessage.Message = "";
-        });
+        if (self.NewMessage.Message != "" && self.NewMessage.Message.length > 0) {
+            self.NewMessage.IsDisabled = true;
+            var newMessage = self.NewMessage.Message.replace(new RegExp('\r?\n', 'g'), '<br />');
+            self.SendMessage(newMessage).then(function (result) {
+                self.NewMessage.IsDisabled = false;
+                self.NewMessage.Message = "";
+            });
+        }
     }
 
     self.SendMessage = function (message) {
@@ -191,9 +220,15 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
 
                 srStreamails.server.markMessageAsRead(msg.ID);
 
-                setTimeout(function () {
-                    scrollToBottom("#conversationArea");
-                }, 600);
+                var chatArea = $("#chatMessagesArea");
+                var chatContainerArea = $("#conversationArea");
+                
+                if(($(chatArea).height() - $(chatContainerArea).height()) + $(chatArea).position().top < 0)
+                {
+                    setTimeout(function () {
+                        scrollToBottom("#conversationArea");
+                    }, 600);
+                }
             }
         });
     });
@@ -202,6 +237,14 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
         var userId = e.UserID;
         $scope.$apply(function () {
             self.InitChat(userId);
+        });
+    });
+    
+    $(window).on('chatAreaScrolledToTop', function (e) {
+        $scope.$apply(function () {
+            if (self.SearchPhrase == "" && self.SearchPhrase.length == 0) {
+                self.LoadPreviousMessages();
+            }
         });
     });
 
@@ -219,7 +262,20 @@ $(function () {
         LayoutChatContainer();
     });
 
+    $("#conversationArea").scroll(function () {
+        var chatArea = $("#chatMessagesArea");
+        
+        if ($(chatArea).position().top >= 30) {
+
+            var evt = $.Event('chatAreaScrolledToTop');
+            $(window).trigger(evt);
+
+        }
+       
+    });
+
 });
+
 
 function LayoutChatContainer()
 {

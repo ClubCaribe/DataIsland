@@ -235,7 +235,7 @@
                 <div class="chat-conversation" style="display: none; top: 0px; opacity: 0;">
                     <div class="conversation-header">
                         <a class="conversation-close" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
-                        <a style="color:#7f8186; float:right; top:3px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]Open full chat[/tr]">[tr]Open full chat[/tr]<i class="entypo-chat"></i></a>
+                        <a style="color:#7f8186; float:right; top:3px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]Open full chat[/tr]"><span style="font-size:11px; color:#b3b6bd;">[tr]Open full chat[/tr]</span><i class="entypo-chat"></i></a>
                         <span class="user-status"></span>
                         <span class="display-name">{{chatCtrl.ActiveChat.Name}}</span>
                         <small></small>
@@ -243,7 +243,7 @@
                     <ul class="conversation-body">
                         <li ng-repeat="message in chatCtrl.ActiveChat.Messages | orderBy:'SendTime'" ng-class="{unread:chatCtrl.IsUserMessageOwner(message)}">
                             <span class="user">{{chatCtrl.GetMessageSenderName(message)}} </span>
-                            <p>{{::message.Message}}</p>
+                            <p ng-bind-html="message.Message"></p>
                             <span class="time">{{::message.SendTime | date:'medium'}}</span>
                         </li>
                     </ul>

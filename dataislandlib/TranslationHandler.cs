@@ -292,7 +292,13 @@ namespace dataislandcommon
             {
                 try
                 {
+                    _internalStream.Dispose();
                     _streamToCapture.Close();
+                    _streamToCapture.Dispose();
+                    _streamContent = null;
+                    _internalStream = null;
+                    _streamToCapture = null;
+                    _context = null;
                     base.Close();
                 }
                 catch

@@ -31,14 +31,7 @@ namespace DataIsland
 
             ConfigureAuth(app);
 
-            app.Use((context, next) =>
-            {
-                if (context.Request.Uri.OriginalString.IndexOf("signalr") < 0)
-                {
-                    context.Response.Body = new ResponseCaptureStream(context.Response.Body, context.Response);
-                }
-                return next.Invoke();
-            });
+            app.Use(typeof(TranslateMiddleware));
 
             
             IContainer container = AutofacRegistrationConfig.GetContainer();
@@ -181,6 +174,31 @@ namespace DataIsland
         
     }
 
+    public class TranslateMiddleware : OwinMiddleware
+    {
+        public TranslateMiddleware(OwinMiddleware next)
+            : base(next)
+        {
+        }
+
+        public async override Task Invoke(IOwinContext context)
+        {
+            ResponseCaptureStream captureStream = null;
+            if (context.Request.Uri.OriginalString.IndexOf("signalr") < 0)
+            {
+                captureStream = new ResponseCaptureStream(context.Response.Body, context.Response);
+                context.Response.Body = captureStream;
+            }
+            await Next.Invoke(context);
+            if (captureStream != null)
+            {
+                captureStream.Dispose();
+            }
+            captureStream = null;
+            
+        }
+    }
+
     public class ResponseCaptureStream : Stream
     {
         private Stream _streamToCapture;
@@ -292,8 +310,7 @@ namespace DataIsland
                 {
                     _streamToCapture.Write(_internalStream.ToArray(), 0, (int)_internalStream.Length);
                 }
-                _internalStream.SetLength(0);
-                _internalStream.Dispose();
+                //_internalStream.SetLength(0);
                 _streamToCapture.Flush();
             }
             catch
@@ -304,28 +321,28 @@ namespace DataIsland
         public async override System.Threading.Tasks.Task FlushAsync(System.Threading.CancellationToken cancellationToken)
         {
             try
+            {
+                if (canSaveAsText())
                 {
-                    if (canSaveAsText())
-                    {
-                            _streamContent = TranslateResource(_responseEncoding.GetString(_internalStream.ToArray()));
+                    _streamContent = TranslateResource(_responseEncoding.GetString(_internalStream.ToArray()));
 
-                            byte[] toflush = _responseEncoding.GetBytes(StreamContent);
+                    byte[] toflush = _responseEncoding.GetBytes(StreamContent);
 
-                            _response.ContentLength = toflush.Length;
-                            await _streamToCapture.WriteAsync(toflush, 0, toflush.Length, cancellationToken);
-                    }
-                    else
-                    {
-                        await _streamToCapture.WriteAsync(_internalStream.ToArray(), 0, (int)_internalStream.Length, cancellationToken);
-                    }
+                    _response.ContentLength = toflush.Length;
+                    await _streamToCapture.WriteAsync(toflush, 0, toflush.Length, cancellationToken);
                 }
-                catch
+                else
                 {
-                    _streamToCapture.Write(_internalStream.ToArray(), 0, (int)_internalStream.Length);
+                    await _streamToCapture.WriteAsync(_internalStream.ToArray(), 0, (int)_internalStream.Length, cancellationToken);
                 }
-                _internalStream.SetLength(0);
-                _internalStream.Dispose();
-                await _streamToCapture.FlushAsync(cancellationToken);
+            }
+            catch
+            {
+                _streamToCapture.Write(_internalStream.ToArray(), 0, (int)_internalStream.Length);
+            }
+            //_internalStream.SetLength(0);
+
+            await _streamToCapture.FlushAsync(cancellationToken);
         }
 
         public override long Length
@@ -423,6 +440,11 @@ namespace DataIsland
             try
             {
                 _streamToCapture.Close();
+                _internalStream.Dispose();
+                _streamToCapture.Dispose();
+                _streamToCapture = null;
+                _response = null;
+                _streamContent = null;
                 base.Close();
             }
             catch
@@ -459,6 +481,6 @@ namespace DataIsland
             {
             }
             return false;
-        }
+        }     
     }
 }

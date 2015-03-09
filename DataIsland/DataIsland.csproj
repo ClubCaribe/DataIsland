@@ -269,8 +269,10 @@
     <Content Include="Areas\panel\app\controllers\userSettingsController.js" />
     <Content Include="Areas\panel\app\directives\diDynamicForm.js" />
     <Content Include="Areas\panel\app\directives\dirPagination.js" />
+    <Content Include="Areas\panel\app\directives\dirSelectContacts.js" />
     <Content Include="Areas\panel\app\mainHeader.js" />
     <Content Include="Areas\panel\app\modules\mainApp.js" />
+    <Content Include="Areas\panel\app\partials\di-select-contacts.html" />
     <Content Include="Areas\panel\app\partials\diDynamicForm.tpl.html" />
     <Content Include="Areas\panel\app\partials\dirPagination.tpl.html" />
     <Content Include="Areas\panel\app\scripts\srcontacts.js" />

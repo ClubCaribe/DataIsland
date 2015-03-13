@@ -14,5 +14,8 @@ namespace FileManager.Models.ViewModels
         public long Size { get; set; }
         public bool IsDirectory { get; set; }
         public object FileSystemObject { get; set; }
+        public bool IsShared { get; set; }
+        public bool IsSharedAsPublic { get; set; }
+        public string SharedPublicPath { get; set; }
     }
 }

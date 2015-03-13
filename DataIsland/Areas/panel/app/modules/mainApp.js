@@ -1,5 +1,5 @@
 ﻿
-var DiPanel = angular.module("DiPanel", ["interceptors", "formValidators", "angularUtils.directives.dirPagination", "dataisland.DynamicForms", "ngSanitize"]);
+var DiPanel = angular.module("DiPanel", ["interceptors", "formValidators", "angularUtils.directives.dirPagination", "dataisland.DynamicForms", "ngSanitize", "ui.select"]);
 
 DiPanel.factory('AuthInterceptor', ["$window", "$q", "DiProgress", function ($window, $q, DiProgress) {
     return {

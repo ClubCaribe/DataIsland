@@ -269,10 +269,8 @@
     <Content Include="Areas\panel\app\controllers\userSettingsController.js" />
     <Content Include="Areas\panel\app\directives\diDynamicForm.js" />
     <Content Include="Areas\panel\app\directives\dirPagination.js" />
-    <Content Include="Areas\panel\app\directives\dirSelectContacts.js" />
     <Content Include="Areas\panel\app\mainHeader.js" />
     <Content Include="Areas\panel\app\modules\mainApp.js" />
-    <Content Include="Areas\panel\app\partials\di-select-contacts.html" />
     <Content Include="Areas\panel\app\partials\diDynamicForm.tpl.html" />
     <Content Include="Areas\panel\app\partials\dirPagination.tpl.html" />
     <Content Include="Areas\panel\app\scripts\srcontacts.js" />
@@ -2492,6 +2490,7 @@
     <Content Include="Scripts\select2\select2_locale_vi.js" />
     <Content Include="Scripts\select2\select2_locale_zh-CN.js" />
     <Content Include="Scripts\select2\select2_locale_zh-TW.js" />
+    <Content Include="Scripts\select2\ui-select.js" />
     <Content Include="Scripts\selectboxit\jquery.selectBoxIt.css" />
     <Content Include="Scripts\selectboxit\jquery.selectBoxIt.min.js" />
     <Content Include="Scripts\selectboxit\js\jquery.selectBoxIt.js" />
@@ -2893,6 +2892,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\filemanager\api\directoryController.cs" />
     <Compile Include="Areas\filemanager\api\fileController.cs" />
+    <Compile Include="Areas\filemanager\api\sharedResourcesController.cs" />
     <Compile Include="Areas\filemanager\Controllers\fileController.cs" />
     <Compile Include="Areas\filemanager\Controllers\HomeController.cs" />
     <Compile Include="Areas\filemanager\CustomActions\ZipDownloadResult.cs" />

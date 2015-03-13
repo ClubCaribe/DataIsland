@@ -46,7 +46,7 @@ namespace DataIsland.Areas.filemanager.api
                 DataCache cache = await DataCacheService.GetDataCache(this.User.Identity.Name);
                 cache["fileManagerPath"] = path;
                 await DataCacheService.SaveDataCache(cache);
-                return DirectoryService.ListDirectory(pathprefix, path);
+                return await DirectoryService.ListDirectory(pathprefix, path,this.User.Identity.Name);
             }
 
             return null;

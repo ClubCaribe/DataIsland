@@ -1,6 +1,7 @@
 ﻿using FileManager.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace FileManager.Services.FileManager
 {
     public interface IDirectoryService
@@ -11,8 +12,8 @@ namespace FileManager.Services.FileManager
         DiDirectoryInfo GetDirectoryInfo(string prefixPath, string virtualPath);
         List<DiFileInfo> GetFiles(string prefixPath, string virtualPath);
         DiDirectoryInfo GetParent(string prefixPath, string virtualPath);
-        List<DiDirectoryListingEntry> ListDirectory(string prefixPath, string virtualPath);
-        List<DiDirectoryListingEntry> ListDirectory(string prefixPath, string virtualPath, string searchPhrase);
+        Task<List<DiDirectoryListingEntry>> ListDirectory(string prefixPath, string virtualPath, string ownerUsername);
+        Task<List<DiDirectoryListingEntry>> ListDirectory(string prefixPath, string virtualPath, string searchPhrase, string ownerUsername);
         void MoveDirectory(string prefixPath, string virtualPath, string destinationPath);
     }
 }

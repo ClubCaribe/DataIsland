@@ -5,12 +5,18 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using FileManager.Models.ViewModels;
+using FileManager.Services.db;
+using FileManager.Models.db;
 
 namespace FileManager.Services.FileManager
 {
     public class DirectoryService : IDirectoryService
     {
+        public IFileDatabaseManagerSingleton DbManager { get; set; }
+        public IDbSharedResourcesService SharedResources { get; set; }
+
         private readonly IParameterConverterSingleton ParameterConverter;
+
         public DirectoryService(IParameterConverterSingleton _parameterConverter)
         {
             ParameterConverter = _parameterConverter;
@@ -81,12 +87,12 @@ namespace FileManager.Services.FileManager
             return files;
         }
 
-        public List<DiDirectoryListingEntry> ListDirectory(string prefixPath, string virtualPath)
+        public async Task<List<DiDirectoryListingEntry>> ListDirectory(string prefixPath, string virtualPath, string ownerUsername)
         {
-            return ListDirectory(prefixPath, virtualPath, "");
+            return await ListDirectory(prefixPath, virtualPath, "", ownerUsername);
         }
 
-        public List<DiDirectoryListingEntry> ListDirectory(string prefixPath, string virtualPath, string searchPhrase)
+        public async Task<List<DiDirectoryListingEntry>> ListDirectory(string prefixPath, string virtualPath, string searchPhrase,string ownerUsername)
         {
             List<DiDirectoryInfo> directories = GetDirectories(prefixPath, virtualPath);
             if(directories.Count>0)
@@ -127,6 +133,20 @@ namespace FileManager.Services.FileManager
             foreach (DiFileInfo fileInfo in files)
             {
                 listing.Add(ParameterConverter.PopulateDirectoryListingEntry(fileInfo));
+            }
+
+            using (var db = this.DbManager.GetDbContext(ownerUsername))
+            {
+                foreach(var entry in listing)
+                {
+                    SharedResource res = await this.SharedResources.GetResource(entry.FullName, db);
+                    if (res != null)
+                    {
+                        entry.IsShared = true;
+                        entry.IsSharedAsPublic = res.IsPublic;
+                        entry.SharedPublicPath = "/file/" + res.ID;
+                    }
+                }
             }
             return listing;
         }

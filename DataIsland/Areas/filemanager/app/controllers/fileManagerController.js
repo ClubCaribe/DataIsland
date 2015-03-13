@@ -65,6 +65,18 @@ DiPanel.factory("fileManagerDataFactory", ['$http', '$q', function ($http, $q) {
                 TransformType: transformType
             };
             return $http.post(url, data);
+        },
+        GetContacts: function () {
+            var apiUrl = "/api/panel/usercontacts/getcontacts";
+            return $http.get(apiUrl);
+        },
+        GetSharedOptions: function (filePaths) {
+            var url = "/api/filemanager/shared/getresourcesoptions";
+            return $http.post(url, filePaths);
+        },
+        SetSharedOptions: function (files) {
+            var url = "/api/filemanager/shared/setresourcesoptions";
+            return $http.post(url, files);
         }
     }
 }]);
@@ -161,6 +173,52 @@ DiPanel.filter('bytes', function () {
     }
 });
 
+DiPanel.filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
+
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    var text = props[prop].toLowerCase();
+                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                        itemMatches = true;
+                        break;
+                    }
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    };
+});
+
+DiPanel.filter('filterAcceptedContacts', function () {
+    return function (items) {
+        var filtered = [];
+        if (items != undefined && items != null) {
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (!item.RequestToAccept && item.Accepted) {
+                    filtered.push(item);
+                }
+            }
+        }
+        return filtered;
+    };
+});
+
 DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory', '$filter', '$timeout', function ($scope, fileManagerDataFactory, $filter, $timeout) {
     $scope.uploader = {
         fileUploadUrl: "/filemanager/file/uploadfile",
@@ -200,7 +258,7 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
     };
     $scope.isDetailsViewExpanded = true;
     $scope.SelectedFileIndex = 0;
-
+    
 
     $scope.filteredDirectoryData = null;
 
@@ -372,6 +430,32 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
                 }
             }
         }
+    }
+
+    $scope.AreItemsSelected = function()
+    {
+        if ($scope.directoryData != undefined && $scope.directoryData != null) {
+            for (var i = 0; i < $scope.directoryData.length; i++) {
+                var item = $scope.directoryData[i];
+                if (item.Checked) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    $scope.GetSelectedItems = function () {
+        var selectedItems = new Array();
+        if ($scope.directoryData != undefined && $scope.directoryData != null) {
+            for (var i = 0; i < $scope.directoryData.length; i++) {
+                var item = $scope.directoryData[i];
+                if (item.Checked) {
+                    selectedItems.push(item);
+                }
+            }
+        }
+        return selectedItems;
     }
 
     $scope.initNewDirectoryDialog = function () {
@@ -579,6 +663,183 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
                 refreshImage("filemanager/file/preview/30" + $scope.directory + "/" + detailsItem.Name, replaceImage("listFilePreview" + $scope.SelectedFileIndex));
             }
         });
+    }
+
+    //sharing options dialog
+
+    $scope.ShareOptions = {
+        SelectedFiles: new Array(),
+        SelectedContacts: new Array(),
+        Contacts: new Array(),
+        Options: {
+            Read: false,
+            Write: false,
+            All: false,
+            IsPublic: false
+        }
+    }
+
+    $scope.InitShareOptionsDialog = function () {
+        if (!$scope.AreItemsSelected())
+        {
+            alert("[tr]One or more items must be selected[/tr]");
+            return;
+        }
+        var filesList = new Array();
+        $scope.ShareOptions.SelectedFiles = new Array();
+        $scope.ShareOptions.Contacts = new Array();
+        $scope.ShareOptions.SelectedContacts = new Array();
+        var selectedFiles = $scope.GetSelectedItems();
+        
+        if ($scope.directory.length == 0) {
+            $scope.directory = "/";
+        }
+        var directoryToSend = ($scope.directory.length > 1) ? $scope.directory + "/" : $scope.directory;
+        for (var i = 0; i < selectedFiles.length; i++) {
+            filesList.push(directoryToSend + selectedFiles[i].Name);
+            $scope.ShareOptions.SelectedFiles.push({
+                ID: "",
+                Name: selectedFiles[i].Name,
+                FullPath: directoryToSend + selectedFiles[i].Name,
+                IsDirectory: selectedFiles[i].IsDirectory,
+                IsPublic: false,
+                IsRead: false,
+                IsWrite: false,
+                IsAll: false,
+                Recipients: new Array()
+            });
+        }
+        fileManagerDataFactory.GetSharedOptions(filesList).then(function (result) {
+            
+            for (var i = 0; i < result.data.length; i++) {
+                $scope.PopulateSharedFileOptions(result.data[i]);
+            }
+
+            fileManagerDataFactory.GetContacts().then(function (result) {
+                
+                $scope.ShareOptions.Contacts = result.data;
+                $scope.PopulateSharedOptions();
+
+                jQuery('#shareOptionsDialog').modal('show');
+            });
+        })
+        
+    }
+
+    $scope.SetShareOptions = function () {
+        var recipients = new Array();
+        for (var i = 0; i < $scope.ShareOptions.SelectedContacts.length; i++) {
+            var recipient = {
+                ID: "",
+                RecipientID: $scope.ShareOptions.SelectedContacts[i].UserId,
+                ResourceID: "",
+                Deleted: false
+            }
+            recipients.push(recipient);
+        }
+
+        for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
+            $scope.ShareOptions.SelectedFiles[i].Recipients = recipients;
+            $scope.ShareOptions.SelectedFiles[i].IsPublic = $scope.ShareOptions.Options.IsPublic;
+            $scope.ShareOptions.SelectedFiles[i].IsRead = $scope.ShareOptions.Options.Read;
+            $scope.ShareOptions.SelectedFiles[i].IsWrite = $scope.ShareOptions.Options.Write;
+            $scope.ShareOptions.SelectedFiles[i].IsAll = $scope.ShareOptions.Options.All;
+        }
+
+        if ($scope.ShareOptions.SelectedFiles.length > 0) {
+            for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
+                for (var k = 0; k < $scope.directoryData.length; k++) {
+                    if ($scope.directoryData[k].FullName == $scope.ShareOptions.SelectedFiles[i].FullPath) {
+                        $scope.directoryData[k].IsShared = (($scope.ShareOptions.SelectedContacts.length > 0) && ($scope.ShareOptions.Options.IsPublic || $scope.ShareOptions.Options.Read || $scope.ShareOptions.Options.Write || $scope.ShareOptions.Options.All));
+                    }
+                }
+            }
+        }
+
+        fileManagerDataFactory.SetSharedOptions($scope.ShareOptions.SelectedFiles).then(function (result) {
+            jQuery('#shareOptionsDialog').modal('hide');
+            if (result) {
+                toastr.success("[tr]Items sharing options has been successfully set[/tr]", "[tr]Sharing items[/tr]");
+            } else {
+                toastr.error("[tr]Error ocurred. Try again.[/tr]", "[tr]Sharing items[/tr]");
+            }
+        })
+    }
+
+    $scope.PopulateSharedFileOptions = function(item)
+    {
+        for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
+            if ($scope.ShareOptions.SelectedFiles[i].FullPath == item.FullPath) {
+                $scope.ShareOptions.SelectedFiles[i].ID = item.ID;
+                $scope.ShareOptions.SelectedFiles[i].IsPublic = item.IsPublic;
+                $scope.ShareOptions.SelectedFiles[i].IsRead = item.IsRead;
+                $scope.ShareOptions.SelectedFiles[i].IsWrite = item.IsWrite;
+                $scope.ShareOptions.SelectedFiles[i].IsAll = item.IsAll;
+                $scope.ShareOptions.SelectedFiles[i].Recipients = item.Recipients;
+            }
+        }
+    }
+
+    $scope.PopulateSharedOptions = function () {
+        var recipientsId = new Array();
+
+        $scope.ShareOptions.Options.Read = ($scope.ShareOptions.SelectedFiles.length > 0);
+        $scope.ShareOptions.Options.Write = ($scope.ShareOptions.SelectedFiles.length > 0);
+        $scope.ShareOptions.Options.All = ($scope.ShareOptions.SelectedFiles.length > 0);
+        $scope.ShareOptions.Options.IsPublic = ($scope.ShareOptions.SelectedFiles.length > 0);
+
+        for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
+
+            $scope.ShareOptions.Options.Read = (($scope.ShareOptions.Options.Read & $scope.ShareOptions.SelectedFiles[i].IsRead)==1);
+            $scope.ShareOptions.Options.Write = (($scope.ShareOptions.Options.Write & $scope.ShareOptions.SelectedFiles[i].IsWrite)==1);
+            $scope.ShareOptions.Options.All = (($scope.ShareOptions.Options.All & $scope.ShareOptions.SelectedFiles[i].IsAll)==1);
+            $scope.ShareOptions.Options.IsPublic = (($scope.ShareOptions.Options.IsPublic & $scope.ShareOptions.SelectedFiles[i].IsPublic) == 1);
+
+            for (var ii = 0; ii < $scope.ShareOptions.SelectedFiles[i].Recipients.length; ii++) {
+                if ($scope.CheckRecipientExistsInAllSharedRecipients($scope.ShareOptions.SelectedFiles[i].Recipients[ii].RecipientID, i)) {
+                    var recId = $scope.ShareOptions.SelectedFiles[i].Recipients[ii].RecipientID;
+                    if (recId != undefined && recId != null) {
+                        var exists = false;
+                        for (var k = 0; k < recipientsId.length; k++) {
+                            if (recipientsId[k] == recId) {
+                                exists = true;
+                            }
+                        }
+                        if (!exists) {
+                            recipientsId.push(recId);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (recipientsId.length > 0) {
+            for (var i = 0; i < recipientsId.length; i++) {
+                for (var ii = 0; ii < $scope.ShareOptions.Contacts.length; ii++) {
+                    if ($scope.ShareOptions.Contacts[ii].UserId == recipientsId[i]) {
+                        $scope.ShareOptions.SelectedContacts.push($scope.ShareOptions.Contacts[ii]);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    $scope.CheckRecipientExistsInAllSharedRecipients = function (recipientId, indexToSkip) {
+        for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
+            if (i != indexToSkip) {
+                var exists = false;
+                for (var ii = 0; ii < $scope.ShareOptions.SelectedFiles[i].Recipients.length; ii++) {
+                    if ($scope.ShareOptions.SelectedFiles[i].Recipients[ii].RecipientID == recipientId) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     $scope.refreshDirectory();

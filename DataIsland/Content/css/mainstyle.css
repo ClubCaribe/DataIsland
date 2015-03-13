@@ -2,6 +2,10 @@
     height:100% !important;
 }
 
+.form-input-group{
+    margin-bottom:10px; 
+}
+
 /*user chat*/
 .user-chat-container{
     position:absolute; 

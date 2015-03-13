@@ -1,11 +1,10 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_panel_layout.cshtml";
 }
 
 @section mainappjsfile{
-    
+
     <link href="~/Scripts/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
     <link href="~/Areas/filemanager/Content/css/filemanager.css" rel="stylesheet" />
     <script src="~/Areas/panel/app/modules/mainApp.js"></script>
@@ -41,7 +40,7 @@
                         <a href="#" ng-click="openUploadContainer()"><i class="entypo-upload"></i>[tr]Upload Files[/tr]</a>
                     </li>
                     <li>
-                        <a href="#" ng-click="downloadSelectedFiles()"><i class="entypo-download"></i>[tr]Compress Selected Items[/tr]</a>
+                        <a href="#" ng-click="downloadSelectedFiles()"><i class="entypo-archive"></i>[tr]Compress Selected Items[/tr]</a>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -53,10 +52,13 @@
                 </ul>
             </li>
             <li>
+                <a href="#" ng-click="InitShareOptionsDialog()"><i class="entypo-share"></i>[tr]Share Options[/tr]</a>
+            </li>
+            <li>
                 <a href="#" ng-click="ToggleSelection()"><i class="entypo-check"></i>[tr]Select/Unselect All[/tr]</a>
             </li>
         </ul>
-        
+
         <ul class="nav navbar-nav navbar-right">
             <li class="navbar-form">
                 <div data-toggle="buttons" class="btn-group">
@@ -76,7 +78,7 @@
                     </div>
                 </form>
             </li>
-            
+
         </ul>
     </div>
     <!-- /.navbar-collapse -->
@@ -122,7 +124,7 @@
                         [tr]Download[/tr]
                         <i class="entypo-download"></i>
                     </a>
-                    <a class="btn btn-red btn-icon" ng-if="fileEntry.Progress==100"  ng-click="DeleteCompressedFile(fileEntry.Name)">
+                    <a class="btn btn-red btn-icon" ng-if="fileEntry.Progress==100" ng-click="DeleteCompressedFile(fileEntry.Name)">
                         [tr]Delete[/tr]
                         <i class="entypo-cancel"></i>
                     </a>
@@ -130,7 +132,7 @@
                         [tr]Cancel[/tr]
                         <i class="entypo-cancel-circled"></i>
                     </a>
-                    <hr/>
+                    <hr />
                 </div>
             </div>
 
@@ -171,8 +173,8 @@
             <i class="entypo-back"></i>
         </a>
     </li>
-    <li >
-        <a href="#" ng-click="changeDirectory(0)" >
+    <li>
+        <a href="#" ng-click="changeDirectory(0)">
             <i class="entypo-folder"></i>
         </a>
     </li>
@@ -197,6 +199,7 @@
                     <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="SwitchToDetailsView($index)">
                         <img id="iconFilePreview{{$index}}" ng-src="/filemanager/file/Thumbnail/400{{directory}}/{{entry.Name}}" />
                     </a>
+                    <div ng-if="entry.IsShared" style="position:absolute;top:3px;left:3px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                     <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="/filemanager/file/get/{{entry.FullName}}">
                         <i class="entypo-download"></i>
                         [tr]Download[/tr]
@@ -222,7 +225,6 @@
 
 <form name="fileslist">
     <div class="dataTables_wrapper form-inline" role="grid" ng-if="viewModeSelected=='listMode' && viewMode=='list'">
-
         <table class="table table-bordered datatable dataTable">
             <thead>
                 <tr role="row">
@@ -241,7 +243,12 @@
                     <td>
                         <input type="checkbox" id="chk-1" ng-model="entry.Checked">
                     </td>
-                    <td ng-click="itemClicked(entry)" ng-if="entry.IsDirectory"><img ng-src="/filemanager/file/Thumbnail/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px;" /></td>
+                    <td ng-click="itemClicked(entry)" ng-if="entry.IsDirectory">
+                        <div style="position:relative;">
+                            <img ng-src="/filemanager/file/Thumbnail/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px;" />
+                            <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
+                        </div>
+                    </td>
                     <td ng-if="entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
                         <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode" ng-click="itemClicked(entry)">{{entry.Name}}</div>
                         <div style="display:inline-block; height:29px; line-height:29px;" ng-if="entry.isInRenameMode"><input type="text" ng-model="entry.NewName"></div>
@@ -260,7 +267,14 @@
                             </a>
                         </div>
                     </td>
-                    <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)"><a ng-click="SwitchToDetailsView($index)"><img id="listFilePreview{{$index}}" ng-src="/filemanager/file/Thumbnail/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px; border:0px none transparent;" /></a></td>
+                    <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
+                        <div style="position:relative;">
+                            <a ng-click="SwitchToDetailsView($index)">
+                                <img id="listFilePreview{{$index}}" ng-src="/filemanager/file/Thumbnail/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px; border:0px none transparent;" />
+                            </a>
+                            <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
+                        </div>
+                    </td>
                     <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
                         <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode"><a ng-click="SwitchToDetailsView($index)">{{entry.Name}}</a></div>
                         <div style="display:inline-block; height:29px; line-height:29px;" ng-if="entry.isInRenameMode"><input type="text" ng-model="entry.NewName"></div>
@@ -329,7 +343,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li ng-if="SelectedFileIndex<filteredDirectoryData.length-1">
                             <a href="#" ng-click="MoveNextItemIndex()"><i class="entypo-right-open-big"></i>[tr]Next[/tr]</a>
                         </li>
@@ -361,59 +375,128 @@
 
 @section modalwindows{
     <form id="newdirectoryform" name="newdirectoryform">
-    <div class="modal fade" id="newdirectorydialog">
+        <div class="modal fade" id="newdirectorydialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">[tr]Create New Directory[/tr]</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="new-directory-dir-name">[tr]Directory Name[/tr]</label>
+                                    <input name="dirname" type="text" id="new-directory-dir-name" class="form-control" ng-model="newDirectoryName" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
+                        <button data-dismiss="modal" class="btn btn-info" type="button" ng-disabled="newdirectoryform.dirname.$error.required" ng-click="createNewDirectory()">[tr]Create[/tr]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="shareOptionsDialog">
+        <div class="modal-dialog" style="width: 75%;">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">[tr]Set Share Options[/tr]</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal form-groups-bordered" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">[tr]Selected Items[/tr]</label>
+                            <div class="col-sm-10">
+                                <div style="margin:5px; float:left;" ng-repeat="item in ShareOptions.SelectedFiles">{{item.Name}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input-group" style="height:30px;">
+                                <label class="col-sm-2 control-label">[tr]Selected Users[/tr]</label>
+                                <div class="col-sm-10">
+                                    <ui-select multiple ng-model="ShareOptions.SelectedContacts" theme="bootstrap">
+                                        <ui-select-match placeholder="[tr]Select contact...[/tr]"><img width="20" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{$item.Username}}/20/sqr" style="float:left; margin-right:5px;" /><span style="line-height:20px;"> <b>{{$item.Name}}</b> ({{$item.Username}})</span></ui-select-match>
+                                        <ui-select-choices repeat="person in ShareOptions.Contacts | filterAcceptedContacts | propsFilter: {Name: $select.search, Username: $select.search} | orderBy:'Name'">
+                                            <div style="padding:5px;">
+                                                <div style="width:35px; float:left;">
+                                                    <img width="35" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{person.Username}}/35/sqr" />
+                                                </div>
+                                                <div style="margin-left:50px;">
+                                                    <div ng-bind-html="person.Name | highlight: $select.search"></div>
+                                                    <small>
+                                                        {{person.Username}}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-input-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <input ng-model="ShareOptions.Options.IsPublic" type="checkbox" class="icheck" id="share-make-item-public-checkbox">
+                                    <label class="" for="share-make-item-public-checkbox">[tr]Make selected items public[/tr]</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">[tr]Access Options[/tr]</label>
+                            <div class="col-sm-10" style="padding-top:5px;">
+                                <input ng-model="ShareOptions.Options.Read" type="checkbox" class="icheck" id="share-access-read-checkbox">
+                                <label class="" for="share-access-read-checkbox">[tr]Read Access[/tr]</label>
+                                <input ng-model="ShareOptions.Options.Write" type="checkbox" class="icheck" id="share-access-write-checkbox">
+                                <label class="" for="share-access-write-checkbox">[tr]Write Access[/tr]</label>
+                                <input ng-model="ShareOptions.Options.All" type="checkbox" class="icheck" id="share-access-all-checkbox">
+                                <label class="" for="share-access-all-checkbox">[tr]Full Control[/tr]</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
+                    <button ng-click="SetShareOptions()" class="btn btn-info" type="button">[tr]Create[/tr]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="filesreadytodownloaddialog">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                    <h4 class="modal-title">[tr]Create New Directory[/tr]</h4>
+                    <h4 class="modal-title">[tr]Files ready to download[/tr]</h4>
                 </div>
 
                 <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label" for="new-directory-dir-name">[tr]Directory Name[/tr]</label>
-                                <input name="dirname" type="text" id="new-directory-dir-name" class="form-control" ng-model="newDirectoryName" required>
-                            </div>
-                        </div>
-                    </div>
+                    [tr]Files are ready to download.[/tr]<a id="zipdownloadbutton">[tr]click download button to proceed[/tr]</a>
                 </div>
 
                 <div class="modal-footer">
                     <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
-                    <button data-dismiss="modal" class="btn btn-info" type="button" ng-disabled="newdirectoryform.dirname.$error.required" ng-click="createNewDirectory()">[tr]Create[/tr]</button>
                 </div>
             </div>
         </div>
     </div>
-</form>
-<div class="modal fade" id="filesreadytodownloaddialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">[tr]Files ready to download[/tr]</h4>
-            </div>
-
-            <div class="modal-body">
-                [tr]Files are ready to download.[/tr]<a id="zipdownloadbutton">[tr]click download button to proceed[/tr]</a>
-            </div>
-
-            <div class="modal-footer">
-                <button data-dismiss="modal" class="btn btn-default" type="button">[tr]Close[/tr]</button>
-            </div>
-        </div>
-    </div>
-</div>
 }
-     @section scripts{
-    <script src="/Scripts/plupload/plupload.full.min.js"></script>  
+@section scripts{
+    <script src="/Scripts/plupload/plupload.full.min.js"></script>
     <script src="~/Scripts/plupload/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
     <script src="~/Areas/filemanager/app/controllers/fileManagerController.js"></script>
-    
+
 }
 

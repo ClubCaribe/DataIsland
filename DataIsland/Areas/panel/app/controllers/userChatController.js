@@ -102,7 +102,7 @@ DiPanel.controller('userChatController', ['$scope', 'userChatDataFactory','$q','
     self.GetEscapedUseId = function (userId)
     {
         if (userId != null) {
-            return userId.replaceAll("/", "(2F)");
+            return userId.EscapeUserId();
         }
         return "";
     }

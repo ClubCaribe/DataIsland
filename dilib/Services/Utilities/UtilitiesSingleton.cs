@@ -233,13 +233,13 @@ namespace dataislandcommon.Services.Utilities
 
         public string EscapeUserId(string userId)
         {
-            string escaped = userId.Replace("/", "(2F)");
+            string escaped = userId.Replace("/", "(2F)").Replace("+","(plus)");
             return escaped;
         }
 
         public string UnescapeUserId(string userId)
         {
-            string unescaped = userId.Replace("(2F)","/");
+            string unescaped = userId.Replace("(2F)","/").Replace("(plus)","+");
             return unescaped;
         }
 	}

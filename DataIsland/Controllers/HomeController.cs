@@ -21,6 +21,7 @@ using System.Net.Http;
 using dataislandcommon.Models.DataCache;
 using Newtonsoft.Json;
 using dimain.Services.System.Cache;
+using dataislandcommon.Utilities;
 
 namespace DataIsland.Controllers
 {
@@ -42,6 +43,7 @@ namespace DataIsland.Controllers
         public ISystemSecurityService SystemCommunication { get; set; }
 
         public IDiUserService DiUsers { get; set; }
+        public IDataIslandSettingsService DiSettings { get; set; }
 
         public ApplicationUserManager UserManager
         {
@@ -116,7 +118,13 @@ namespace DataIsland.Controllers
                                 formargs.Add(new KeyValuePair<string, string>("password", model.AdministratorPassword));
                                 formargs.Add(new KeyValuePair<string, string>("client_id", "diHttpApp"));
                                 HttpContent cnt = new FormUrlEncodedContent(formargs);
-                                HttpResponseMessage resp = await cl.PostAsync("http://localhost/token", cnt);
+                                var oDomain = await this.DiSettings.GetSetting(DiConsts.DataIslandDomain);
+                                string dataIslandDomain = "http://localhost";
+                                if (oDomain != null)
+                                {
+                                    dataIslandDomain = (string)oDomain;
+                                }
+                                HttpResponseMessage resp = await cl.PostAsync(dataIslandDomain + "/token", cnt);
                                 if (resp.IsSuccessStatusCode)
                                 {
                                     DataCache cache = await DataCacheService.GetDataCache(model.Username);
@@ -125,7 +133,7 @@ namespace DataIsland.Controllers
                                         string data = await resp.Content.ReadAsStringAsync();
                                         TokenResponseModel tokenResponse = JsonConvert.DeserializeObject<TokenResponseModel>(data);
                                         cache.AccessToken = tokenResponse.access_token;
-                                        cache.AccessTokenExpirationUtc = DateTime.Now.AddSeconds(int.Parse(tokenResponse.expires_in));
+                                        cache.AccessTokenExpirationUtc = DateTime.UtcNow.AddSeconds(int.Parse(tokenResponse.expires_in));
                                         cache.RefreshToken = tokenResponse.refresh_token;
                                         await DataCacheService.SaveDataCache(cache);
                                     }
@@ -180,13 +188,15 @@ namespace DataIsland.Controllers
             string userPassport = await SystemCommunication.IssueUserPassport(this.User.Identity.Name,4);
             constants.AppendLine(String.Format("var diUserPassport = '{0}';", userPassport));
 			//constants.AppendLine(String.Format("var diRefreshToken = '{0}';", ((!string.IsNullOrEmpty(_session.SessionObject.RefreshToken)) ? _session.SessionObject.RefreshToken : "")));
-            constants.AppendLine(String.Format("var diTokenExpirationTime = new Date('{0}');", cache.AccessTokenExpirationUtc ?? DateTime.UtcNow));
+            DateTime expirationTime = cache.AccessTokenExpirationUtc ?? DateTime.UtcNow;
+
+            constants.AppendLine(String.Format("var diTokenExpirationTime = new Date('{0}');", expirationTime.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
             string userId = await this.DiUsers.GetUserIdByFromUsername(this.User.Identity.Name);
             userId = this.Utilities.EscapeUserId(userId);
             constants.AppendLine(String.Format("var diCurrentUserID = '{0}';", userId));
             constants.Append(@"
 function refreshToken(){
-    var currentTime = new Date();
+    var currentTime = new Date().getTime();
     var timespan = diTokenExpirationTime - currentTime;
     timespan = timespan - 2000;
     setTimeout(function(){

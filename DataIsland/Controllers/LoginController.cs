@@ -97,7 +97,13 @@ namespace DataIsland.Controllers
                                 formargs.Add(new KeyValuePair<string,string>("password",model.Password));
                                 formargs.Add(new KeyValuePair<string, string>("client_id", "diHttpApp"));
                                 HttpContent cnt = new FormUrlEncodedContent(formargs);
-                                HttpResponseMessage resp = await cl.PostAsync("http://localhost/token", cnt);
+                                var oDomain = await this.DiSettings.GetSetting(DiConsts.DataIslandDomain);
+                                string dataIslandDomain = "http://localhost";
+                                if (oDomain != null)
+                                {
+                                    dataIslandDomain = (string)oDomain;
+                                }
+                                HttpResponseMessage resp = await cl.PostAsync(dataIslandDomain+"/token", cnt);
                                 if (resp.IsSuccessStatusCode)
                                 {
                                     DataCache cache = await DataCacheService.GetDataCache(model.Username);
@@ -106,7 +112,7 @@ namespace DataIsland.Controllers
                                         string data = await resp.Content.ReadAsStringAsync();
                                         TokenResponseModel tokenResponse = JsonConvert.DeserializeObject<TokenResponseModel>(data);
                                         cache.AccessToken = tokenResponse.access_token;
-                                        cache.AccessTokenExpirationUtc = DateTime.Now.AddSeconds(int.Parse(tokenResponse.expires_in));
+                                        cache.AccessTokenExpirationUtc = DateTime.UtcNow.AddSeconds(int.Parse(tokenResponse.expires_in));
                                         cache.RefreshToken = tokenResponse.refresh_token;
                                         await DataCacheService.SaveDataCache(cache);
                                     }

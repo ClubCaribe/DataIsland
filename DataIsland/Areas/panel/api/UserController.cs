@@ -24,6 +24,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using dataislandcommon.Classes.Identity;
 using dimain.Services.System.Cache;
+using dataislandcommon.Utilities;
 
 namespace DataIsland.Areas.panel.api
 {
@@ -45,6 +46,8 @@ namespace DataIsland.Areas.panel.api
 
         
         public IUserContactsService Contacts { get; set; }
+
+        public IDataIslandSettingsService DiSettings { get; set; }
 
         public ApplicationUserManager UserManager
         {
@@ -155,7 +158,15 @@ namespace DataIsland.Areas.panel.api
                 formargs.Add(new KeyValuePair<string, string>("refresh_token", cache.RefreshToken));
                 formargs.Add(new KeyValuePair<string, string>("client_id", "diHttpApp"));
                 HttpContent cnt = new FormUrlEncodedContent(formargs);
-                HttpResponseMessage resp = await cl.PostAsync("http://localhost/token", cnt);
+
+                var oDomain = await this.DiSettings.GetSetting(DiConsts.DataIslandDomain);
+                string dataIslandDomain = "http://localhost";
+                if (oDomain != null)
+                {
+                    dataIslandDomain = (string)oDomain;
+                }
+
+                HttpResponseMessage resp = await cl.PostAsync(dataIslandDomain+"/token", cnt);
                 if (resp.IsSuccessStatusCode)
                 {
                     string data = await resp.Content.ReadAsStringAsync();

@@ -91,36 +91,38 @@ namespace FileManager.Services.FileManager
             previewPath = Path.GetDirectoryName(previewPath) + "/" + Path.GetFileNameWithoutExtension(previewPath) + ".png";
             if (File.Exists(previewPath))
             {
-                Bitmap img = (Bitmap)Image.FromFile(previewPath);
-                if (img != null)
+                using (Bitmap img = (Bitmap)Image.FromFile(previewPath))
                 {
-                    RotateFlipType transformType = RotateFlipType.RotateNoneFlipNone;
-                    switch (transform)
+                    if (img != null)
                     {
-                        case FileManagerConsts.Rotate90NoFlip:
-                            {
-                                transformType = RotateFlipType.Rotate90FlipNone;
-                            }
-                            break;
-                        case FileManagerConsts.Rotate270NoFlip:
-                            {
-                                transformType = RotateFlipType.Rotate270FlipNone;
-                            }
-                            break;
-                        case FileManagerConsts.RotateNoneFlipX:
-                            {
-                                transformType = RotateFlipType.RotateNoneFlipX;
-                            }
-                            break;
-                        case FileManagerConsts.RotateNoneFlipY:
-                            {
-                                transformType = RotateFlipType.RotateNoneFlipY;
-                            }
-                            break;
+                        RotateFlipType transformType = RotateFlipType.RotateNoneFlipNone;
+                        switch (transform)
+                        {
+                            case FileManagerConsts.Rotate90NoFlip:
+                                {
+                                    transformType = RotateFlipType.Rotate90FlipNone;
+                                }
+                                break;
+                            case FileManagerConsts.Rotate270NoFlip:
+                                {
+                                    transformType = RotateFlipType.Rotate270FlipNone;
+                                }
+                                break;
+                            case FileManagerConsts.RotateNoneFlipX:
+                                {
+                                    transformType = RotateFlipType.RotateNoneFlipX;
+                                }
+                                break;
+                            case FileManagerConsts.RotateNoneFlipY:
+                                {
+                                    transformType = RotateFlipType.RotateNoneFlipY;
+                                }
+                                break;
+                        }
+                        ImageUtilities.RotateFlip(img, transformType);
+                        img.Save(previewPath, ImageUtilities.GetImageFormatFromExtension(Path.GetExtension(previewPath)));
+                        return true;
                     }
-                    ImageUtilities.RotateFlip(img, transformType);
-                    img.Save(previewPath,ImageUtilities.GetImageFormatFromExtension(Path.GetExtension(previewPath)));
-                    return true;
                 }
             }
             return false;

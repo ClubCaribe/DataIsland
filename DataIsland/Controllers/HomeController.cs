@@ -41,6 +41,8 @@ namespace DataIsland.Controllers
         
         public ISystemSecurityService SystemCommunication { get; set; }
 
+        public IDiUserService DiUsers { get; set; }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -179,6 +181,9 @@ namespace DataIsland.Controllers
             constants.AppendLine(String.Format("var diUserPassport = '{0}';", userPassport));
 			//constants.AppendLine(String.Format("var diRefreshToken = '{0}';", ((!string.IsNullOrEmpty(_session.SessionObject.RefreshToken)) ? _session.SessionObject.RefreshToken : "")));
             constants.AppendLine(String.Format("var diTokenExpirationTime = new Date('{0}');", cache.AccessTokenExpirationUtc ?? DateTime.UtcNow));
+            string userId = await this.DiUsers.GetUserIdByFromUsername(this.User.Identity.Name);
+            userId = this.Utilities.EscapeUserId(userId);
+            constants.AppendLine(String.Format("var diCurrentUserID = '{0}';", userId));
             constants.Append(@"
 function refreshToken(){
     var currentTime = new Date();

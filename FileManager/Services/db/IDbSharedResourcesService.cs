@@ -11,6 +11,7 @@ namespace FileManager.Services.db
         Task<bool> CheckResourceExist(string fullPath, DiFileContext db);
         Task<bool> DeleteResource(string fullPath, DiFileContext db);
         Task<List<SharedResource>> GetResources(List<string> fullPaths, DiFileContext db);
+        Task<List<SharedResource>> GetResources(DiFileContext db);
         Task<SharedResource> GetResource(string fullPath, DiFileContext db);
         Task<string> ModifyResource(string fullPath, bool isDirectory, bool isRead, bool isWrite, bool isFull, bool isPublic, DiFileContext db);
     }

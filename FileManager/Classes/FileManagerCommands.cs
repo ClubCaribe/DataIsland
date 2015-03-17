@@ -1,5 +1,8 @@
-﻿using dataislandcommon.Classes.Attributes;
+﻿using Autofac;
+using dataislandcommon.Classes.Attributes;
 using dataislandcommon.Interfaces.Communication;
+using dataislandcommon.Utilities;
+using FileManager.Services.FileManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +33,22 @@ namespace FileManager.Classes
             set;
         }
 
-        public void TestCommand(int counter, string strvalue, float flvalue)
+        public async Task AddForeignResource(string id, string ownerId, string name, bool isDirectory)
         {
-            int i;
-            i = 10;
+            using (var scope = AutofacConfig.GetConfiguredContainer().BeginLifetimeScope())
+            {
+                ISharedResourcesService resources = scope.Resolve<ISharedResourcesService>();
+                await resources.AddForeignSharedResource(id, ownerId, name, isDirectory, this.Username);
+            }
+        }
+
+        public async Task DeleteForeignResource(string resId)
+        {
+            using (var scope = AutofacConfig.GetConfiguredContainer().BeginLifetimeScope())
+            {
+                ISharedResourcesService resources = scope.Resolve<ISharedResourcesService>();
+                await resources.DeleteForeignSharedResources(resId, this.Username);
+            }
         }
     }
 }

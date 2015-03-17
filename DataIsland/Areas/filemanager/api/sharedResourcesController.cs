@@ -34,5 +34,19 @@ namespace DataIsland.Areas.filemanager.api
         {
             return await this.Resources.SetResources(sharedResources, this.User.Identity.Name);
         }
+
+        [Route("getresourcessharedbyme")]
+        [HttpGet]
+        public async Task<List<SharedResource>> GetResourcesSharedByMe()
+        {
+            return await this.Resources.GetSharedResources(this.User.Identity.Name);
+        }
+
+        [Route("getresourcessharedbyothers")]
+        [HttpGet]
+        public async Task<List<ForeignSharedResource>> GetResourcesSharedByOthers()
+        {
+            return await this.Resources.GetForeignResources(this.User.Identity.Name);
+        }
     }
 }

@@ -139,7 +139,7 @@ namespace FileManager.Services.FileManager
             {
                 foreach(var entry in listing)
                 {
-                    SharedResource res = await this.SharedResources.GetResource(entry.FullName, db);
+                    SharedResource res = await this.SharedResources.GetResource(((entry.IsDirectory)?"":"/")+entry.FullName, db);
                     if (res != null)
                     {
                         entry.IsShared = true;

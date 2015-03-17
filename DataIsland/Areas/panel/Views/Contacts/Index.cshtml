@@ -85,7 +85,7 @@
                                     </h4>
                                 </td>
                                 <td>
-                                    <a ng-href="/panel/contacts/chat/{{user.Username}}" style="line-height:45px;" title="[tr]Open chat[/tr]" >
+                                    <a ng-if="user.Accepted" ng-href="/panel/contacts/chat/{{user.Username}}" style="line-height:45px;" title="[tr]Open chat[/tr]" >
                                         <i style="color:#ff0000;" class="entypo-chat"></i>
                                     </a>
                                 </td>

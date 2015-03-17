@@ -77,6 +77,14 @@ DiPanel.factory("fileManagerDataFactory", ['$http', '$q', function ($http, $q) {
         SetSharedOptions: function (files) {
             var url = "/api/filemanager/shared/setresourcesoptions";
             return $http.post(url, files);
+        },
+        GetSharedResourcesSharedByMe: function () {
+            var url = "/api/filemanager/shared/getresourcessharedbyme";
+            return $http.get(url);
+        },
+        GetResourcesSharedByOthers: function () {
+            var url = "/api/filemanager/shared/getresourcessharedbyothers";
+            return $http.get(url);
         }
     }
 }]);
@@ -173,6 +181,21 @@ DiPanel.filter('bytes', function () {
     }
 });
 
+DiPanel.filter('userDisplayName', function () {
+    return function (userId, contacts) {
+        for (var i = 0; i < contacts.length; i++) {
+            if (contacts[i].UserId == userId) {
+                if (contacts[i] != null && contacts[i].Name != "") {
+                    return contacts[i].Name + " (" + contacts[i].Username + ")";
+                } else {
+                    return contacts[i].Username;
+                }
+            }
+        }
+        return "";
+    }
+});
+
 DiPanel.filter('propsFilter', function () {
     return function (items, props) {
         var out = [];
@@ -228,6 +251,7 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
         silverlightXapUrl: "/Scripts/plupload/Moxie.xap"
     }
 
+    $scope.sectionSelected = "files";
     $scope.viewModeSelected = "listMode";
     $scope.directory = "/";
     $scope.breadCrumbs = function () {
@@ -293,6 +317,19 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
 
     $scope.changeMode = function (mode) {
         $scope.viewModeSelected = mode;
+        
+    }
+
+    $scope.changeSection = function (mode) {
+        $scope.sectionSelected = mode;
+        if (mode === "shared") {
+            $scope.InitResourcesSharedByMe();
+            $scope.GetResourcesSharedByOthers();
+        }
+    }
+
+    $scope.GetCurrentUserId = function () {
+        return diCurrentUserID;
     }
 
     $scope.openUploadContainer = function () {
@@ -371,16 +408,30 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
     }
 
     $scope.ToggleSelection = function () {
-        if ($scope.directoryData != undefined && $scope.directoryData.length > 0) {
-            
-            if ($scope.isSomethingSelected()) {
-                for (var i = 0; i < $scope.directoryData.length; i++) {
-                    $scope.directoryData[i].Checked = false;
+        if ($scope.sectionSelected == "files") {
+            if ($scope.directoryData != undefined && $scope.directoryData.length > 0) {
+
+                if ($scope.isSomethingSelected()) {
+                    for (var i = 0; i < $scope.directoryData.length; i++) {
+                        $scope.directoryData[i].Checked = false;
+                    }
+                }
+                else {
+                    for (var i = 0; i < $scope.directoryData.length; i++) {
+                        $scope.directoryData[i].Checked = true;
+                    }
+                }
+            }
+        }
+        else if ($scope.sectionSelected == "shared") {
+            if ($scope.IsSomethingSelectedInSharedResourcesByMe()) {
+                for (var i = 0; i < $scope.ResourcesSharedByMe.Files.length; i++) {
+                    $scope.ResourcesSharedByMe.Files[i].Checked = false;
                 }
             }
             else {
-                for (var i = 0; i < $scope.directoryData.length; i++) {
-                    $scope.directoryData[i].Checked = true;
+                for (var i = 0; i < $scope.ResourcesSharedByMe.Files.length; i++) {
+                    $scope.ResourcesSharedByMe.Files[i].Checked = true;
                 }
             }
         }
@@ -665,7 +716,7 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
         });
     }
 
-    //sharing options dialog
+    //#region sharing options dialog
 
     $scope.ShareOptions = {
         SelectedFiles: new Array(),
@@ -679,35 +730,62 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
         }
     }
 
+    $scope.GetContacts = function () {
+        fileManagerDataFactory.GetContacts().then(function (result) {
+            $scope.ShareOptions.Contacts = result.data;
+        });
+    }
+
     $scope.InitShareOptionsDialog = function () {
-        if (!$scope.AreItemsSelected())
+        if ($scope.sectionSelected == "files" && !$scope.AreItemsSelected())
         {
             alert("[tr]One or more items must be selected[/tr]");
             return;
         }
         var filesList = new Array();
         $scope.ShareOptions.SelectedFiles = new Array();
-        $scope.ShareOptions.Contacts = new Array();
         $scope.ShareOptions.SelectedContacts = new Array();
-        var selectedFiles = $scope.GetSelectedItems();
-        
-        if ($scope.directory.length == 0) {
-            $scope.directory = "/";
-        }
-        var directoryToSend = ($scope.directory.length > 1) ? $scope.directory + "/" : $scope.directory;
-        for (var i = 0; i < selectedFiles.length; i++) {
-            filesList.push(directoryToSend + selectedFiles[i].Name);
-            $scope.ShareOptions.SelectedFiles.push({
-                ID: "",
-                Name: selectedFiles[i].Name,
-                FullPath: directoryToSend + selectedFiles[i].Name,
-                IsDirectory: selectedFiles[i].IsDirectory,
-                IsPublic: false,
-                IsRead: false,
-                IsWrite: false,
-                IsAll: false,
-                Recipients: new Array()
-            });
+        var selectedFiles = null;
+        if ($scope.sectionSelected == "files") {
+            selectedFiles = $scope.GetSelectedItems();
+            if ($scope.directory.length == 0) {
+                $scope.directory = "/";
+            }
+            var directoryToSend = ($scope.directory.length > 1) ? $scope.directory + "/" : $scope.directory;
+            for (var i = 0; i < selectedFiles.length; i++) {
+                filesList.push(directoryToSend + selectedFiles[i].Name);
+                $scope.ShareOptions.SelectedFiles.push({
+                    ID: "",
+                    Name: selectedFiles[i].Name,
+                    FullPath: directoryToSend + selectedFiles[i].Name,
+                    IsDirectory: selectedFiles[i].IsDirectory,
+                    IsPublic: false,
+                    IsRead: false,
+                    IsWrite: false,
+                    IsAll: false,
+                    Recipients: new Array()
+                });
+            }
+        } else if ($scope.sectionSelected == "shared") {
+            selectedFiles = $scope.GetSelectedSharedResourcesByMe();
+            if (selectedFiles.length == 0) {
+                alert("[tr]One or more items must be selected[/tr]");
+                return;
+            }
+            for (var i = 0; i < selectedFiles.length; i++) {
+                filesList.push(selectedFiles[i].FullPath);
+                $scope.ShareOptions.SelectedFiles.push({
+                    ID: "",
+                    Name: selectedFiles[i].FullPath.substring(selectedFiles[i].FullPath.lastIndexOf("/")+1),
+                    FullPath: selectedFiles[i].FullPath,
+                    IsDirectory: selectedFiles[i].IsDirectory,
+                    IsPublic: false,
+                    IsRead: false,
+                    IsWrite: false,
+                    IsAll: false,
+                    Recipients: new Array()
+                });
+            }
         }
         fileManagerDataFactory.GetSharedOptions(filesList).then(function (result) {
             
@@ -715,13 +793,19 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
                 $scope.PopulateSharedFileOptions(result.data[i]);
             }
 
-            fileManagerDataFactory.GetContacts().then(function (result) {
-                
-                $scope.ShareOptions.Contacts = result.data;
-                $scope.PopulateSharedOptions();
+            if ($scope.ShareOptions.Contacts.length == 0) {
+                fileManagerDataFactory.GetContacts().then(function (result) {
 
+                    $scope.ShareOptions.Contacts = result.data;
+                    $scope.PopulateSharedOptions();
+                    jQuery('#shareOptionsDialog').modal('show');
+                });
+            }
+            else
+            {
+                $scope.PopulateSharedOptions();
                 jQuery('#shareOptionsDialog').modal('show');
-            });
+            }
         })
         
     }
@@ -748,15 +832,29 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
 
         if ($scope.ShareOptions.SelectedFiles.length > 0) {
             for (var i = 0; i < $scope.ShareOptions.SelectedFiles.length; i++) {
-                for (var k = 0; k < $scope.directoryData.length; k++) {
-                    if ($scope.directoryData[k].FullName == $scope.ShareOptions.SelectedFiles[i].FullPath) {
-                        $scope.directoryData[k].IsShared = (($scope.ShareOptions.SelectedContacts.length > 0) && ($scope.ShareOptions.Options.IsPublic || $scope.ShareOptions.Options.Read || $scope.ShareOptions.Options.Write || $scope.ShareOptions.Options.All));
+                if ($scope.sectionSelected == "files") {
+                    for (var k = 0; k < $scope.directoryData.length; k++) {
+                        if ((($scope.directoryData[k].IsDirectory) ? "" : "/") + $scope.directoryData[k].FullName == $scope.ShareOptions.SelectedFiles[i].FullPath) {
+                            $scope.directoryData[k].IsShared = (($scope.ShareOptions.SelectedContacts.length > 0) && ($scope.ShareOptions.Options.IsPublic || $scope.ShareOptions.Options.Read || $scope.ShareOptions.Options.Write || $scope.ShareOptions.Options.All));
+                        }
+                    }
+                }
+                else if ($scope.sectionSelected == "shared") {
+                    for (var k = 0; k < $scope.ResourcesSharedByMe.Files.length; k++) {
+                        if ($scope.ResourcesSharedByMe.Files[k].FullPath == $scope.ShareOptions.SelectedFiles[i].FullPath) {
+                            $scope.ResourcesSharedByMe.Files[k].IsPublic = $scope.ShareOptions.Options.IsPublic;
+                            $scope.ResourcesSharedByMe.Files[k].IsRead = $scope.ShareOptions.Options.Read;
+                            $scope.ResourcesSharedByMe.Files[k].IsWrite = $scope.ShareOptions.Options.Write;
+                            $scope.ResourcesSharedByMe.Files[k].IsAll = $scope.ShareOptions.Options.All;
+                            $scope.ResourcesSharedByMe.Files[k].Recipients = recipients;
+                        }
                     }
                 }
             }
         }
 
         fileManagerDataFactory.SetSharedOptions($scope.ShareOptions.SelectedFiles).then(function (result) {
+            $scope.ToggleSelection();
             jQuery('#shareOptionsDialog').modal('hide');
             if (result) {
                 toastr.success("[tr]Items sharing options has been successfully set[/tr]", "[tr]Sharing items[/tr]");
@@ -841,9 +939,71 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
         }
         return true;
     }
+    //#endregion
+
+    //#region resources shared by me
+    $scope.ResourcesSharedByMe = {
+        Files: new Array()
+    };
+
+    $scope.ResourcesSharedByOthers = {
+        Files: new Array()
+    }
+
+    $scope.InitResourcesSharedByMe = function () {
+        fileManagerDataFactory.GetSharedResourcesSharedByMe().then(function (result) {
+            $scope.ResourcesSharedByMe.Files = result.data;
+        });
+    }
+
+    $scope.GetSelectedSharedResourcesByMe = function () {
+        var selected = new Array();
+        for (var i = 0; i < $scope.ResourcesSharedByMe.Files.length; i++) {
+            if ($scope.ResourcesSharedByMe.Files[i].Checked == true) {
+                selected.push($scope.ResourcesSharedByMe.Files[i]);
+            }
+        }
+        return selected;
+    }
+
+    $scope.IsSomethingSelectedInSharedResourcesByMe = function () {
+        for (var i = 0; i < $scope.ResourcesSharedByMe.Files.length; i++) {
+            if ($scope.ResourcesSharedByMe.Files[i].Checked == true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.GoToFolderFromSharedResource = function (item) {
+        if (item != null) {
+            if (item.IsDirectory) {
+                $scope.directory = item.FullPath;
+            }
+            else {
+                $scope.directory = item.FullPath.substring(0, item.FullPath.lastIndexOf("/"));
+            }
+
+            $scope.refreshDirectory();
+
+            $scope.changeSection("files");
+        }
+    }
+
+    $scope.GetResourcesSharedByOthers = function () {
+        fileManagerDataFactory.GetResourcesSharedByOthers().then(function (result) {
+            $scope.ResourcesSharedByOthers.Files = result.data;
+        });
+    }
+
+    $scope.GetCurrentHostname = function () {
+        return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+    }
+    //#endregion
 
     $scope.refreshDirectory();
     $scope.GetCompressedFiles();
+    $scope.GetContacts();
 
 }]);
 

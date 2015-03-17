@@ -172,7 +172,7 @@ namespace DataIsland.Areas.panel.api
                     string data = await resp.Content.ReadAsStringAsync();
                     TokenResponseModel tokenResponse = JsonConvert.DeserializeObject<TokenResponseModel>(data);
                     cache.AccessToken = tokenResponse.access_token;
-                    cache.AccessTokenExpirationUtc = DateTime.Now.AddSeconds(int.Parse(tokenResponse.expires_in));
+                    cache.AccessTokenExpirationUtc = DateTime.UtcNow.AddSeconds(int.Parse(tokenResponse.expires_in));
                     cache.RefreshToken = tokenResponse.refresh_token;
 
                     await DataCacheService.SaveDataCache(cache);

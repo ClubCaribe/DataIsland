@@ -71,6 +71,16 @@ namespace FileManager.Services.db
             return res;
         }
 
+        public async Task<SharedResource> GetResourceByID(string id, DiFileContext db)
+        {
+            var res = await db.SharedResources.Where(x => x.ID == id).SingleOrDefaultAsync();
+            if(res!=null)
+            {
+                return res;
+            }
+            return null;
+        }
+
         public async Task<string> ModifyResource(string fullPath, bool isDirectory, bool isRead, bool isWrite, bool isFull, bool isPublic, DiFileContext db)
         {
             var res = await db.SharedResources.Where(x => x.FullPath == fullPath).SingleOrDefaultAsync();

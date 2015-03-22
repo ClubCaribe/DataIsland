@@ -136,6 +136,15 @@ namespace FileManager.Services.FileManager
             return resources;
         }
 
+        public async Task<SharedResource> GetSharedResourceByID(string id, string ownerUsername)
+        {
+            using(var db = this.DbManager.GetDbContext(ownerUsername))
+            {
+                SharedResource res = await this.Resources.GetResourceByID(id, db);
+                return res;
+            }
+        }
+
         public async Task AddForeignSharedResource(string id, string ownerId, string name, bool isDirectory, string ownerUsername)
         {
             using (var db = this.DbManager.GetDbContext(ownerUsername))

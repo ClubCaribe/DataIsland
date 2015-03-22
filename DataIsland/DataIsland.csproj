@@ -19,7 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <NuGetPackageImportStamp>f813b0eb</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>16371cca</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,17 +149,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\dataislandmainserver\maindataislandserver\scutils\bin\Release\scutils.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net45\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.96.0\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.94.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.96.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.96.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.94.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.96.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -254,7 +254,9 @@
   <ItemGroup>
     <Content Include="App_Data\DataIsland\settings\configs\forms\settingsforms\dataislandmainsettings.txt" />
     <Content Include="Areas\filemanager\app\controllers\fileManagerController.js" />
+    <Content Include="Areas\filemanager\app\directives\diForeignResourcesBrowser.js" />
     <Content Include="Areas\filemanager\app\directives\formsdirectives.js" />
+    <Content Include="Areas\filemanager\app\partials\diForeignResources.tpl.html" />
     <Content Include="Areas\filemanager\Content\css\filemanager.css" />
     <Content Include="Areas\panel\app\commonmodules\formValidators.js" />
     <Content Include="Areas\panel\app\commonmodules\interceptor.js" />
@@ -2893,8 +2895,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\filemanager\api\directoryController.cs" />
     <Compile Include="Areas\filemanager\api\fileController.cs" />
+    <Compile Include="Areas\filemanager\api\foreignResourcesController.cs" />
     <Compile Include="Areas\filemanager\api\sharedResourcesController.cs" />
     <Compile Include="Areas\filemanager\Controllers\fileController.cs" />
+    <Compile Include="Areas\filemanager\Controllers\foreignResourcesController.cs" />
     <Compile Include="Areas\filemanager\Controllers\HomeController.cs" />
     <Compile Include="Areas\filemanager\CustomActions\ZipDownloadResult.cs" />
     <Compile Include="Areas\filemanager\filemanagerAreaRegistration.cs" />
@@ -2958,6 +2962,7 @@
     <Folder Include="Areas\filemanager\app\modules\" />
     <Folder Include="Areas\filemanager\Models\" />
     <Folder Include="Areas\filemanager\Views\file\" />
+    <Folder Include="Areas\filemanager\Views\foreignResources\" />
     <Folder Include="Areas\filemanager\Views\Shared\" />
     <Folder Include="Areas\panel\app\components\" />
     <Folder Include="Areas\panel\Models\" />
@@ -3030,9 +3035,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.96.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.96.0\build\net45\System.Data.SQLite.Core.targets'))" />
   </Target>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.96.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.96.0\build\net45\System.Data.SQLite.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

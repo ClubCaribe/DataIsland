@@ -253,6 +253,12 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
 
     $scope.sectionSelected = "files";
     $scope.viewModeSelected = "listMode";
+    $scope.sharedSectionModeSelected = "list";
+    $scope.foreignResourcesConfig = {
+        userId: "",
+        resourceId: "",
+        resourceName: ""
+    }
     $scope.directory = "/";
     $scope.breadCrumbs = function () {
         var breadCrubmsArray = $scope.directory.split("/");
@@ -998,6 +1004,20 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
 
     $scope.GetCurrentHostname = function () {
         return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+    }
+    //#endregion
+
+    //#region resources shared by others
+    $scope.GoToForeignResource = function (item) {
+        $scope.searchPhrase = "";
+        $scope.foreignResourcesConfig.userId = item.OwnerID;
+        $scope.foreignResourcesConfig.resourceId = item.ID;
+        $scope.foreignResourcesConfig.resourceName = item.Name;
+        $scope.sharedSectionModeSelected = "files";
+    }
+
+    $scope.ChangeSharedResourcesViewMode = function (mode) {
+        $scope.sharedSectionModeSelected = mode;
     }
     //#endregion
 

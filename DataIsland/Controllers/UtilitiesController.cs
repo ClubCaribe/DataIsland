@@ -90,6 +90,7 @@ namespace DataIsland.Controllers
             {
                 dataislandcommon.Bootstrapper.UpdateDatabase(usr.Username);
                 Streamail.Bootstraper.UpdateDatabase(usr.Username);
+                FileManager.Bootstraper.UpdateDatabase(usr.Username);
                 PluginAreaBootstrapper.RunUpdateDatabaseForLoadedPlugins(usr.Username);
             }
             return "ok";

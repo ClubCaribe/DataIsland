@@ -99,6 +99,10 @@
     <Compile Include="Bootstraper.cs" />
     <Compile Include="Classes\db\DiFileContext.cs" />
     <Compile Include="Classes\FileManagerCommands.cs" />
+    <Compile Include="Migrations\201503231719199_foreignresources.cs" />
+    <Compile Include="Migrations\201503231719199_foreignresources.Designer.cs">
+      <DependentUpon>201503231719199_foreignresources.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\db\ForeignSharedResource.cs" />
     <Compile Include="Models\db\ResourceRecipient.cs" />
@@ -146,7 +150,11 @@
       <Name>dilib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503231719199_foreignresources.resx">
+      <DependentUpon>201503231719199_foreignresources.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />

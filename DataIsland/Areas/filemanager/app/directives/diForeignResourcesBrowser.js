@@ -6,6 +6,10 @@ DiPanel.factory("foreignResourcesDataFactory", ['$http', '$q', function ($http, 
         ListDirectory: function (userID,resourceID,virtualPath) {
             var url = "/api/filemanager/foreignresources/listdirectory/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId() + "/" + virtualPath;
             return $http.get(url);
+        },
+        GetPermissions: function (userID, resourceID) {
+            var url = "/api/filemanager/foreignresources/getpermissions/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId();
+            return $http.get(url);
         }
     }
 }]);
@@ -27,6 +31,12 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             });
         },
         controller: function ($scope) {
+            $scope.UserPermissions = {
+                Read: false,
+                Write: false,
+                All: false
+            }
+
             $scope.uploader = {
                 fileUploadUrl: "/filemanager/file/uploadfile",
                 maxFileSize: "3000MB",
@@ -34,7 +44,6 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
                 flashSwfUrl: "/Scripts/plupload/Moxie.swf",
                 silverlightXapUrl: "/Scripts/plupload/Moxie.xap"
             }
-            $scope.WriteAccess = false;
             $scope.sectionSelected = "files";
             $scope.viewModeSelected = "listMode";
             $scope.directory = "/";
@@ -69,7 +78,13 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             $scope.filteredDirectoryData = null;
 
             $scope.$watch('resourceId', function () {
-                $scope.refreshDirectory();
+                dataFactory.GetPermissions($scope.userId, $scope.resourceId).then(function (result) {
+                    $scope.UserPermissions.Read = result.data.Read;
+                    $scope.UserPermissions.Write = result.data.Write;
+                    $scope.UserPermissions.All = result.data.All;
+                    $scope.refreshDirectory();
+                });
+                
             });
 
             $scope.$watch('directoryData', function () {

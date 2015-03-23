@@ -225,16 +225,6 @@
             <span ng-if="$last">{{breadCrumb}}</span>
         </li>
         <div style="float:right;">[tr]Total files[/tr]: {{directorySummary.TotalNumFiles}},  [tr]Total Size[/tr]: {{directorySummary.TotalSize | bytes}}</div>
-        <div style="float:right; margin-right:10px;">
-            <div data-toggle="buttons" class="btn-group">
-                <label class="btn btn-white" ng-click="changeMode('listMode')" ng-class="{'active':viewModeSelected=='listMode'}" style="padding: 1px 3px; margin-top: -2px;">
-                    <input type="radio" ng-checked="viewModeSelected=='listMode'" id="diForeignResourcesBrowserlistmodeRadioButton" name="viewMode"><i class="glyphicon glyphicon-list"></i>
-                </label>
-                <label class="btn btn-white" ng-click="changeMode('iconMode')" ng-class="{'active':viewModeSelected=='iconMode'}" style="padding: 1px 3px; margin-top: -2px;">
-                    <input type="radio" ng-checked="viewModeSelected=='iconMode'" id="diForeignResourcesBrowsericonviewRadioButton" name="viewMode"><i class="glyphicon glyphicon-th"></i>
-                </label>
-            </div>
-        </div>
     </ol>
 
     <!--filelist icon view-->

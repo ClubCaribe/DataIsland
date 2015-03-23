@@ -51,10 +51,46 @@ namespace DataIsland.Areas.filemanager.api
                     cache["fileManagerPath:" + resourceId] = path;
                     await DataCacheService.SaveDataCache(cache);
                     string fullPath = sharedResource.FullPath + "/" + path;
-                    return await DirectoryService.ListDirectory(pathprefix, fullPath, ownerUsername);
+                    List<DiDirectoryListingEntry> entries = await DirectoryService.ListDirectory(pathprefix, fullPath, ownerUsername);
+                    if (entries != null)
+                    {
+                        foreach (DiDirectoryListingEntry entry in entries)
+                        {
+                            entry.FullName = entry.FullName.Replace(sharedResource.FullPath, "");
+                            if(entry.IsDirectory)
+                            {
+                                DiDirectoryInfo diInf = (DiDirectoryInfo)entry.FileSystemObject;
+                                diInf.FullName = diInf.FullName.Replace(sharedResource.FullPath, "");
+                            }
+                        }
+                    }
+                    return entries;
                 }
             }
             return null;
+        }
+
+        [Route("getpermissions/{userId}/{resourceId}/{*path}")]
+        [HttpGet]
+        public async Task<Dictionary<string,bool>> GetResourcePermissions(string userId, string resourceId)
+        {
+            Dictionary<string, bool> permissions = new Dictionary<string, bool>();
+            permissions["read"] = false;
+            permissions["write"] = false;
+            permissions["all"] = false;
+
+            string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+            if (!string.IsNullOrEmpty(ownerUsername))
+            {
+                SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+                if (sharedResource != null)
+                {
+                    permissions["Read"] = sharedResource.IsRead;
+                    permissions["Write"] = sharedResource.IsWrite;
+                    permissions["All"] = sharedResource.IsAll;
+                }
+            }
+            return permissions;
         }
     }
 }

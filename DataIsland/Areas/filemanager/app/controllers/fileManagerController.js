@@ -378,6 +378,7 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
     }
 
     $scope.changeDirectory = function (breadcrumbsIndex) {
+        $scope.directoryData = new Array();
         var breadCrubmsArray = $scope.directory.split("/");
 
         if (breadCrubmsArray[0] == "") {
@@ -391,13 +392,16 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
         for (var i = 0; i < breadcrumbsIndex; i++) {
             newDirectory = newDirectory + "/" + breadCrubmsArray[i];
         }
+
         $scope.directory = newDirectory;
         $scope.refreshDirectory();
+
     }
 
     $scope.itemClicked = function (item) {
         if (item != null) {
             if (item.IsDirectory) {
+                $scope.directoryData = new Array();
                 $scope.directory = item.FileSystemObject.FullName;
                 $scope.refreshDirectory();
             }

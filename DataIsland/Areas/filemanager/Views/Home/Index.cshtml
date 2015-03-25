@@ -234,10 +234,10 @@
                 <article class="album">
                     <header>
                         <a ng-click="itemClicked(entry)" style="cursor:pointer;" ng-if="entry.IsDirectory">
-                            <img ng-src="/filemanager/file/Thumbnail/400{{directory}}/{{entry.Name}}" />
+                            <img ng-src="/filemanager/file/Thumbnail/250{{directory}}/{{entry.Name}}" />
                         </a>
                         <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="SwitchToDetailsView($index)">
-                            <img id="iconFilePreview{{$index}}" ng-src="/filemanager/file/Thumbnail/400{{directory}}/{{entry.Name}}" />
+                            <img id="iconFilePreview{{$index}}" ng-src="/filemanager/file/Thumbnail/250{{directory}}/{{entry.Name}}" />
                         </a>
                         <div ng-if="entry.IsShared" style="position:absolute;top:3px;left:3px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                         <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="/filemanager/file/get/{{entry.FullName}}">

@@ -456,7 +456,7 @@ namespace dataislandcommon.Services.System
                 {
                     using (Image img = Image.FromStream(ms))
                     {
-                        using (Bitmap resizedImage = ImageUtilities.ResizePictureIfLarger((Bitmap)img, 200, 200))
+                        using (Bitmap resizedImage = ImageUtilities.ResizePictureIfLarger((Bitmap)img, 200, 200,Color.Transparent))
                         {
                             if (resizedImage != null)
                             {

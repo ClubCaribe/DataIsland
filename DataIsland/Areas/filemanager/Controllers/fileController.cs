@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace DataIsland.Areas.filemanager.Controllers
 {
@@ -60,10 +61,11 @@ namespace DataIsland.Areas.filemanager.Controllers
         [Route("thumbnail/{size}/{*path}")]
         public FileContentResult Thumbnail(int size, string path)
         {
-            Response.Cache.SetCacheability(HttpCacheability.Public);
-            Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
-            Response.Cache.SetExpires(DateTime.Now.AddDays(1));
-            Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+            HttpContext.Response.Cache.SetCacheability(HttpCacheability.Private);
+            HttpContext.Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
+            HttpContext.Response.Cache.SetExpires(DateTime.Now.AddDays(1));
+            HttpContext.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+            HttpContext.Response.Cache.SetNoServerCaching();
             string pathprefix = PathProvider.GetUserFilesPath(this.User.Identity.Name);
             if (System.IO.File.Exists(pathprefix + path) || System.IO.Directory.Exists(pathprefix + path))
             {
@@ -84,7 +86,7 @@ namespace DataIsland.Areas.filemanager.Controllers
                 if (string.IsNullOrEmpty(rawIfModifiedSince))
                 {
                     // Set Last Modified time
-                    Response.Cache.SetLastModified(lastModifiedDate);
+                    HttpContext.Response.Cache.SetLastModified(lastModifiedDate);
                 }
                 else
                 {
@@ -108,7 +110,7 @@ namespace DataIsland.Areas.filemanager.Controllers
                     {
                         using (Bitmap preview = (Bitmap)Image.FromFile(previewPath))
                         {
-                            using (Bitmap bmp = ImageUtilities.ResizePictureSquare(preview, size, size))
+                            using (Bitmap bmp = ImageUtilities.ResizePictureSquare(preview, size, size,Color.Transparent))
                             {
                                 if (bmp != null)
                                 {
@@ -122,7 +124,7 @@ namespace DataIsland.Areas.filemanager.Controllers
                 //we cannot get pregenerated preview so we need to generate it from scratch
                 using (Bitmap thmbnail = FileService.GenerateThumbnailToImage(pathprefix, path))
                 {
-                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, size, size))
+                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, size, size, Color.Transparent))
                     {
                         if (bmp != null)
                         {
@@ -144,10 +146,11 @@ namespace DataIsland.Areas.filemanager.Controllers
         [Route("preview/{size}/{*path}")]
         public FileContentResult Preview(int size, string path)
         {
-            Response.Cache.SetCacheability(HttpCacheability.Public);
-            Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
-            Response.Cache.SetExpires(DateTime.Now.AddDays(1));
-            Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+            HttpContext.Response.Cache.SetCacheability(HttpCacheability.Private);
+            HttpContext.Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
+            HttpContext.Response.Cache.SetExpires(DateTime.Now.AddDays(1));
+            HttpContext.Response.Cache.SetNoServerCaching();
+            HttpContext.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
 
             string pathprefix = PathProvider.GetUserFilesPath(this.User.Identity.Name);
             if (System.IO.File.Exists(pathprefix + path) || System.IO.Directory.Exists(pathprefix + path))
@@ -169,7 +172,7 @@ namespace DataIsland.Areas.filemanager.Controllers
                 if (string.IsNullOrEmpty(rawIfModifiedSince))
                 {
                     // Set Last Modified time
-                    Response.Cache.SetLastModified(lastModifiedDate);
+                    HttpContext.Response.Cache.SetLastModified(lastModifiedDate);
                 }
                 else
                 {
@@ -193,12 +196,12 @@ namespace DataIsland.Areas.filemanager.Controllers
                     {
                         using (Bitmap preview = (Bitmap)Image.FromFile(previewPath))
                         {
-                            using (Bitmap bmp = ImageUtilities.ResizePictureIfLarger(preview, size, size))
+                            using (Bitmap bmp = ImageUtilities.ResizePictureIfLarger(preview, size, size,Color.White))
                             {
                                 if (bmp != null)
                                 {
-                                    byte[] output = ImageUtilities.TransformImageToByte(bmp, "png");
-                                    return File(output, Utilities.GetProperContentType("png", true), Path.GetFileName(pathprefix + path));
+                                    byte[] output = ImageUtilities.TransformImageToByte(bmp, "jpg");
+                                    return File(output, Utilities.GetProperContentType("jpg", true), Path.GetFileName(pathprefix + path));
                                 }
                             }
                         }
@@ -207,12 +210,12 @@ namespace DataIsland.Areas.filemanager.Controllers
                 //we cannot get pregenerated preview so we need to generate it from scratch
                 using (Bitmap thmbnail = FileService.GenerateThumbnailToImage(pathprefix, path))
                 {
-                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, size, size))
+                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, size, size, Color.White))
                     {
                         if (bmp != null)
                         {
-                            byte[] output = ImageUtilities.TransformImageToByte(bmp, "png");
-                            return File(output, Utilities.GetProperContentType("png", true), Path.GetFileName(pathprefix + path));
+                            byte[] output = ImageUtilities.TransformImageToByte(bmp, "jpg");
+                            return File(output, Utilities.GetProperContentType("jpg", true), Path.GetFileName(pathprefix + path));
                         }
                     }
                 }
@@ -230,10 +233,11 @@ namespace DataIsland.Areas.filemanager.Controllers
         [Route("previewcustomsize/{width}/{height}/{*path}")]
         public FileContentResult PreviewCustomSize(int width, int height, string path)
         {
-            Response.Cache.SetCacheability(HttpCacheability.Public);
-            Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
-            Response.Cache.SetExpires(DateTime.Now.AddDays(1));
-            Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+            HttpContext.Response.Cache.SetCacheability(HttpCacheability.Private);
+            HttpContext.Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0));
+            HttpContext.Response.Cache.SetExpires(DateTime.Now.AddDays(1));
+            HttpContext.Response.Cache.SetNoServerCaching();
+            HttpContext.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
             string pathprefix = PathProvider.GetUserFilesPath(this.User.Identity.Name);
             if (System.IO.File.Exists(pathprefix + path) || System.IO.Directory.Exists(pathprefix + path))
             {
@@ -255,7 +259,7 @@ namespace DataIsland.Areas.filemanager.Controllers
                 if (string.IsNullOrEmpty(rawIfModifiedSince))
                 {
                     // Set Last Modified time
-                    Response.Cache.SetLastModified(lastModifiedDate);
+                    HttpContext.Response.Cache.SetLastModified(lastModifiedDate);
                 }
                 else
                 {
@@ -279,12 +283,12 @@ namespace DataIsland.Areas.filemanager.Controllers
                     {
                         using (Bitmap preview = (Bitmap)Image.FromFile(previewPath))
                         {
-                            using (Bitmap bmp = ImageUtilities.ResizePictureSquare(preview, width, height))
+                            using (Bitmap bmp = ImageUtilities.ResizePictureSquare(preview, width, height,Color.White))
                             {
                                 if (bmp != null)
                                 {
-                                    byte[] output = ImageUtilities.TransformImageToByte(bmp, "png");
-                                    return File(output, Utilities.GetProperContentType("png", true), Path.GetFileName(pathprefix + path));
+                                    byte[] output = ImageUtilities.TransformImageToByte(bmp, "jpg");
+                                    return File(output, Utilities.GetProperContentType("jpg", true), Path.GetFileName(pathprefix + path));
                                 }
                             }
                         }
@@ -293,12 +297,12 @@ namespace DataIsland.Areas.filemanager.Controllers
                 //we cannot get pregenerated preview so we need to generate it from scratch
                 using (Bitmap thmbnail = FileService.GenerateThumbnailToImage(pathprefix, path))
                 {
-                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, width, height))
+                    using (Bitmap bmp = ImageUtilities.ResizePictureSquare(thmbnail, width, height, Color.White))
                     {
                         if (bmp != null)
                         {
-                            byte[] output = ImageUtilities.TransformImageToByte(bmp, "png");
-                            return File(output, Utilities.GetProperContentType("png", true), Path.GetFileName(pathprefix + path));
+                            byte[] output = ImageUtilities.TransformImageToByte(bmp, "jpg");
+                            return File(output, Utilities.GetProperContentType("jpg", true), Path.GetFileName(pathprefix + path));
                         }
                     }
                 }

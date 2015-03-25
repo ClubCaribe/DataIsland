@@ -10,13 +10,13 @@ namespace dataislandcommon.Services.Utilities
         Bitmap FillPictureInSquare(Bitmap b, int sWidth, int sHeight);
         ImageFormat GetImageFormatFromExtension(string ext);
         Bitmap OffsetPicture(Bitmap b, int leftoffset, int topoffset);
-        Bitmap ResizePicture(Bitmap b, int nWidth, int nHeight, bool bBilinear);
+        Bitmap ResizePicture(Bitmap b, int nWidth, int nHeight, bool bBilinear, Color fillColor);
         Bitmap ResizePicture(Bitmap b, int nWidth, int nHeight, int stencilwidth, int stencilheight, bool bBilinear);
-        Bitmap ResizePicture(Bitmap b, int sWidth, int sHeight);
-        Bitmap ResizePictureIfLarger(Bitmap b, int sWidth, int sHeight);
+        Bitmap ResizePicture(Bitmap b, int sWidth, int sHeight, Color fillColor);
+        Bitmap ResizePictureIfLarger(Bitmap b, int sWidth, int sHeight, Color fillColor);
         Bitmap ResizePictureSquare(Bitmap b, int sWidth);
         Bitmap PutPictureInSquare(Bitmap b, int sWidth);
-        Bitmap ResizePictureSquare(Bitmap b, int sWidth, int sHeight);
+        Bitmap ResizePictureSquare(Bitmap b, int sWidth, int sHeight, Color fillcolor);
         Bitmap ResizeToHeight(Bitmap b, int sHeight);
         byte[] ResizeToWidth(byte[] bdata, int sWidth, string outputformat);
         Bitmap ResizeToWidth(Bitmap b, int sWidth);

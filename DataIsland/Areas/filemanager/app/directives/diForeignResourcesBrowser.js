@@ -136,6 +136,7 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             }
 
             $scope.changeDirectory = function (breadcrumbsIndex) {
+                $scope.directoryData = new Array();
                 var breadCrubmsArray = $scope.directory.split("/");
 
                 if (breadCrubmsArray[0] == "") {
@@ -149,6 +150,7 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
                 for (var i = 0; i < breadcrumbsIndex; i++) {
                     newDirectory = newDirectory + "/" + breadCrubmsArray[i];
                 }
+                $scope.directoryData = new Array();
                 $scope.directory = newDirectory;
                 $scope.refreshDirectory();
             }
@@ -156,6 +158,7 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             $scope.itemClicked = function (item) {
                 if (item != null) {
                     if (item.IsDirectory) {
+                        $scope.directoryData = new Array();
                         $scope.directory = item.FileSystemObject.FullName;
                         $scope.refreshDirectory();
                     }

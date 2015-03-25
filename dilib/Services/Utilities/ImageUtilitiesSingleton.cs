@@ -107,7 +107,7 @@ namespace dataislandcommon.Services.Utilities
             using (Graphics grPhoto = Graphics.FromImage(bmPhoto))
             {
                 grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
+                
                 grPhoto.DrawImage(b,
                     new Rectangle(0 - ((nwidth - sWidth) / 2), 0 - ((nheight - sWidth) / 2), nwidth, nheight),
                     new Rectangle(0, 0, b.Width, b.Height),
@@ -196,7 +196,7 @@ namespace dataislandcommon.Services.Utilities
             return bmPhoto;
         }
 
-        public Bitmap ResizePictureSquare(Bitmap b, int sWidth, int sHeight)
+        public Bitmap ResizePictureSquare(Bitmap b, int sWidth, int sHeight, Color fillcolor)
         {
             int nwidth, nheight;
             if (b.Width > b.Height)
@@ -225,7 +225,10 @@ namespace dataislandcommon.Services.Utilities
             using (Graphics grPhoto = Graphics.FromImage(bmPhoto))
             {
                 grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
+                if (fillcolor != Color.Transparent)
+                {
+                    grPhoto.FillRectangle(new SolidBrush(fillcolor), new Rectangle(0, 0, sWidth, sHeight));
+                }
                 grPhoto.DrawImage(b,
                     new Rectangle(0 - ((nwidth - sWidth) / 2), 0 - ((nheight - sHeight) / 2), nwidth, nheight),
                     new Rectangle(0, 0, b.Width, b.Height),
@@ -241,7 +244,7 @@ namespace dataislandcommon.Services.Utilities
             int nwidth, nheight;
             nheight = sHeight;
             nwidth = Math.Max(1, Math.Min(5000, (int)(sHeight * b.Width / b.Height)));
-            return ResizePicture(b, nwidth, nheight, true);
+            return ResizePicture(b, nwidth, nheight, true, Color.Transparent);
         }
 
         public Bitmap ResizeToWidth(Bitmap b, int sWidth)
@@ -250,7 +253,7 @@ namespace dataislandcommon.Services.Utilities
             int nwidth, nheight;
             nwidth = sWidth;
             nheight = Math.Max(1, Math.Min(5000, (int)(sWidth * b.Height / b.Width)));
-            return ResizePicture(b, nwidth, nheight, true);
+            return ResizePicture(b, nwidth, nheight, true, Color.Transparent);
         }
 
         public byte[] ResizeToWidth(byte[] bdata, int sWidth, string outputformat)
@@ -274,7 +277,7 @@ namespace dataislandcommon.Services.Utilities
 
         }
 
-        public Bitmap ResizePicture(Bitmap b, int sWidth, int sHeight)
+        public Bitmap ResizePicture(Bitmap b, int sWidth, int sHeight, Color fillColor)
         {
             int nwidth, nheight;
             if (b.Width > b.Height)
@@ -288,25 +291,29 @@ namespace dataislandcommon.Services.Utilities
                 nheight = sHeight;
                 nwidth = Math.Max(1, Math.Min(5000, (int)(sHeight * b.Width / b.Height)));
             }
-            return ResizePicture(b, nwidth, nheight, true);
+            return ResizePicture(b, nwidth, nheight, true, fillColor);
         }
 
-        public Bitmap ResizePictureIfLarger(Bitmap b, int sWidth, int sHeight)
+        public Bitmap ResizePictureIfLarger(Bitmap b, int sWidth, int sHeight, Color fillColor)
         {
             try
             {
                 if ((b.Width > sWidth) || (b.Height > sHeight))
                 {
-                    return ResizePicture(b, sWidth, sHeight);
+                    return ResizePicture(b, sWidth, sHeight, fillColor);
+                }
+                else
+                {
+                    return ResizePicture(b, b.Width, b.Height, fillColor);
                 }
             }
             catch
             {
             }
-            return ResizePicture(b, b.Width, b.Height);
+            return ResizePicture(b, b.Width, b.Height, fillColor);
         }
 
-        public Bitmap ResizePicture(Bitmap b, int nWidth, int nHeight, bool bBilinear)
+        public Bitmap ResizePicture(Bitmap b, int nWidth, int nHeight, bool bBilinear,Color fillcolor)
         {
             Bitmap bmPhoto = new Bitmap(nWidth, nHeight,
                                  PixelFormat.Format32bppPArgb);
@@ -316,7 +323,10 @@ namespace dataislandcommon.Services.Utilities
             using (Graphics grPhoto = Graphics.FromImage(bmPhoto))
             {
                 grPhoto.InterpolationMode = InterpolationMode.HighQualityBilinear;
-
+                if (fillcolor != Color.Transparent)
+                {
+                    grPhoto.FillRectangle(new SolidBrush(fillcolor), new Rectangle(0, 0, nWidth, nHeight));
+                }
                 grPhoto.DrawImage(b,
                     new RectangleF(-0.5f, -0.5f, ((float)nWidth) + 0.5f, ((float)nHeight) + 0.5f),
                     new RectangleF(0.0f, 0.0f, (float)b.Width, (float)b.Height),
@@ -420,7 +430,7 @@ namespace dataislandcommon.Services.Utilities
                     }
                 default:
                     {
-                        return ResizePicture(b, width, height);
+                        return ResizePicture(b, width, height,Color.Transparent);
                     }
             }
         }
@@ -486,7 +496,7 @@ namespace dataislandcommon.Services.Utilities
                                 {
                                     int square = int.Parse(operationdata[1]);
 
-                                    bmp = ResizePictureIfLarger(bmp, square, square);
+                                    bmp = ResizePictureIfLarger(bmp, square, square,Color.Transparent);
                                 }
                                 catch
                                 {
@@ -511,7 +521,7 @@ namespace dataislandcommon.Services.Utilities
 
                                 wth = operationdata[1];
                                 hth = operationdata[2];
-                                bmp = ResizePictureSquare(bmp, int.Parse(wth), int.Parse(hth));
+                                bmp = ResizePictureSquare(bmp, int.Parse(wth), int.Parse(hth),Color.Transparent);
                             }
                             else if (operationdata[0] == "resizetoheight")
                             {
@@ -523,7 +533,7 @@ namespace dataislandcommon.Services.Utilities
                             }
                             else if (operationdata[0] == "size")
                             {
-                                bmp = ResizePicture(bmp, int.Parse(operationdata[1]), int.Parse(operationdata[1]));
+                                bmp = ResizePicture(bmp, int.Parse(operationdata[1]), int.Parse(operationdata[1]),Color.Transparent);
                             }
 
                         }
@@ -548,7 +558,7 @@ namespace dataislandcommon.Services.Utilities
             {
                 using (Bitmap originalBitmap = (Bitmap)Image.FromFile(path))
                 {
-                    Bitmap preview = this.ResizePictureIfLarger(originalBitmap, 1200, 1200);
+                    Bitmap preview = this.ResizePictureIfLarger(originalBitmap, 1200, 1200,Color.Transparent);
                     return preview;
                 }
             }

@@ -34,6 +34,8 @@ namespace DataIsland.Areas.filemanager.Controllers
 
         public IImageUtilitiesSingleton ImageUtilities { get; set; }
 
+        public IUserPassportTokensSingleton PassportTokenSingleton { get; set; }
+
         private readonly IFileService FileService;
 
         public foreignResourcesController(IFileService fileService)
@@ -48,6 +50,20 @@ namespace DataIsland.Areas.filemanager.Controllers
         public async Task<FileContentResult> Thumbnail(string userId, string resourceId, int size, string path)
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+
+            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+            
             if (!string.IsNullOrEmpty(ownerUsername))
             {
                 SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
@@ -143,6 +159,20 @@ namespace DataIsland.Areas.filemanager.Controllers
         public async  Task<FileContentResult> Preview(string userId, string resourceId, int size, string path)
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+
+            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(ownerUsername))
             {
                 SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
@@ -239,6 +269,20 @@ namespace DataIsland.Areas.filemanager.Controllers
         public async Task<FileContentResult> PreviewCustomSize(string userId, string resourceId, int width, int height, string path)
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+
+            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(ownerUsername))
             {
                 SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);

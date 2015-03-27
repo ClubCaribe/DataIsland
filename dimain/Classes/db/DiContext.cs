@@ -38,6 +38,7 @@ namespace dimain.Classes.db
         public DbSet<DiUserPassport> DiUserPassport { get; set; }
         public DbSet<DiUserData> DiUserData { get; set; }
         public DbSet<DataIslandData> DataislandData { get; set; }
+        public DbSet<DiUserPassportToken> UserPassportTokens { get; set; }
 
 
 		public DiContext(DbConnection connection)

@@ -171,6 +171,15 @@ namespace FileManager.Services.FileManager
             return resources;
         }
 
+        public async Task<bool> CheckRecipientExists(string resourceId, string recipientId, string ownerUsername)
+        {
+            using (var db = this.DbManager.GetDbContext(ownerUsername))
+            {
+                bool res = await this.Recipients.CheckRecipientExists(resourceId, recipientId, db);
+                return res;
+            }
+        }
+
 
     }
 }

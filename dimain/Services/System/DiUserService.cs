@@ -20,16 +20,12 @@ namespace dimain.Services.System
     {
         
         public IUserRoleService RoleService { get; set; }
-
         
         public IDataIslandSettingsService DiSettings { get; set; }
-
         
         public ICryptographySingleton Cryptography { get; set; }
-
         
         public IMainDiCommandsService MainDiCommands { get; set; }
-
         
         public IUserDataMemoryCacheService UserDataMemoryCache { get; set; }
 
@@ -455,6 +451,8 @@ namespace dimain.Services.System
 
             return null;
         }
+
+        
 
     }
 }

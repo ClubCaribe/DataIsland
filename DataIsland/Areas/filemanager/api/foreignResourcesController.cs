@@ -29,6 +29,8 @@ namespace DataIsland.Areas.filemanager.api
 
         public IUtilitiesSingleton Utilities { get; set; }
 
+        public IUserPassportTokensSingleton PassportTokenSingleton { get; set; }
+
         private readonly IDirectoryService DirectoryService;
 
         public foreignResourcesController(IDirectoryService dirService)
@@ -40,31 +42,39 @@ namespace DataIsland.Areas.filemanager.api
         [HttpGet]
         public async Task<List<DiDirectoryListingEntry>> ListDirectory(string userId, string resourceId, string path)
         {
-            string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
-            if (!string.IsNullOrEmpty(ownerUsername))
+            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.RequestUri.Query);
+            if (!string.IsNullOrEmpty(callingUser))
             {
-                SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
-                if (sharedResource != null)
+                string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+                if (!string.IsNullOrEmpty(ownerUsername))
                 {
-                    string pathprefix = PathProvider.GetUserFilesPath(ownerUsername);
-                    DataCache cache = await DataCacheService.GetDataCache(ownerUsername);
-                    cache["fileManagerPath:" + resourceId] = path;
-                    await DataCacheService.SaveDataCache(cache);
-                    string fullPath = sharedResource.FullPath + "/" + path;
-                    List<DiDirectoryListingEntry> entries = await DirectoryService.ListDirectory(pathprefix, fullPath, ownerUsername);
-                    if (entries != null)
+                    if (await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
                     {
-                        foreach (DiDirectoryListingEntry entry in entries)
+                        SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+                        if (sharedResource != null)
                         {
-                            entry.FullName = entry.FullName.Replace(sharedResource.FullPath, "");
-                            if(entry.IsDirectory)
+
+                            string pathprefix = PathProvider.GetUserFilesPath(ownerUsername);
+                            DataCache cache = await DataCacheService.GetDataCache(ownerUsername);
+                            cache["fileManagerPath:" + resourceId] = path;
+                            await DataCacheService.SaveDataCache(cache);
+                            string fullPath = sharedResource.FullPath + "/" + path;
+                            List<DiDirectoryListingEntry> entries = await DirectoryService.ListDirectory(pathprefix, fullPath, ownerUsername);
+                            if (entries != null)
                             {
-                                DiDirectoryInfo diInf = (DiDirectoryInfo)entry.FileSystemObject;
-                                diInf.FullName = diInf.FullName.Replace(sharedResource.FullPath, "");
+                                foreach (DiDirectoryListingEntry entry in entries)
+                                {
+                                    entry.FullName = entry.FullName.Replace(sharedResource.FullPath, "");
+                                    if (entry.IsDirectory)
+                                    {
+                                        DiDirectoryInfo diInf = (DiDirectoryInfo)entry.FileSystemObject;
+                                        diInf.FullName = diInf.FullName.Replace(sharedResource.FullPath, "");
+                                    }
+                                }
                             }
+                            return entries;
                         }
                     }
-                    return entries;
                 }
             }
             return null;
@@ -79,15 +89,22 @@ namespace DataIsland.Areas.filemanager.api
             permissions["write"] = false;
             permissions["all"] = false;
 
-            string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
-            if (!string.IsNullOrEmpty(ownerUsername))
+            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.RequestUri.Query);
+            if (!string.IsNullOrEmpty(callingUser))
             {
-                SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
-                if (sharedResource != null)
+                string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+                if (!string.IsNullOrEmpty(ownerUsername))
                 {
-                    permissions["Read"] = sharedResource.IsRead;
-                    permissions["Write"] = sharedResource.IsWrite;
-                    permissions["All"] = sharedResource.IsAll;
+                    if (await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                    {
+                        SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+                        if (sharedResource != null)
+                        {
+                            permissions["Read"] = sharedResource.IsRead;
+                            permissions["Write"] = sharedResource.IsWrite;
+                            permissions["All"] = sharedResource.IsAll;
+                        }
+                    }
                 }
             }
             return permissions;

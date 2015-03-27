@@ -115,13 +115,13 @@
                 <article class="album">
                     <header>
                         <a ng-click="itemClicked(entry)" style="cursor:pointer;" ng-if="entry.IsDirectory">
-                            <img ng-src="/filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}" />
+                            <img ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" />
                         </a>
                         <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="SwitchToDetailsView($index)">
-                            <img id="diForeignResourcesBrowsericonFilePreview" ng-src="/filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}" />
+                            <img id="diForeignResourcesBrowsericonFilePreview" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" />
                         </a>
                         <div ng-if="entry.IsShared" style="position:absolute;top:3px;left:3px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
-                        <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="/filemanager/file/get/{{entry.FullName}}">
+                        <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="{{UserDataIsland.DataislandUrl}}filemanager/file/get/{{entry.FullName}}">
                             <i class="entypo-download"></i>
                             [tr]Download[/tr]
                         </a>
@@ -167,7 +167,7 @@
                         </td>
                         <td ng-click="itemClicked(entry)" ng-if="entry.IsDirectory">
                             <div style="position:relative;">
-                                <img ng-src="/filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px;" />
+                                <img ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" style="width:30px; height:30px;" />
                                 <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                             </div>
                         </td>
@@ -192,7 +192,7 @@
                         <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
                             <div style="position:relative;">
                                 <a ng-click="SwitchToDetailsView($index)">
-                                    <img id="diForeignResourcesBrowserlistFilePreview{{$index}}" ng-src="/filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}" style="width:30px; height:30px; border:0px none transparent;" />
+                                    <img id="diForeignResourcesBrowserlistFilePreview{{$index}}" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" style="width:30px; height:30px; border:0px none transparent;" />
                                 </a>
                                 <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                             </div>
@@ -261,7 +261,7 @@
                                         <a href="#" ng-click="RotateFlipPreview('Rotate90NoFlip')"><i class="fa fa-rotate-right" style="margin-right:5px;"></i>[tr]Rotate Right[/tr]</a>
                                     </li>
                                     <li ng-if="!filteredDirectoryData[SelectedFileIndex].IsDirectory">
-                                        <a ng-href="/filemanager/file/get/{{filteredDirectoryData[SelectedFileIndex].FullName}}"><i class="entypo-download" style="margin-right:5px;"></i>[tr]Download[/tr]</a>
+                                        <a ng-href="{{UserDataIsland.DataislandUrl}}filemanager/file/get/{{filteredDirectoryData[SelectedFileIndex].FullName}}"><i class="entypo-download" style="margin-right:5px;"></i>[tr]Download[/tr]</a>
                                     </li>
                                 </ul>
                             </li>
@@ -287,8 +287,8 @@
                 <h2 id="diForeignResourcesBrowserdetailsViewFileName"><small>{{filteredDirectoryData[SelectedFileIndex].Name}}</small></h2>
                 <div class="details-view-image-container">
                     <img src="/Content/panel/images/loader-1.gif" class="fade" id="diForeignResourcesBrowserimageloader" style="margin: auto; position: absolute; left: 50%; top: 50%;" />
-                    <img ng-if="!detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreview" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="/filemanager/foreignresources/preview/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/1000{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}" />
-                    <img ng-if="detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreviewExpanded" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="/filemanager/foreignresources/previewcustomsize/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/{{detailsView.imageContainerWidth}}/{{detailsView.imageContainerHeight}}{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}" />
+                    <img ng-if="!detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreview" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/preview/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/1000{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}?diupt={{UserPassportToken.TokenID}}" />
+                    <img ng-if="detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreviewExpanded" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/previewcustomsize/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/{{detailsView.imageContainerWidth}}/{{detailsView.imageContainerHeight}}{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}?diupt={{UserPassportToken.TokenID}}" />
                 </div>
                 <h3 id="diForeignResourcesBrowserdetailsViewFileDescription"><small>[tr]Size[/tr]: {{filteredDirectoryData[SelectedFileIndex].Size | bytes}}, [tr]Modified[/tr]: {{filteredDirectoryData[SelectedFileIndex].FileSystemObject.LastWriteTime | date:'medium'}}</small></h3>
             </div>

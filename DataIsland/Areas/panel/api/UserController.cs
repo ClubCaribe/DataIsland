@@ -25,6 +25,8 @@ using Microsoft.AspNet.Identity.Owin;
 using dataislandcommon.Classes.Identity;
 using dimain.Services.System.Cache;
 using dataislandcommon.Utilities;
+using dimain.Models.maindb;
+using dimain.Models.ViewModels;
 
 namespace DataIsland.Areas.panel.api
 {
@@ -48,6 +50,10 @@ namespace DataIsland.Areas.panel.api
         public IUserContactsService Contacts { get; set; }
 
         public IDataIslandSettingsService DiSettings { get; set; }
+
+        public IUserPassportTokensSingleton PassportTokenSingleton { get; set; }
+
+        public IDataIslandService DataIslandService { get; set; }
 
         public ApplicationUserManager UserManager
         {
@@ -132,7 +138,7 @@ namespace DataIsland.Areas.panel.api
                 string userId = (await DiUsers.GetUserByUsername(this.User.Identity.Name)).Id;
                 DiUserStore store = new DiUserStore();
                 String hashedNewPassword = UserManager.PasswordHasher.HashPassword(newpassword);
-                DiUser cUser = await store.FindByIdAsync(userId);
+                dataislandcommon.Classes.Identity.DiUser cUser = await store.FindByIdAsync(userId);
                 await store.SetPasswordHashAsync(cUser, hashedNewPassword);
                 await store.UpdateAsync(cUser);
                 return true;
@@ -150,7 +156,7 @@ namespace DataIsland.Areas.panel.api
         {
             try
             {
-                DataCache cache = await DataCacheService.GetDataCache(this.User.Identity.Name);
+                dataislandcommon.Models.DataCache.DataCache cache = await DataCacheService.GetDataCache(this.User.Identity.Name);
                 HttpClient cl = new HttpClient();
 
                 List<KeyValuePair<string, string>> formargs = new List<KeyValuePair<string, string>>();
@@ -187,6 +193,114 @@ namespace DataIsland.Areas.panel.api
             }
 
             return new { result = false };
+        }
+
+        [Route("getpassporttoken")]
+        [HttpPost]
+        public async Task<ClientPassportToken> GetPassportToken(JObject jsonData)
+        {
+            dynamic postData = jsonData;
+            string dataislandId = postData.dataislandId;
+            dataislandcommon.Models.DataCache.DataCache cache = await DataCacheService.GetDataCache(this.User.Identity.Name);
+            List<ClientPassportToken> tokens = null;
+            if (cache.Data.ContainsKey("PassportTokens"))
+            {
+                try
+                {
+                    tokens = ((JArray)cache.Data["PassportTokens"]).ToObject<List<ClientPassportToken>>();
+                }
+                catch
+                {
+                    int i;
+                    i = 10;
+                }
+            }
+            else
+            {
+                tokens = new List<ClientPassportToken>();
+            }
+            bool saveTokens = false;
+            DateTime timeTreshlod = DateTime.UtcNow;
+            for (int i = tokens.Count - 1; i > -1; i--)
+            {
+                ClientPassportToken token = tokens[i];
+                if (token.DataIslandID == dataislandId && token.ExpirationTime>timeTreshlod.AddSeconds(5))
+                {
+                    if (saveTokens)
+                    {
+                        cache.Data["PassportTokens"] = tokens;
+                        await DataCacheService.SaveDataCache(cache);
+                    }
+                    return token;
+                }
+                if(token.ExpirationTime<timeTreshlod.AddSeconds(5))
+                {
+                    tokens.RemoveAt(i);
+                    saveTokens = true;
+                }
+            }
+            string diUrl = await this.DataIslandService.GetDataislandUrl(dataislandId);
+            if (diUrl == "/")
+            {
+                string userId = await this.DiUsers.GetUserIdByFromUsername(this.User.Identity.Name);
+                if(!string.IsNullOrEmpty(userId))
+                {
+                    DiUserPassportToken token = await this.PassportTokenSingleton.GeneratePassportToken(userId);
+                    if (token != null)
+                    {
+                        
+                        ClientPassportToken clientToken = new ClientPassportToken();
+                        clientToken.DataIslandID = dataislandId;
+                        clientToken.ExpirationTime = token.ExpirationTime;
+                        clientToken.TokenID = token.ID;
+
+                        tokens.Add(clientToken);
+                        cache.Data["PassportTokens"] = tokens;
+                        await DataCacheService.SaveDataCache(cache);
+
+                        return clientToken;
+                    }
+                }
+            }
+
+            if (saveTokens)
+            {
+                cache.Data["PassportTokens"] = tokens;
+                await DataCacheService.SaveDataCache(cache);
+            }
+            return null;
+        }
+
+        [Route("getuserdataislanddata")]
+        [HttpPost]
+        public async Task<ClientDataIslandData> GetUserDataIslandData(JObject jsonData)
+        {
+            dynamic postData = jsonData;
+            string userId = postData.userId;
+            
+            DiUserData userData = await this.DiUsers.GetDIUserDataFromUserId(userId);
+            if (userData != null)
+            {
+                ClientDataIslandData cdata = new ClientDataIslandData();
+                cdata.DataislandID = userData.DatIslandId;
+                cdata.DataislandUrl = await this.DataIslandService.GetDataislandUrl(userData.DatIslandId);
+                cdata.UserID = userId;
+                return cdata;
+            }
+            return null;
+        }
+
+        [Route("getdataislandurlfromuserid")]
+        [HttpPost]
+        public async Task<string> GetDataIslandUrlFromUserId(string userId)
+        {
+            DiUserData userData = await this.DiUsers.GetDIUserDataFromUserId(userId);
+            if (userData != null)
+            {
+                string url = await this.DataIslandService.GetDataislandUrl(userData.DatIslandId);
+                return url;
+            }
+            return "err";
         }
 
         [Route("getmenu")]

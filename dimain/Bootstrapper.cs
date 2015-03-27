@@ -27,6 +27,7 @@ namespace dimain
                 IMainDatabaseManagerSingleton dbManager = scope.Resolve<IMainDatabaseManagerSingleton>();
                 IDiUserService diUsers = scope.Resolve<IDiUserService>();
                 IDiRefreshTokenService diAppClient = scope.Resolve<IDiRefreshTokenService>();
+                IUserPassportTokensSingleton tokens = scope.Resolve<IUserPassportTokensSingleton>();
 
                 //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DiContext, Configuration>());
                 dbManager.UpdateDatabase();
@@ -34,6 +35,7 @@ namespace dimain
                 diService.StartDataIsland().Wait();
                 diAppClient.AddClient("diHttpApp", "diHttpApp", "website calls", Models.oauth.ApplicationTypes.JavaScript, true, 14400, "*").Wait();
                 diUsers.UpdateUsersIds().Wait();
+                tokens.InitTokens().Wait();
             }
         }
     }

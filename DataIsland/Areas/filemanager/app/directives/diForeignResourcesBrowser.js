@@ -3,13 +3,29 @@
 
 DiPanel.factory("foreignResourcesDataFactory", ['$http', '$q', function ($http, $q) {
     return {
+        urlPrefix: "/",
+        passportToken: "",
         ListDirectory: function (userID,resourceID,virtualPath) {
-            var url = "/api/filemanager/foreignresources/listdirectory/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId() + "/" + virtualPath;
+            var url = this.urlPrefix + "api/filemanager/foreignresources/listdirectory/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId() + "/" + virtualPath + "?diupt=" + this.passportToken;
             return $http.get(url);
         },
         GetPermissions: function (userID, resourceID) {
-            var url = "/api/filemanager/foreignresources/getpermissions/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId();
+            var url = this.urlPrefix + "api/filemanager/foreignresources/getpermissions/" + userID.EscapeUserId() + "/" + resourceID.EscapeUserId() + "?diupt=" + this.passportToken;
             return $http.get(url);
+        },
+        GetPassportToken: function (dataislandid) {
+            var url = "/api/panel/user/getpassporttoken";
+            var data = {
+                dataislandId: dataislandid
+            }
+            return $http.post(url, data);
+        },
+        GetUserDataIsland: function (userID) {
+            var url = "/api/panel/user/getuserdataislanddata";
+            var data = {
+                userId: userID
+            }
+            return $http.post(url, data);
         }
     }
 }]);
@@ -31,6 +47,10 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             });
         },
         controller: function ($scope) {
+
+            $scope.UserPassportToken = null;
+            $scope.UserDataIsland = null;
+
             $scope.UserPermissions = {
                 Read: false,
                 Write: false,
@@ -78,12 +98,35 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
             $scope.filteredDirectoryData = null;
 
             $scope.$watch('resourceId', function () {
-                dataFactory.GetPermissions($scope.userId, $scope.resourceId).then(function (result) {
-                    $scope.UserPermissions.Read = result.data.Read;
-                    $scope.UserPermissions.Write = result.data.Write;
-                    $scope.UserPermissions.All = result.data.All;
-                    $scope.refreshDirectory();
+                if($scope.resourceId === ""){
+                    $scope.UserPassportToken = null;
+                    return;
+                }
+                dataFactory.GetUserDataIsland($scope.userId).then(function (result) {
+                    if (result.data != null) {
+
+                        $scope.UserDataIsland = result.data;
+                        dataFactory.urlPrefix = $scope.UserDataIsland.DataislandUrl;
+
+                        dataFactory.GetPassportToken($scope.UserDataIsland.DataislandID).then(function (result) {
+
+                            if (result.data != null) {
+                                $scope.UserPassportToken = result.data;
+
+                                dataFactory.passportToken = $scope.UserPassportToken.TokenID;
+
+                                $scope.refreshClientToken();
+                                dataFactory.GetPermissions($scope.userId, $scope.resourceId).then(function (result) {
+                                    $scope.UserPermissions.Read = result.data.Read;
+                                    $scope.UserPermissions.Write = result.data.Write;
+                                    $scope.UserPermissions.All = result.data.All;
+                                    $scope.refreshDirectory();
+                                });
+                            }
+                        });
+                    }
                 });
+                
                 
             });
 
@@ -105,6 +148,25 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
 
             $scope.updateFilteredData = function () {
                 $scope.filteredDirectoryData = $filter('filter')($filter('orderBy')($scope.directoryData, $scope.sortField, $scope.sortIsDescending), $scope.searchPhrase);
+            }
+
+            $scope.refreshClientToken = function(){
+                if($scope.UserPassportToken!=null){
+                    var currentTime = new Date().getTime();
+                    var tokendate = new Date($scope.UserPassportToken.ExpirationTime);
+                    var timespan = tokendate - currentTime;
+                    timespan = timespan - 2000;
+                    $timeout(function(){
+                        dataFactory.GetPassportToken($scope.UserDataIsland.DataislandID).then(function (result) {
+
+                            if (result.data != null) {
+                                $scope.UserPassportToken = result.data;
+                                dataFactory.passportToken = $scope.UserPassportToken.TokenID;
+                                $scope.refreshClientToken();
+                            }
+                        });
+                    },timespan);
+                }
             }
 
             $scope.changeMode = function (mode) {

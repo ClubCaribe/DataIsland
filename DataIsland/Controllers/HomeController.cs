@@ -189,7 +189,6 @@ namespace DataIsland.Controllers
             constants.AppendLine(String.Format("var diUserPassport = '{0}';", userPassport));
 			//constants.AppendLine(String.Format("var diRefreshToken = '{0}';", ((!string.IsNullOrEmpty(_session.SessionObject.RefreshToken)) ? _session.SessionObject.RefreshToken : "")));
             DateTime expirationTime = cache.AccessTokenExpirationUtc ?? DateTime.UtcNow;
-
             constants.AppendLine(String.Format("var diTokenExpirationTime = new Date('{0}');", expirationTime.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
             string userId = await this.DiUsers.GetUserIdByFromUsername(this.User.Identity.Name);
             userId = this.Utilities.EscapeUserId(userId);

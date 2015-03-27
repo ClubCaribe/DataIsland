@@ -116,9 +116,14 @@
     <Compile Include="Migrations\201502071100480_usercachesettings.Designer.cs">
       <DependentUpon>201502071100480_usercachesettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503262201218_userpassporttoken.cs" />
+    <Compile Include="Migrations\201503262201218_userpassporttoken.Designer.cs">
+      <DependentUpon>201503262201218_userpassporttoken.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\maindb\DataCache.cs" />
     <Compile Include="Models\maindb\DataIslandData.cs" />
     <Compile Include="Models\maindb\DiUserExternalLogin.cs" />
+    <Compile Include="Models\maindb\DiUserPassportToken.cs" />
     <Compile Include="Models\maindb\DiUserPassport.cs" />
     <Compile Include="Models\maindb\MainDiSetting.cs" />
     <Compile Include="Models\maindb\OutgoingCommands.cs" />
@@ -128,6 +133,8 @@
     <Compile Include="Models\oauth\OAuthNonce.cs" />
     <Compile Include="Models\oauth\OAuthSymmetricCryptoKey.cs" />
     <Compile Include="Models\oauth\RefreshToken.cs" />
+    <Compile Include="Models\ViewModels\ClientDataIslandData.cs" />
+    <Compile Include="Models\ViewModels\ClientPassportToken.cs" />
     <Compile Include="Models\ViewModels\UserDataCache.cs" />
     <Compile Include="Models\ViewModels\UserPassportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,7 +156,9 @@
     <Compile Include="Services\System\IDiRefreshTokenService.cs" />
     <Compile Include="Services\System\ISystemSecurityService.cs" />
     <Compile Include="Services\System\Cache\MemoryCacheSingleton.cs" />
+    <Compile Include="Services\System\IUserPassportTokensSingleton.cs" />
     <Compile Include="Services\System\SystemSecurityService.cs" />
+    <Compile Include="Services\System\UserPassportTokensSingleton.cs" />
     <Compile Include="Services\System\UserRoleService.cs" />
     <Compile Include="SqliteConnectionFactory.cs" />
   </ItemGroup>
@@ -190,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502071100480_usercachesettings.resx">
       <DependentUpon>201502071100480_usercachesettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503262201218_userpassporttoken.resx">
+      <DependentUpon>201503262201218_userpassporttoken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

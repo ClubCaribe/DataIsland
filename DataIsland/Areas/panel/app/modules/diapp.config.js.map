@@ -1,0 +1,1 @@
+{"version":3,"file":"diapp.config.js","sourceRoot":"","sources":["diapp.config.ts"],"names":[],"mappings":"AAAA,CAAC;IACG,YAAY,CAAC;IAEb,OAAO,CAAC,MAAM,CAAC,OAAO,CAAC,CAAC,MAAM,CAAC,CAAC,eAAe,EAAE,UAAC,aAA+B;QAC7E,aAAa,CAAC,YAAY,CAAC,IAAI,CAAC,0CAA0C,CAAC,CAAC;IAChF,CAAC,CAAC,CAAC,CAAC;AAER,CAAC,CAAC,EAAE,CAAC"}

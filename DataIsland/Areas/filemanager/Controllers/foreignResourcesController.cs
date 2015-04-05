@@ -17,6 +17,7 @@ using System.Web.UI;
 
 namespace DataIsland.Areas.filemanager.Controllers
 {
+    [Authorize]
     [RouteArea("filemanager")]
     [RoutePrefix("foreignresources")]
     [Route("{action}")]
@@ -51,7 +52,8 @@ namespace DataIsland.Areas.filemanager.Controllers
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
 
-            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
                 if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
@@ -160,7 +162,8 @@ namespace DataIsland.Areas.filemanager.Controllers
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
 
-            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
                 if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
@@ -270,7 +273,8 @@ namespace DataIsland.Areas.filemanager.Controllers
         {
             string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
 
-            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.Url.Query);
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
                 if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))

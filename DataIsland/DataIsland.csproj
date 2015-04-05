@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <NuGetPackageImportStamp>16371cca</NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -254,9 +256,11 @@
   <ItemGroup>
     <Content Include="App_Data\DataIsland\settings\configs\forms\settingsforms\dataislandmainsettings.txt" />
     <Content Include="Areas\filemanager\app\controllers\fileManagerController.js" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.js" />
     <Content Include="Areas\filemanager\app\directives\diForeignResourcesBrowser.js" />
     <Content Include="Areas\filemanager\app\directives\formsdirectives.js" />
     <Content Include="Areas\filemanager\app\partials\diForeignResources.tpl.html" />
+    <Content Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.js" />
     <Content Include="Areas\filemanager\Content\css\filemanager.css" />
     <Content Include="Areas\panel\app\commonmodules\formValidators.js" />
     <Content Include="Areas\panel\app\commonmodules\interceptor.js" />
@@ -271,12 +275,19 @@
     <Content Include="Areas\panel\app\controllers\userSettingsController.js" />
     <Content Include="Areas\panel\app\directives\diDynamicForm.js" />
     <Content Include="Areas\panel\app\directives\dirPagination.js" />
-    <Content Include="Areas\panel\app\mainHeader.js" />
+    <Content Include="Areas\panel\app\modules\diapp.config.js" />
+    <Content Include="Areas\panel\app\modules\diapp.config.js.map" />
+    <Content Include="Areas\panel\app\modules\diapp.module.js" />
+    <Content Include="Areas\panel\app\modules\diapp.module.js.map" />
     <Content Include="Areas\panel\app\modules\mainApp.js" />
     <Content Include="Areas\panel\app\partials\diDynamicForm.tpl.html" />
     <Content Include="Areas\panel\app\partials\dirPagination.tpl.html" />
     <Content Include="Areas\panel\app\scripts\srcontacts.js" />
     <Content Include="Areas\panel\app\scripts\streamails.js" />
+    <Content Include="Areas\panel\app\services\diapp.AuthInterceptor.factory.js" />
+    <Content Include="Areas\panel\app\services\diapp.AuthInterceptor.factory.js.map" />
+    <Content Include="Areas\panel\app\services\diapp.DiProgress.factory.js" />
+    <Content Include="Areas\panel\app\services\diapp.DiProgress.factory.js.map" />
     <Content Include="Areas\panel\Content\css\usercontacts.css" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
@@ -558,6 +569,8 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Areas\panel\Views\Contacts\Chat.cshtml" />
     <Content Include="bin\DataIsland.dll.config" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.js.map" />
+    <Content Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.js.map" />
     <None Include="Properties\PublishProfiles\difilesystem.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
@@ -2434,7 +2447,9 @@
     <Content Include="Scripts\pages\login-user.js" />
     <Content Include="Scripts\pages\panel\panel-main.js" />
     <Content Include="Scripts\pages\register-dataisland.js" />
+    <Content Include="Scripts\r.js" />
     <Content Include="Scripts\raphael-min.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\resizeable.js" />
     <Content Include="Scripts\rickshaw\rickshaw.css" />
     <Content Include="Scripts\rickshaw\rickshaw.js" />
@@ -3005,11 +3020,37 @@
       <Name>Streamail</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Areas\filemanager\app\diapp.filemanager.models.ts" />
+    <TypeScriptCompile Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.ts" />
+    <TypeScriptCompile Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\models\diapp.models.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\modules\diapp.config.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\modules\diapp.module.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\paneluserheader\paneluserheader.module.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\services\diapp.AuthInterceptor.factory.ts" />
+    <TypeScriptCompile Include="Areas\panel\app\services\diapp.DiProgress.factory.ts" />
+    <TypeScriptCompile Include="Scripts\dataisland\diapp.utilities.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\js-data-angular\js-data-angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\js-data\js-data.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\toastr\toastr.d.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

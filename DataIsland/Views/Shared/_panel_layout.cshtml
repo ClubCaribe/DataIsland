@@ -2,7 +2,7 @@
     Layout = null;
 }
 <!DOCTYPE html>
-<html lang="en" ng-app="DiPanel" style="width: 100% !important; height: 100% !important;">
+<html lang="en" ng-app="diapp" style="width: 100% !important; height: 100% !important;">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,14 +41,15 @@
     <script src="~/Scripts/angular-sanitize.min.js"></script>
     <script src="~/Scripts/angular-scenario.js"></script>
     <script src="~/Scripts/angular-touch.min.js"></script>
-    <script src="~/Areas/panel/app/commonmodules/interceptor.js" ></script>
     <script src="~/Areas/panel/app/directives/dirPagination.js"></script>
     <script src="~/Areas/panel/app/directives/diDynamicForm.js"></script>
     <script src="~/Scripts/select2/ui-select.js" ></script>
     @RenderSection("mainappjsfile",false)
+    <script src="~/Areas/panel/app/services/diapp.DiProgress.factory.js"></script>
+    <script src="~/Areas/panel/app/services/diapp.AuthInterceptor.factory.js"></script>
     <script src="~/Areas/panel/app/controllers/mainHeaderController.js"></script>
     <script src="~/Areas/panel/app/controllers/chatController.js"></script>
-
+    
     <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -204,7 +205,9 @@
                     </div>
                 </div>
                 <hr />
-                @RenderBody()
+                <div>
+                    @RenderBody()
+                </div>
             </div>
             <div ng-controller="chatController as chatCtrl" data-max-chat-history="25" data-order-by-status="1" data-current-user="Art Ramadani" class="fixed" id="chat" style="min-height: 1417px;">
                 <div class="chat-inner" style="overflow: hidden;" tabindex="5000">
@@ -280,12 +283,12 @@
     <script src="~/Scripts/neon-chat.js"></script>
     <script src="~/Scripts/neon-custom.js"></script>
     <script src="~/Scripts/pages/panel/panel-main.js"></script>
-    <script src="~/Scripts/dataisland/utilities.js"></script>
+    <script src="~/Scripts/dataisland/diapp.utilities.js"></script>
     <script src="~/Scripts/dataisland/common.js"></script>
     <script src="~/Areas/panel/app/commonmodules/formValidators.js"></script>
     <script src="~/Areas/panel/app/scripts/streamails.js"></script>
     <script src="~/Areas/panel/app/scripts/srcontacts.js"></script>
     @RenderSection("scripts", false)
-    <script src="~/Scripts/angular-dimodule.js"></script>
+    <script src="~/Areas/panel/app/modules/diapp.config.js"></script>
 </body>
 </html>

@@ -16,6 +16,7 @@ using System.Web.Http;
 
 namespace DataIsland.Areas.filemanager.api
 {
+    [Authorize]
     [RoutePrefix("api/filemanager/foreignresources")]
     public class foreignResourcesController : ApiController
     {
@@ -42,7 +43,8 @@ namespace DataIsland.Areas.filemanager.api
         [HttpGet]
         public async Task<List<DiDirectoryListingEntry>> ListDirectory(string userId, string resourceId, string path)
         {
-            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.RequestUri.Query);
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
                 string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
@@ -85,11 +87,12 @@ namespace DataIsland.Areas.filemanager.api
         public async Task<Dictionary<string,bool>> GetResourcePermissions(string userId, string resourceId)
         {
             Dictionary<string, bool> permissions = new Dictionary<string, bool>();
-            permissions["read"] = false;
-            permissions["write"] = false;
-            permissions["all"] = false;
+            permissions["Read"] = false;
+            permissions["Write"] = false;
+            permissions["All"] = false;
 
-            string callingUser = this.PassportTokenSingleton.GetUserIdFromQueryToken(Request.RequestUri.Query);
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
                 string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));

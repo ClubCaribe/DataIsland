@@ -126,8 +126,6 @@ DiPanel.directive('diForeignResourcesBrowser', ['$filter', '$timeout', 'foreignR
                         });
                     }
                 });
-                
-                
             });
 
             $scope.$watch('directoryData', function () {

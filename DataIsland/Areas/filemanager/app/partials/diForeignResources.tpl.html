@@ -8,13 +8,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#" class="navbar-brand">{{resourceName}}</a>
+            <a href="#" class="navbar-brand">{{fr.resourceName}}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div id="bs-example-navbar-collapse-2" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li ng-if="UserPermissions.Write == true || UserPermissions.All == true">
+                <li ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="entypo-doc"></i>
                         [tr]Files[/tr]
@@ -22,33 +22,33 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#" ng-click="openUploadContainer()"><i class="entypo-upload"></i>[tr]Upload Files[/tr]</a>
+                            <a href="#" ng-click="fr.openUploadContainer()"><i class="entypo-upload"></i>[tr]Upload Files[/tr]</a>
                         </li>
                         <li>
-                            <a href="#" ng-click="downloadSelectedFiles()"><i class="entypo-archive"></i>[tr]Compress Selected Items[/tr]</a>
+                            <a href="#" ng-click="fr.downloadSelectedFiles()"><i class="entypo-archive"></i>[tr]Compress Selected Items[/tr]</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#newdirectorydialog" ng-click="initNewDirectoryDialog()"><i class="entypo-folder"></i>[tr]Create Directory[/tr]</a>
+                            <a href="#" data-toggle="modal" data-target="#newdirectorydialog" ng-click="fr.initNewDirectoryDialog()"><i class="entypo-folder"></i>[tr]Create Directory[/tr]</a>
                         </li>
                         <li>
-                            <a href="#" ng-click="deleteSelectedItems()"><i class="entypo-trash"></i>[tr]Delete Selected Items[/tr]</a>
+                            <a href="#" ng-click="fr.deleteSelectedItems()"><i class="entypo-trash"></i>[tr]Delete Selected Items[/tr]</a>
                         </li>
                     </ul>
                 </li>
-                <li ng-if="UserPermissions.Write == true || UserPermissions.All == true">
-                    <a href="#" ng-click="ToggleSelection()"><i class="entypo-check"></i>[tr]Select/Unselect All[/tr]</a>
+                <li ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
+                    <a href="#" ng-click="fr.ToggleSelection()"><i class="entypo-check"></i>[tr]Select/Unselect All[/tr]</a>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="navbar-form">
                     <div data-toggle="buttons" class="btn-group">
-                        <label class="btn btn-white" ng-click="changeMode('listMode')" ng-class="{'active':viewModeSelected=='listMode'}">
-                            <input type="radio" ng-checked="viewModeSelected=='listMode'" id="listmodeRadioButton" name="viewMode"><i class="glyphicon glyphicon-list"></i>
+                        <label class="btn btn-white" ng-click="fr.changeMode('listMode')" ng-class="{'active':fr.viewModeSelected=='listMode'}">
+                            <input type="radio" ng-checked="fr.viewModeSelected=='listMode'" id="listmodeRadioButton" name="viewMode"><i class="glyphicon glyphicon-list"></i>
                         </label>
-                        <label class="btn btn-white" ng-click="changeMode('iconMode')" ng-class="{'active':viewModeSelected=='iconMode'}">
-                            <input type="radio" ng-checked="viewModeSelected=='iconMode'" id="iconviewRadioButton" name="viewMode"><i class="glyphicon glyphicon-th"></i>
+                        <label class="btn btn-white" ng-click="fr.changeMode('iconMode')" ng-class="{'active':fr.viewModeSelected=='iconMode'}">
+                            <input type="radio" ng-checked="fr.viewModeSelected=='iconMode'" id="iconviewRadioButton" name="viewMode"><i class="glyphicon glyphicon-th"></i>
                         </label>
 
                     </div>
@@ -59,7 +59,7 @@
     </nav>
 
     <!--uploader-->
-    <div class="row" ng-if="UserPermissions.Write == true || UserPermissions.All == true">
+    <div class="row" ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
         <div class="col-md-12">
 
             <div id="uploadContainer" data-collapsed="0" class="panel panel-invert panel-collapse">
@@ -76,7 +76,7 @@
                 <!-- panel body -->
                 <div class="panel-body" style="display: none;">
 
-                    <pl-upload-component file-upload-url="uploader.fileUploadUrl" max-file-size="uploader.maxUpoadUrl" chunk-size="uploader.chunkSize" flash-swf-url="uploader.flashSwfUrl" silverlight-xap-url="uploader.silverlightXapUrl" on-file-uploaded="fileUploaded(file)" on-upload-completed="fileUploadCompleted(files)"></pl-upload-component>
+                    <pl-upload-component file-upload-url="fr.uploader.fileUploadUrl" max-file-size="fr.uploader.maxUpoadUrl" chunk-size="fr.uploader.chunkSize" flash-swf-url="fr.uploader.flashSwfUrl" silverlight-xap-url="fr.uploader.silverlightXapUrl" on-file-uploaded="fr.fileUploaded(file)" on-upload-completed="    fr.fileUploadCompleted(files)"></pl-upload-component>
 
                 </div>
 
@@ -88,40 +88,40 @@
     <!--breadcrumbs-->
     <ol class="breadcrumb">
         <li>
-            <a href="#" ng-click="upDirectory()">
+            <a href="#" ng-click="fr.upDirectory()">
                 <i class="entypo-back"></i>
             </a>
         </li>
         <li>
-            <a href="#" ng-click="changeDirectory(0)">
+            <a href="#" ng-click="fr.changeDirectory(0)">
                 <i class="entypo-folder"></i>
             </a>
         </li>
-        <li ng-repeat="breadCrumb in breadCrumbs()">
-            <a href="#" ng-click="changeDirectory($index+1)" ng-if="!$last">
+        <li ng-repeat="breadCrumb in fr.breadCrumbs()">
+            <a href="#" ng-click="fr.changeDirectory($index+1)" ng-if="!$last">
                 <i ng-class="{'active':$last}"></i>
                 {{breadCrumb}}
             </a>
             <span ng-if="$last">{{breadCrumb}}</span>
         </li>
         
-        <div style="float:right;">[tr]Total files[/tr]: {{directorySummary.TotalNumFiles}},  [tr]Total Size[/tr]: {{directorySummary.TotalSize | bytes}}</div>
+        <div style="float:right;">[tr]Total files[/tr]: {{fr.directorySummary.TotalNumFiles}},  [tr]Total Size[/tr]: {{fr.directorySummary.TotalSize | bytes}}</div>
     </ol>
 
     <!--filelist icon view-->
-    <div id="diForeignResourcesBrowserfilesListIconMode" class="gallery-env" ng-if="viewModeSelected=='iconMode' && viewMode=='list'">
+    <div id="diForeignResourcesBrowserfilesListIconMode" class="gallery-env" ng-if="fr.viewModeSelected=='iconMode' && fr.viewMode=='list'">
         <div class="row">
-            <div class="col-sm-2" ng-repeat="entry in filteredDirectoryData" ng-mouseenter="hover(entry)" ng-mouseleave="hover(entry)">
+            <div class="col-sm-2" ng-repeat="entry in fr.filteredDirectoryData" ng-mouseenter="fr.hover(entry)" ng-mouseleave="fr.hover(entry)">
                 <article class="album">
                     <header>
-                        <a ng-click="itemClicked(entry)" style="cursor:pointer;" ng-if="entry.IsDirectory">
-                            <img ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" />
+                        <a ng-click="fr.itemClicked(entry)" style="cursor:pointer;" ng-if="fr.entry.IsDirectory">
+                            <img ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/400{{fr.directory}}/{{entry.Name}}" />
                         </a>
-                        <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="SwitchToDetailsView($index)">
-                            <img id="diForeignResourcesBrowsericonFilePreview" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/400{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" />
+                        <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="fr.SwitchToDetailsView($index)">
+                            <img id="diForeignResourcesBrowsericonFilePreview" ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/400{{fr.directory}}/{{entry.Name}}" />
                         </a>
                         <div ng-if="entry.IsShared" style="position:absolute;top:3px;left:3px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
-                        <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="{{UserDataIsland.DataislandUrl}}filemanager/file/get/{{entry.FullName}}">
+                        <a class="album-options" href="#" ng-if="!entry.IsDirectory" ng-href="{{fr.UserDataIsland.DataislandUrl}}filemanager/file/get/{{entry.FullName}}">
                             <i class="entypo-download"></i>
                             [tr]Download[/tr]
                         </a>
@@ -135,7 +135,7 @@
                             {{entry.Size | bytes}}
                         </div>
 
-                        <div class="album-options" ng-if="UserPermissions.Write == true || UserPermissions.All == true">
+                        <div class="album-options" ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
                             <input type="checkbox" id="diForeignResourcesBrowserchk-1" ng-model="entry.Checked">
                         </div>
                     </footer>
@@ -146,70 +146,70 @@
 
     <!--filelist listview-->
     <form name="fileslist">
-        <div class="dataTables_wrapper form-inline" role="grid" ng-if="viewModeSelected=='listMode' && viewMode=='list'">
+        <div class="dataTables_wrapper form-inline" role="grid" ng-if="fr.viewModeSelected=='listMode' && fr.viewMode=='list'">
             <table class="table table-hover">
                 <thead>
                     <tr role="row">
                         <td role="columnheader" style="width:31px;" class="sorting_disabled"></td>
                         <td role="columnheader" style="width:30px;" class="sorting"></td>
-                        <td ng-click="changeSortOrder('Name')" role="columnheader" ng-class="{'sorting_asc':sortField=='Name'&&!sortIsDescending,'sorting_desc':sortField=='Name'&&sortIsDescending}">
+                        <td ng-click="fr.changeSortOrder('Name')" role="columnheader" ng-class="{'sorting_asc':fr.sortField=='Name'&&!sortIsDescending,'sorting_desc':fr.sortField=='Name'&&sortIsDescending}">
                             [tr]Name[/tr]
                         </td>
-                        <td ng-click="changeSortOrder('Size')" role="columnheader" style="width:100px;" ng-class="{'sorting_asc':sortField=='Size'&&!sortIsDescending,'sorting_desc':sortField=='Size'&&sortIsDescending}">
+                        <td ng-click="fr.changeSortOrder('Size')" role="columnheader" style="width:100px;" ng-class="{'sorting_asc':fr.sortField=='Size'&&!fr.sortIsDescending,'sorting_desc':fr.sortField=='Size'&&fr.sortIsDescending}">
                             [tr]Size[/tr]
                         </td>
                     </tr>
                 </thead>
                 <tbody role="alert">
-                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'highlight':entry.Checked}" ng-repeat="entry in filteredDirectoryData" style="cursor:pointer;">
+                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'highlight':entry.Checked}" ng-repeat="entry in fr.filteredDirectoryData" style="cursor:pointer;">
                         <td>
-                            <input ng-if="UserPermissions.Write == true || UserPermissions.All == true" type="checkbox" id="chk-1" ng-model="entry.Checked">
+                            <input ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true" type="checkbox" id="chk-1" ng-model="entry.Checked">
                         </td>
-                        <td ng-click="itemClicked(entry)" ng-if="entry.IsDirectory">
+                        <td ng-click="fr.itemClicked(entry)" ng-if="entry.IsDirectory">
                             <div style="position:relative;">
-                                <img ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" style="width:30px; height:30px;" />
+                                <img ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/30{{fr.directory}}/{{entry.Name}}" style="width:30px; height:30px;" />
                                 <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                             </div>
                         </td>
-                        <td ng-if="entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
+                        <td ng-if="entry.IsDirectory" ng-mouseenter="fr.hover(entry,true)" ng-mouseleave="fr.hover(entry,false)">
                             <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode" ng-click="itemClicked(entry)">{{entry.Name}}</div>
                             <div style="display:inline-block; height:29px; line-height:29px;" ng-if="entry.isInRenameMode"><input type="text" ng-model="entry.NewName"></div>
-                            <div style="float:right" ng-if="UserPermissions.Write == true || UserPermissions.All == true">
-                                <a class="btn btn-green btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="RenameFile(entry)">
+                            <div style="float:right" ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
+                                <a class="btn btn-green btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="fr.RenameFile(entry)">
                                     [tr]Rename[/tr]
                                     <i class="entypo-check"></i>
                                 </a>
-                                <a class="btn btn-red btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="CancelRename(entry)">
+                                <a class="btn btn-red btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="fr.CancelRename(entry)">
                                     [tr]Cancel[/tr]
                                     <i class="entypo-cancel"></i>
                                 </a>
-                                <a class="btn btn-gold btn-icon" ng-if="entry.isMouseOver && !entry.isInRenameMode" ng-click="SwitchToRenameMode(entry)">
+                                <a class="btn btn-gold btn-icon" ng-if="entry.isMouseOver && !entry.isInRenameMode" ng-click="fr.SwitchToRenameMode(entry)">
                                     [tr]Rename[/tr]
                                     <i class="entypo-pencil"></i>
                                 </a>
                             </div>
                         </td>
-                        <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
+                        <td ng-if="!entry.IsDirectory" ng-mouseenter="fr.hover(entry,true)" ng-mouseleave="fr.hover(entry,false)">
                             <div style="position:relative;">
-                                <a ng-click="SwitchToDetailsView($index)">
-                                    <img id="diForeignResourcesBrowserlistFilePreview{{$index}}" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/30{{directory}}/{{entry.Name}}?diupt={{UserPassportToken.TokenID}}" style="width:30px; height:30px; border:0px none transparent;" />
+                                <a ng-click="fr.SwitchToDetailsView($index)">
+                                    <img id="diForeignResourcesBrowserlistFilePreview{{$index}}" ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/30{{fr.directory}}/{{entry.Name}}" style="width:30px; height:30px; border:0 none transparent;" />
                                 </a>
                                 <div ng-if="entry.IsShared" style="position:absolute;top:-5px;left:-5px; border-radius: 50%; background:#ffffff; box-shadow: 0 0 0 2px #f5f5f6;" class="entypo-share"></div>
                             </div>
                         </td>
-                        <td ng-if="!entry.IsDirectory" ng-mouseenter="hover(entry,true)" ng-mouseleave="hover(entry,false)">
-                            <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode"><a ng-click="SwitchToDetailsView($index)">{{entry.Name}}</a></div>
+                        <td ng-if="!entry.IsDirectory" ng-mouseenter="fr.hover(entry,true)" ng-mouseleave="fr.hover(entry,false)">
+                            <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode"><a ng-click="fr.SwitchToDetailsView($index)">{{entry.Name}}</a></div>
                             <div style="display:inline-block; height:29px; line-height:29px;" ng-if="entry.isInRenameMode"><input type="text" ng-model="entry.NewName"></div>
-                            <div style="float:right" ng-if="UserPermissions.Write == true || UserPermissions.All == true">
-                                <a class="btn btn-green btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="RenameFile(entry)">
+                            <div style="float:right" ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
+                                <a class="btn btn-green btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="fr.RenameFile(entry)">
                                     [tr]Rename[/tr]
                                     <i class="entypo-check"></i>
                                 </a>
-                                <a class="btn btn-red btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="CancelRename(entry)">
+                                <a class="btn btn-red btn-icon" ng-if="entry.isMouseOver && entry.isInRenameMode" ng-click="fr.CancelRename(entry)">
                                     [tr]Cancel[/tr]
                                     <i class="entypo-cancel"></i>
                                 </a>
-                                <a class="btn btn-gold btn-icon" ng-if="entry.isMouseOver && !entry.isInRenameMode" ng-click="SwitchToRenameMode(entry)">
+                                <a class="btn btn-gold btn-icon" ng-if="entry.isMouseOver && !entry.isInRenameMode" ng-click="fr.SwitchToRenameMode(entry)">
                                     [tr]Rename[/tr]
                                     <i class="entypo-pencil"></i>
                                 </a>
@@ -228,7 +228,7 @@
 
     <!--Details view-->
     <form name="detailsform">
-        <div class="row" id="diForeignResourcesBrowserdetailsViewContainer" ng-if="viewMode=='details'" ng-class="{'details-view-fixed':detailsView.isDetailsViewExpanded}">
+        <div class="row" id="diForeignResourcesBrowserdetailsViewContainer" ng-if="fr.viewMode=='details'" ng-class="{'details-view-fixed':fr.detailsView.isDetailsViewExpanded}">
             <div class="col-sm-12" id="diForeignResourcesBrowserdetailsViewMenu">
                 <nav role="navigation" class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -239,44 +239,44 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand">{{SelectedFileIndex+1}} [tr]of[/tr] {{filteredDirectoryData.length}}</a>
+                        <a class="navbar-brand">{{fr.SelectedFileIndex+1}} [tr]of[/tr] {{fr.filteredDirectoryData.length}}</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div id="diForeignResourcesBrowserbs-example-navbar-collapse-1" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li ng-if="SelectedFileIndex>0">
-                                <a href="#" ng-click="MovePreviousItemIndex()"><i class="entypo-left-open-big"></i>[tr]Previous[/tr]</a>
+                                <a href="#" ng-click="fr.MovePreviousItemIndex()"><i class="entypo-left-open-big"></i>[tr]Previous[/tr]</a>
                             </li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown" >
+                            <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">[tr]Actions[/tr]<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li ng-if="UserPermissions.Write == true || UserPermissions.All == true">
-                                        <a href="#" ng-click="RotateFlipPreview('Rotate270NoFlip')"><i class="fa fa-rotate-left" style="margin-right:5px;"></i>[tr]Rotate Left[/tr]</a>
+                                    <li ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
+                                        <a href="#" ng-click="fr.RotateFlipPreview('Rotate270NoFlip')"><i class="fa fa-rotate-left" style="margin-right:5px;"></i>[tr]Rotate Left[/tr]</a>
                                     </li>
-                                    <li ng-if="UserPermissions.Write == true || UserPermissions.All == true">
-                                        <a href="#" ng-click="RotateFlipPreview('Rotate90NoFlip')"><i class="fa fa-rotate-right" style="margin-right:5px;"></i>[tr]Rotate Right[/tr]</a>
+                                    <li ng-if="fr.UserPermissions.Write == true || fr.UserPermissions.All == true">
+                                        <a href="#" ng-click="fr.RotateFlipPreview('Rotate90NoFlip')"><i class="fa fa-rotate-right" style="margin-right:5px;"></i>[tr]Rotate Right[/tr]</a>
                                     </li>
                                     <li ng-if="!filteredDirectoryData[SelectedFileIndex].IsDirectory">
-                                        <a ng-href="{{UserDataIsland.DataislandUrl}}filemanager/file/get/{{filteredDirectoryData[SelectedFileIndex].FullName}}"><i class="entypo-download" style="margin-right:5px;"></i>[tr]Download[/tr]</a>
+                                        <a ng-href="{{fr.UserDataIsland.DataislandUrl}}filemanager/file/get/{{fr.filteredDirectoryData[SelectedFileIndex].FullName}}"><i class="entypo-download" style="margin-right:5px;"></i>[tr]Download[/tr]</a>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li ng-if="SelectedFileIndex<filteredDirectoryData.length-1">
-                                <a href="#" ng-click="MoveNextItemIndex()"><i class="entypo-right-open-big"></i>[tr]Next[/tr]</a>
+                            <li ng-if="fr.SelectedFileIndex<fr.filteredDirectoryData.length-1">
+                                <a href="#" ng-click="fr.MoveNextItemIndex()"><i class="entypo-right-open-big"></i>[tr]Next[/tr]</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="toggleDetailsViewExpandedMode()">
-                                    <span ng-if="!detailsView.isDetailsViewExpanded"><i class="fa fa-expand" style="margin-right:5px;"></i>[tr]Expand[/tr]</span>
-                                    <span ng-if="detailsView.isDetailsViewExpanded"><i class="fa fa-compress" style="margin-right:5px;"></i>[tr]Shrink[/tr]</span>
+                                <a href="#" ng-click="fr.toggleDetailsViewExpandedMode()">
+                                    <span ng-if="!fr.detailsView.isDetailsViewExpanded"><i class="fa fa-expand" style="margin-right:5px;"></i>[tr]Expand[/tr]</span>
+                                    <span ng-if="fr.detailsView.isDetailsViewExpanded"><i class="fa fa-compress" style="margin-right:5px;"></i>[tr]Shrink[/tr]</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" ng-click="SwitchToListView()"><i class="entypo-cancel"></i>[tr]Close[/tr]</a>
+                                <a href="#" ng-click="fr.SwitchToListView()"><i class="entypo-cancel"></i>[tr]Close[/tr]</a>
                             </li>
                         </ul>
                     </div>
@@ -284,13 +284,13 @@
                 </nav>
             </div>
             <div class="col-sm-12" style="text-align:center;">
-                <h2 id="diForeignResourcesBrowserdetailsViewFileName"><small>{{filteredDirectoryData[SelectedFileIndex].Name}}</small></h2>
+                <h2 id="diForeignResourcesBrowserdetailsViewFileName"><small>{{fr.filteredDirectoryData[fr.SelectedFileIndex].Name}}</small></h2>
                 <div class="details-view-image-container">
                     <img src="/Content/panel/images/loader-1.gif" class="fade" id="diForeignResourcesBrowserimageloader" style="margin: auto; position: absolute; left: 50%; top: 50%;" />
-                    <img ng-if="!detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreview" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/preview/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/1000{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}?diupt={{UserPassportToken.TokenID}}" />
-                    <img ng-if="detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreviewExpanded" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{UserDataIsland.DataislandUrl}}filemanager/foreignresources/previewcustomsize/{{userId.EscapeUserId()}}/{{resourceId.EscapeUserId()}}/{{detailsView.imageContainerWidth}}/{{detailsView.imageContainerHeight}}{{directory}}/{{filteredDirectoryData[SelectedFileIndex].Name}}?diupt={{UserPassportToken.TokenID}}" />
+                    <img ng-if="!fr.detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreview" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/preview/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/1000{{fr.directory}}/{{fr.filteredDirectoryData[fr.SelectedFileIndex].Name}}" />
+                    <img ng-if="fr.detailsView.isDetailsViewExpanded" id="diForeignResourcesBrowserdetailsImagePreviewExpanded" img-preload img-loader="imageloader" style="margin:auto; max-width:100%;" class="fade" ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/previewcustomsize/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/{{fr.detailsView.imageContainerWidth}}/{{fr.detailsView.imageContainerHeight}}{{fr.directory}}/{{fr.filteredDirectoryData[fr.SelectedFileIndex].Name}}" />
                 </div>
-                <h3 id="diForeignResourcesBrowserdetailsViewFileDescription"><small>[tr]Size[/tr]: {{filteredDirectoryData[SelectedFileIndex].Size | bytes}}, [tr]Modified[/tr]: {{filteredDirectoryData[SelectedFileIndex].FileSystemObject.LastWriteTime | date:'medium'}}</small></h3>
+                <h3 id="diForeignResourcesBrowserdetailsViewFileDescription"><small>[tr]Size[/tr]: {{fr.filteredDirectoryData[fr.SelectedFileIndex].Size | bytes}}, [tr]Modified[/tr]: {{fr.filteredDirectoryData[fr.SelectedFileIndex].FileSystemObject.LastWriteTime | date:'medium'}}</small></h3>
             </div>
         </div>
     </form>

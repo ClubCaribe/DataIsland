@@ -12,14 +12,18 @@ var diapp;
                     this.$filter = $filter;
                     this.$timeout = $timeout;
                     this.dataFactory = dataFactory;
-                    this.UserDataIsland = null;
+                    this.UserDataIsland = {
+                        DataislandID: "",
+                        UserID: "",
+                        DataislandUrl: "/"
+                    };
                     this.UserPermissions = {
                         Read: false,
                         Write: false,
                         All: false
                     };
                     this.uploader = {
-                        fileUploadUrl: "/filemanager/file/uploadfile",
+                        fileUploadUrl: this.UserDataIsland.DataislandUrl + "filemanager/foreignresources/uploadfile/" + this.resourceId.EscapeUserId() + "/" + this.userId.EscapeUserId() + "/",
                         maxFileSize: "3000MB",
                         chunkSize: "1MB",
                         flashSwfUrl: "/Scripts/plupload/Moxie.swf",
@@ -206,6 +210,32 @@ var diapp;
                         this.SelectedFileIndex--;
                     }
                 };
+                ForeignResourcesController.prototype.fileUploadCompleted = function (files) {
+                    this.refreshDirectory();
+                };
+                ForeignResourcesController.prototype.hover = function (item, state) {
+                    // Shows/hides the delete button on hover
+                    return item.isMouseOver = state;
+                };
+                ForeignResourcesController.prototype.SwitchToRenameMode = function (item) {
+                    item.isInRenameMode = true;
+                    item.NewName = item.Name;
+                };
+                ForeignResourcesController.prototype.CancelRename = function (item) {
+                    item.isInRenameMode = false;
+                };
+                ForeignResourcesController.prototype.RenameFile = function (item) {
+                    //if (item.NewName != item.Name) {
+                    //    fileManagerDataFactory.MoveFile($scope.directory + "/" + item.Name, $scope.directory + "/" + item.NewName).success(function (data) {
+                    //        if (data.result == true) {
+                    //            item.Name = item.NewName;
+                    //            item.FileSystemObject.FullName = $scope.directory + "/" + item.NewName;
+                    //        }
+                    //        item.isInRenameMode = false;
+                    //    })
+                    //}
+                    item.isInRenameMode = false;
+                };
                 ForeignResourcesController.$inject = ['$scope', '$filter', '$timeout', 'diapp.filemanager.services.ForeignFileResourcesService'];
                 return ForeignResourcesController;
             })();
@@ -221,6 +251,7 @@ var diapp;
                     this.controller = ForeignResourcesController;
                     this.controllerAs = "fr";
                     this.bindToController = true;
+                    this.replace = true;
                     this.templateUrl = '/Areas/filemanager/app/partials/diForeignResources.tpl.html';
                 }
                 ForeignResourcesDirective.instance = function () {

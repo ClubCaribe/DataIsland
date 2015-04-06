@@ -1,4 +1,6 @@
-﻿using dataislandcommon.Services.FileSystem;
+﻿using DataIsland.Areas.filemanager.CustomActions;
+using dataislandcommon.Models.DataCache;
+using dataislandcommon.Services.FileSystem;
 using dataislandcommon.Services.Utilities;
 using dimain.Services.System;
 using dimain.Services.System.Cache;
@@ -56,7 +58,7 @@ namespace DataIsland.Areas.filemanager.Controllers
             callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
-                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                if (!await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
                 {
                     return null;
                 }
@@ -166,7 +168,7 @@ namespace DataIsland.Areas.filemanager.Controllers
             callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
-                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                if (!await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
                 {
                     return null;
                 }
@@ -277,7 +279,7 @@ namespace DataIsland.Areas.filemanager.Controllers
             callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
             if (!string.IsNullOrEmpty(callingUser))
             {
-                if (!await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                if (!await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
                 {
                     return null;
                 }
@@ -372,6 +374,106 @@ namespace DataIsland.Areas.filemanager.Controllers
                     {
                         Response.StatusCode = 404;
                     }
+                }
+            }
+            return null;
+        }
+
+        [Route("uploadfile/{resourceId}/{userId}")]
+        public async Task<string> UploadFile(string resourceId, string userId)
+        {
+            string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                if (!await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
+                {
+                    return "{'OK': 0, 'info': 'Access denied'}";
+                }
+            }
+            else
+            {
+                return "{'OK': 0, 'info': 'Access denied'}";
+            }
+
+            SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+            if (sharedResource != null)
+            {
+                if (sharedResource.IsDirectory && (sharedResource.IsWrite || sharedResource.IsAll))
+                {
+                    Stream fs = Request.Files[0].InputStream;
+                    byte[] filechunk = new byte[fs.Length];
+                    int streamLengths = await fs.ReadAsync(filechunk, 0, filechunk.Length);
+                    var chunks = int.Parse(Request["chunks"]);
+                    var chunk = int.Parse(Request["chunk"]);
+                    var name = Request["name"];
+
+                    string uploadPath = PathProvider.GetUserUploadFolder(ownerUsername);
+                    System.IO.File.WriteAllBytes(uploadPath + "/" + chunk.ToString() + "_" + name, filechunk);
+                    if (chunk >= chunks - 1)
+                    {
+                        string pathprefix = PathProvider.GetUserFilesPath(ownerUsername);
+                        string filePath = sharedResource.FullPath;
+                        using (FileStream finalStream = new FileStream(pathprefix + filePath + "/" + name, FileMode.Create, FileAccess.ReadWrite))
+                        {
+                            for (int i = 0; i < chunks; i++)
+                            {
+                                byte[] data = System.IO.File.ReadAllBytes(uploadPath + "/" + i.ToString() + "_" + name);
+                                await finalStream.WriteAsync(data, 0, data.Length);
+                                System.IO.File.Delete(uploadPath + "/" + i.ToString() + "_" + name);
+
+                            }
+                            finalStream.Close();
+
+                            //try get file preview
+                            byte[] preview = FileService.GetFilePreview(pathprefix, filePath + "/" + name);
+                            if (preview != null)
+                            {
+                                string previewPath = PathProvider.GetUserDataPath(ownerUsername) + FileManagerConsts.FilesPreviewsPath + filePath;
+                                Directory.CreateDirectory(previewPath);
+                                previewPath = previewPath + "/" + Path.GetFileNameWithoutExtension(pathprefix + filePath + "/" + name) + ".png";
+                                System.IO.File.WriteAllBytes(previewPath, preview);
+                            }
+                        }
+                    }
+                }
+
+                return "{'OK': 1, 'info': 'Upload successful.'}";
+            }
+
+            return "{'OK': 0, 'info': 'Access denied'}";
+        }
+
+        [Route("get/{resourceId}/{userId}/{*path}")]
+        [HttpGet]
+        public async Task<FilePathResult> DownloadFile(string resourceId, string userId,string path)
+        {
+            string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                if (!await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+            if (sharedResource != null)
+            {
+                string pathprefix = PathProvider.GetUserFilesPath(ownerUsername);
+                if (System.IO.File.Exists(pathprefix + sharedResource.FullPath + "/" + path))
+                {
+
+                    return File(pathprefix + sharedResource.FullPath + "/" + path, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(pathprefix + sharedResource.FullPath + "/" + path));
                 }
             }
             return null;

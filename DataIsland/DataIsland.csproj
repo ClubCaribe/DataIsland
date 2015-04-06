@@ -257,8 +257,11 @@
     <Content Include="App_Data\DataIsland\settings\configs\forms\settingsforms\dataislandmainsettings.txt" />
     <Content Include="Areas\filemanager\app\controllers\fileManagerController.js" />
     <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.js" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.imgPreload.js" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.plupload.js" />
     <Content Include="Areas\filemanager\app\directives\diForeignResourcesBrowser.js" />
     <Content Include="Areas\filemanager\app\directives\formsdirectives.js" />
+    <Content Include="Areas\filemanager\app\modules\diapp.filters.filemanager.js" />
     <Content Include="Areas\filemanager\app\partials\diForeignResources.tpl.html" />
     <Content Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.js" />
     <Content Include="Areas\filemanager\Content\css\filemanager.css" />
@@ -571,6 +574,9 @@
     <Content Include="bin\DataIsland.dll.config" />
     <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.js.map" />
     <Content Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.js.map" />
+    <Content Include="Areas\filemanager\app\modules\diapp.filters.filemanager.js.map" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.plupload.js.map" />
+    <Content Include="Areas\filemanager\app\directives\diapp.directives.filemanager.imgPreload.js.map" />
     <None Include="Properties\PublishProfiles\difilesystem.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
@@ -2903,6 +2909,7 @@
   <ItemGroup>
     <Compile Include="App_Start\AutofacRegistrationConfig.cs" />
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -2974,7 +2981,6 @@
   <ItemGroup>
     <Folder Include="Api\" />
     <Folder Include="App_Data\uploads\" />
-    <Folder Include="Areas\filemanager\app\modules\" />
     <Folder Include="Areas\filemanager\Models\" />
     <Folder Include="Areas\filemanager\Views\file\" />
     <Folder Include="Areas\filemanager\Views\foreignResources\" />
@@ -3023,6 +3029,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="Areas\filemanager\app\diapp.filemanager.models.ts" />
     <TypeScriptCompile Include="Areas\filemanager\app\directives\diapp.directives.filemanager.foreignresourcesbrowser.ts" />
+    <TypeScriptCompile Include="Areas\filemanager\app\directives\diapp.directives.filemanager.imgPreload.ts" />
+    <TypeScriptCompile Include="Areas\filemanager\app\directives\diapp.directives.filemanager.plupload.ts" />
+    <TypeScriptCompile Include="Areas\filemanager\app\modules\diapp.filters.filemanager.ts" />
     <TypeScriptCompile Include="Areas\filemanager\app\services\diapp.filemanager.services.foreignresources.ts" />
     <TypeScriptCompile Include="Areas\panel\app\models\diapp.models.ts" />
     <TypeScriptCompile Include="Areas\panel\app\modules\diapp.config.ts" />

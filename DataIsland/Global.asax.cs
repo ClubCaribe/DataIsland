@@ -15,6 +15,7 @@ using System.Configuration;
 using dataislandcommon.Utilities;
 using Microsoft.AspNet.SignalR;
 using Autofac.Integration.Mvc;
+using System.Web.Optimization;
 
 namespace DataIsland
 {
@@ -51,6 +52,8 @@ namespace DataIsland
                 dataislandcommon.Bootstrapper.Initialise();
                 PluginAreaBootstrapper.RunInitForLoadedPlugins();
             }
+
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
         }
 

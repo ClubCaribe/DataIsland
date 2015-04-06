@@ -19,7 +19,11 @@
         searchPhrase: string;
         resourceName: string;
 
-        UserDataIsland: diapp.models.IClientDataIslandData = null;
+        UserDataIsland: diapp.models.IClientDataIslandData = {
+            DataislandID: "",
+            UserID: "",
+            DataislandUrl: "/"
+        }; 
 
         UserPermissions: diapp.models.filemanager.IDiForeignResourcePermissions = {
             Read: false,
@@ -28,9 +32,9 @@
         };
 
         uploader: diapp.models.filemanager.IPlUploaderArgs = {
-            fileUploadUrl: "/filemanager/file/uploadfile",
-            maxFileSize: "3000MB",
-            chunkSize: "1MB",
+            fileUploadUrl: this.UserDataIsland.DataislandUrl + "filemanager/foreignresources/uploadfile/" + this.resourceId.EscapeUserId() + "/" + this.userId.EscapeUserId()+"/",
+            maxFileSize: "3000MB", 
+            chunkSize: "1MB", 
             flashSwfUrl: "/Scripts/plupload/Moxie.swf",
             silverlightXapUrl: "/Scripts/plupload/Moxie.xap"
         };
@@ -47,8 +51,8 @@
         viewMode: string = "list";
         detailsView: diapp.models.filemanager.IFileViewDetails = {
             isDetailsViewExpanded: false,
-            imageContainerWidth: 100,
-            imageContainerHeight: 100
+            imageContainerWidth: 100, 
+            imageContainerHeight: 100 
         };
         isDetailsViewExpanded: boolean = true;
         SelectedFileIndex: number = 0;
@@ -243,7 +247,39 @@
                 this.SelectedFileIndex--;
             }
         }
-    }
+
+        fileUploadCompleted(files:any) {
+            this.refreshDirectory();
+        } 
+
+        hover(item:diapp.models.filemanager.IDiDirectoryListingEntry, state:boolean) {
+            // Shows/hides the delete button on hover
+            return item.isMouseOver = state;
+        }
+
+        SwitchToRenameMode(item: diapp.models.filemanager.IDiDirectoryListingEntry) {
+            item.isInRenameMode = true;
+            item.NewName = item.Name;
+        }
+
+        CancelRename(item: diapp.models.filemanager.IDiDirectoryListingEntry) {
+            item.isInRenameMode = false;
+        }
+         
+        RenameFile(item: diapp.models.filemanager.IDiDirectoryListingEntry) {
+
+            //if (item.NewName != item.Name) {
+            //    fileManagerDataFactory.MoveFile($scope.directory + "/" + item.Name, $scope.directory + "/" + item.NewName).success(function (data) {
+            //        if (data.result == true) {
+            //            item.Name = item.NewName;
+            //            item.FileSystemObject.FullName = $scope.directory + "/" + item.NewName;
+            //        }
+            //        item.isInRenameMode = false;
+            //    })
+            //}
+            item.isInRenameMode = false;
+        }
+    } 
 
     class ForeignResourcesDirective implements ng.IDirective {
         static instance(): ng.IDirective {
@@ -260,6 +296,7 @@
         controller = ForeignResourcesController;
         controllerAs = "fr";
         bindToController = true;
+        replace = true;
         templateUrl = '/Areas/filemanager/app/partials/diForeignResources.tpl.html';
         link(scope: IForeignResourcesScope, element: ng.IAugmentedJQuery,
             attributes: ng.IAttributes, controller: ForeignResourcesController): void {

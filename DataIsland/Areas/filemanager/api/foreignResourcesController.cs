@@ -6,8 +6,11 @@ using dimain.Services.System.Cache;
 using FileManager.Models.db;
 using FileManager.Models.ViewModels;
 using FileManager.Services.FileManager;
+using FileManager.Utilities;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -50,7 +53,7 @@ namespace DataIsland.Areas.filemanager.api
                 string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
                 if (!string.IsNullOrEmpty(ownerUsername))
                 {
-                    if (await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                    if (await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
                     {
                         SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
                         if (sharedResource != null)
@@ -98,7 +101,7 @@ namespace DataIsland.Areas.filemanager.api
                 string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
                 if (!string.IsNullOrEmpty(ownerUsername))
                 {
-                    if (await this.SharedResources.CheckRecipientExists(resourceId, callingUser, ownerUsername))
+                    if (await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
                     {
                         SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
                         if (sharedResource != null)
@@ -111,6 +114,68 @@ namespace DataIsland.Areas.filemanager.api
                 }
             }
             return permissions;
+        }
+
+        [Route("move")]
+        [HttpPost]
+        public async Task<bool> MoveFile(JObject jsonData)
+        {
+            dynamic postData = jsonData;
+            string userId, resourceId;
+            userId = postData.userId;
+            resourceId = postData.resourceId;
+
+            string callingUser = this.User.Identity.Name;
+            callingUser = await this.DiUsers.GetUserIdByFromUsername(callingUser);
+            if (!string.IsNullOrEmpty(callingUser))
+            {
+                string ownerUsername = await this.DiUsers.GetUsernameFromUserId(this.Utilities.UnescapeUserId(userId));
+                if (!string.IsNullOrEmpty(ownerUsername))
+                {
+                    if (await this.SharedResources.CheckRecipientExists(this.Utilities.UnescapeUserId(resourceId), callingUser, ownerUsername))
+                    {
+                        SharedResource sharedResource = await this.SharedResources.GetSharedResourceByID(this.Utilities.UnescapeUserId(resourceId), ownerUsername);
+                        if (sharedResource != null)
+                        {
+                            if (this.User.Identity.IsAuthenticated)
+                            {
+                                string oldFilePath = postData.OldFileName;
+                                string newFilePath = postData.NewFileName;
+                                string pathprefix = PathProvider.GetUserFilesPath(ownerUsername);
+                                if (File.Exists(pathprefix + sharedResource.FullPath + "/" + oldFilePath) || Directory.Exists(pathprefix + sharedResource.FullPath + "/" + oldFilePath))
+                                {
+                                    string previewPath = PathProvider.GetUserDataPath(this.User.Identity.Name) + FileManagerConsts.FilesPreviewsPath;
+                                    if (File.Exists(pathprefix + sharedResource.FullPath + "/" + oldFilePath))
+                                    {
+                                        string oldFileNamePreview = previewPath + sharedResource.FullPath + "/" + oldFilePath;
+                                        string newFileNamePreview = previewPath + sharedResource.FullPath + "/" + newFilePath;
+                                        oldFileNamePreview = Path.ChangeExtension(oldFileNamePreview, ".png");
+                                        newFileNamePreview = Path.ChangeExtension(newFileNamePreview, ".png");
+                                        File.Move(pathprefix + sharedResource.FullPath + "/" + oldFilePath, pathprefix + sharedResource.FullPath + "/" + newFilePath);
+                                        File.Move(oldFileNamePreview, newFileNamePreview);
+                                        if (File.Exists(pathprefix + sharedResource.FullPath + "/" + newFilePath))
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    if (Directory.Exists(pathprefix + sharedResource.FullPath + "/" + oldFilePath))
+                                    {
+                                        string oldFileNamePreview = previewPath + sharedResource.FullPath + "/" + oldFilePath;
+                                        string newFileNamePreview = previewPath + sharedResource.FullPath + "/" + newFilePath;
+                                        Directory.Move(pathprefix + sharedResource.FullPath + "/" + oldFilePath, pathprefix + sharedResource.FullPath + "/" + newFilePath);
+                                        Directory.Move(oldFileNamePreview, newFileNamePreview);
+                                        if (Directory.Exists(pathprefix + sharedResource.FullPath + "/" + newFilePath))
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }

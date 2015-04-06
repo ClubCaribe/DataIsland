@@ -3319,8 +3319,8 @@ select.uk-form-width-mini {
  ========================================================================== */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../fonts/fontawesome-webfont.eot");
-  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype");
+  src: url("/Content/panel/css/font-icons/font-awesome/fonts/fontawesome-webfont.eot");
+  src: url("/Content/panel/css/font-icons/font-awesome/fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("/Content/panel/css/font-icons/font-awesome/fonts/fontawesome-webfont.woff") format("woff"), url("/Content/panel/css/font-icons/font-awesome/fonts/fontawesome-webfont.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

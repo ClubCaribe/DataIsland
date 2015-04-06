@@ -12,6 +12,8 @@
         SharedPublicPath: string;
         Checked?: boolean;
         isInRenameMode?: boolean;
+        isMouseOver?: boolean;
+        NewName?: string;
     }
 
     export interface IDiForeignResourcePermissions {

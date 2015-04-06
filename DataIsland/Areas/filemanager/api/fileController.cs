@@ -155,6 +155,7 @@ namespace DataIsland.Areas.filemanager.api
         }
 
         [Route("move")]
+        [HttpPost]
         public object Move(JObject jsonData)
         {
             if (this.User.Identity.IsAuthenticated)

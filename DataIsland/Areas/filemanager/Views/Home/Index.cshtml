@@ -643,10 +643,6 @@
     </div>
 }
 @section scripts{
-    <script src="/Scripts/plupload/plupload.full.min.js"></script>
-    <script src="~/Scripts/plupload/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
-    <script src="~/Areas/filemanager/app/services/diapp.filemanager.services.foreignresources.js"></script>
-    <script src="~/Areas/filemanager/app/directives/diapp.directives.filemanager.foreignresourcesbrowser.js"></script>
-    <script src="~/Areas/filemanager/app/controllers/fileManagerController.js"></script>
+    @System.Web.Optimization.Scripts.Render("~/bundles/filemanagerscripts")
 }
 

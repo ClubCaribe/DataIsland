@@ -15,5 +15,6 @@ namespace FileManager.Services.db
         Task<SharedResource> GetResource(string fullPath, DiFileContext db);
         Task<SharedResource> GetResourceByID(string id, DiFileContext db);
         Task<string> ModifyResource(string fullPath, bool isDirectory, bool isRead, bool isWrite, bool isFull, bool isPublic, DiFileContext db);
+        Task<bool> DeleteResourceByID(string resourceId, DiFileContext db);
     }
 }

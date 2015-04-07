@@ -495,15 +495,24 @@
                                         <td role="columnheader" style="width:250px;">
                                             [tr]Shared By[/tr]
                                         </td>
+                                        <td style="width:130px;">
+
+                                        </td>
                                     </tr>
                                 </thead>
                                 <tbody role="alert">
-                                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'highlight':entry.Checked}" ng-repeat="entry in ResourcesSharedByOthers.Files | filter:searchPhrase | orderBy:'OwnerID'" style="cursor:pointer;">
+                                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{'highlight':entry.Checked}" ng-repeat="entry in ResourcesSharedByOthers.Files | filter:searchPhrase | orderBy:'OwnerID'" style="cursor:pointer;" ng-mouseenter="entry.mouseOver=true" ng-mouseleave="entry.mouseOver=false">
                                         <td>
                                             <a href="#" ng-click="GoToForeignResource(entry)">{{entry.Name}}</a><br />
                                         </td>
                                         <td>
                                             <span style="position:relative;"><img width="20" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{entry.OwnerID.EscapeUserId()}}/20/sqr/1" style="margin-right:5px;" />{{entry.OwnerID | userDisplayName:ShareOptions.Contacts}}</span>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-red btn-icon btn-xs" ng-click="DeleteSharedResource(entry)" ng-if="entry.mouseOver == true">
+                                                [tr]Delete[/tr]
+                                                <i class="entypo-cancel"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>

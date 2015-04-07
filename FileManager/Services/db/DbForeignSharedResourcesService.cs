@@ -60,5 +60,11 @@ namespace FileManager.Services.db
             var res = await db.ForeignResources.ToListAsync();
             return res;
         }
+
+        public async Task<ForeignSharedResource> GetSharedResource(string id, DiFileContext db)
+        {
+            var res = await db.ForeignResources.Where(x => x.ID == id).SingleOrDefaultAsync();
+            return res;
+        }
     }
 }

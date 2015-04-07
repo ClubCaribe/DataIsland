@@ -48,5 +48,13 @@ namespace DataIsland.Areas.filemanager.api
         {
             return await this.Resources.GetForeignResources(this.User.Identity.Name);
         }
+
+        [Route("deletesharedresource/{id}")]
+        [HttpGet]
+        public async Task<bool> DeleteSharedResource(string id)
+        {
+            await this.Resources.DeleteForeignSharedResources(id, true, this.User.Identity.Name);
+            return true;
+        }
     }
 }

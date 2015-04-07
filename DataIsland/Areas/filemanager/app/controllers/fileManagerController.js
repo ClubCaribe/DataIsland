@@ -85,6 +85,10 @@ DiPanel.factory("fileManagerDataFactory", ['$http', '$q', function ($http, $q) {
         GetResourcesSharedByOthers: function () {
             var url = "/api/filemanager/shared/getresourcessharedbyothers";
             return $http.get(url);
+        },
+        DeleteForeignResource: function (id) {
+            var url = "/api/filemanager/shared/deletesharedresource/" + id;
+            return $http.get(url);
         }
     }
 }]);
@@ -869,6 +873,19 @@ DiPanel.controller('fileManagerController', ['$scope', 'fileManagerDataFactory',
 
     $scope.ChangeSharedResourcesViewMode = function (mode) {
         $scope.sharedSectionModeSelected = mode;
+    }
+
+    $scope.DeleteSharedResource = function (item) {
+        if (confirm("[tr]Do you want to delete this resource?[/tr]")) {
+            fileManagerDataFactory.DeleteForeignResource(item.ID).then(function (result) {
+                for (var i = 0; i < $scope.ResourcesSharedByOthers.Files.length; i++) {
+                    if ($scope.ResourcesSharedByOthers.Files[i].ID == item.ID) {
+                        $scope.ResourcesSharedByOthers.Files.splice(i, 1);
+                        return;
+                    }
+                }
+            });
+        }
     }
     //#endregion
 

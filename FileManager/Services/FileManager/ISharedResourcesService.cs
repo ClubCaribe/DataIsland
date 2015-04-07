@@ -11,8 +11,9 @@ namespace FileManager.Services.FileManager
         Task<List<SharedResource>> GetSharedResources(string ownerUsername);
         Task<SharedResource> GetSharedResourceByID(string id, string ownerUsername);
         Task AddForeignSharedResource(string id, string ownerId, string name, bool isDirectory, string ownerUsername);
-        Task DeleteForeignSharedResources(string id, string ownerUsername);
+        Task DeleteForeignSharedResources(string id, bool sendDeleteCommand, string ownerUsername);
         Task<List<ForeignSharedResource>> GetForeignResources(string ownerUsername);
         Task<bool> CheckRecipientExists(string resourceId, string recipientId, string ownerUsername);
+        Task RemoveRecipientFromSharedResource(string resourceId, string userId, string ownerUsername);
     }
 }

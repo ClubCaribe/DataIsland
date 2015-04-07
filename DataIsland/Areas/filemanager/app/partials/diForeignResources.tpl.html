@@ -90,7 +90,7 @@
             <div class="col-sm-2" ng-repeat="entry in fr.filteredDirectoryData" ng-mouseenter="fr.hover(entry)" ng-mouseleave="fr.hover(entry)">
                 <article class="album">
                     <header>
-                        <a ng-click="fr.itemClicked(entry)" style="cursor:pointer;" ng-if="fr.entry.IsDirectory">
+                        <a ng-click="fr.itemClicked(entry)" style="cursor:pointer;" ng-if="entry.IsDirectory">
                             <img ng-src="{{fr.UserDataIsland.DataislandUrl}}filemanager/foreignresources/thumbnail/{{fr.userId.EscapeUserId()}}/{{fr.resourceId.EscapeUserId()}}/400{{fr.directory}}/{{entry.Name}}" />
                         </a>
                         <a style="cursor:pointer;" ng-if="!entry.IsDirectory" ng-click="fr.SwitchToDetailsView($index)">
@@ -148,7 +148,7 @@
                             </div>
                         </td>
                         <td ng-if="entry.IsDirectory" ng-mouseenter="fr.hover(entry,true)" ng-mouseleave="fr.hover(entry,false)">
-                            <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode" ng-click="itemClicked(entry)">{{entry.Name}}</div>
+                            <div style="display:inline-block; height:29px; line-height:29px;" ng-if="!entry.isInRenameMode" ng-click="fr.itemClicked(entry)">{{entry.Name}}</div>
                             <div style="display:inline-block; height:29px; line-height:29px;" ng-if="entry.isInRenameMode"><input type="text" ng-model="entry.NewName"></div>
                             
                         </td>

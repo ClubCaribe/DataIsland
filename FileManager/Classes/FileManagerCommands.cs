@@ -47,7 +47,16 @@ namespace FileManager.Classes
             using (var scope = AutofacConfig.GetConfiguredContainer().BeginLifetimeScope())
             {
                 ISharedResourcesService resources = scope.Resolve<ISharedResourcesService>();
-                await resources.DeleteForeignSharedResources(resId, this.Username);
+                await resources.DeleteForeignSharedResources(resId,false, this.Username);
+            }
+        }
+
+        public async Task DeleteForeignResourceByUser(string resId)
+        {
+            using (var scope = AutofacConfig.GetConfiguredContainer().BeginLifetimeScope())
+            {
+                ISharedResourcesService resources = scope.Resolve<ISharedResourcesService>();
+                await resources.RemoveRecipientFromSharedResource(resId, this.SenderId, this.Username);
             }
         }
     }

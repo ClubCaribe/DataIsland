@@ -21,7 +21,7 @@ DiPanel.filter('notificationFriendlyDate', function () {
         } else if (days > 1 && days < 8) {
             return days + " [tr]days ago[/tr]";
         } else {
-            thenDate.toDateString();
+           return thenDate.toDateString();
         }
     };
 });

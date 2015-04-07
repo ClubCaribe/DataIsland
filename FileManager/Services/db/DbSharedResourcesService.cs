@@ -110,5 +110,16 @@ namespace FileManager.Services.db
             }
             return false;
         }
+
+        public async Task<bool> DeleteResourceByID(string resourceId, DiFileContext db)
+        {
+            int count = await db.Database.ExecuteSqlCommandAsync("DELETE FROM SharedResource WHERE ID=\"" + resourceId + "\"");
+            if (count > 0)
+            {
+                await db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }

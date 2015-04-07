@@ -153,11 +153,30 @@ namespace FileManager.Services.FileManager
             }
         }
 
-        public async Task DeleteForeignSharedResources(string id, string ownerUsername)
+        public async Task DeleteForeignSharedResources(string id, bool sendDeleteCommand, string ownerUsername)
         {
             using (var db = this.DbManager.GetDbContext(ownerUsername))
             {
+                if (sendDeleteCommand)
+                {
+                    ForeignSharedResource resource = await this.ForeignResources.GetSharedResource(id, db);
+                    string ownerUserId = await this.DiUsers.GetUserIdByFromUsername(ownerUsername);
+                    this.Commands.User(ownerUserId, resource.OwnerID).DeleteForeignResourceByUser(id);
+                }
                 await this.ForeignResources.DeleteResource(id, db);
+            }
+        }
+
+        public async Task RemoveRecipientFromSharedResource(string resourceId, string userId, string ownerUsername)
+        {
+            using (var db = this.DbManager.GetDbContext(ownerUsername))
+            {
+                await this.Recipients.DeleteRecipient(resourceId, userId, db);
+                List<ResourceRecipient> recipients = await this.Recipients.GetRecipients(resourceId, db);
+                if(recipients==null || recipients.Count==0)
+                {
+                    await this.Resources.DeleteResourceByID(resourceId, db);
+                }
             }
         }
 

@@ -11,5 +11,6 @@ namespace FileManager.Services.db
         Task<bool> CheckResourceExists(string id, DiFileContext db);
         Task<bool> DeleteResource(string id, DiFileContext db);
         Task<List<ForeignSharedResource>> GetSharedResources(DiFileContext db);
+        Task<ForeignSharedResource> GetSharedResource(string id, DiFileContext db);
     }
 }

@@ -190,6 +190,16 @@ namespace FileManager.Services.FileManager
             return resources;
         }
 
+        public async Task<List<ForeignSharedResource>> GetForeignResourcesByUserId(string userId, string ownerUsername)
+        {
+            List<ForeignSharedResource> resources = null;
+            using (var db = this.DbManager.GetDbContext(ownerUsername))
+            {
+                resources = await this.ForeignResources.GetSharedResourcesByUserId(userId, db);
+            }
+            return resources;
+        }
+
         public async Task<bool> CheckRecipientExists(string resourceId, string recipientId, string ownerUsername)
         {
             using (var db = this.DbManager.GetDbContext(ownerUsername))

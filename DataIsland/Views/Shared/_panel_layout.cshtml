@@ -163,8 +163,8 @@
                             <li class="sep"></li>
                             <li>
                                 <a data-collapse-sidebar="1" data-animate="1" data-toggle="chat" href="#">
-                                    <i class="entypo-chat"></i>
-                                    [tr]Chat[/tr]
+                                    <i class="entypo-users"></i>
+                                    [tr]Contacts[/tr]
                                     <span class="badge badge-success chat-notifications-badge" ng-show="NumberOfChatUnreadedMessages>0">{{NumberOfChatUnreadedMessages}}</span>
                                 </a>
                             </li>
@@ -187,14 +187,17 @@
                     <h2 class="chat-header">
                         <a data-animate="1" class="chat-close" data-toggle="chat" data-collapse-sidebar="1" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
                         <i class="entypo-users"></i>
-                        Chat
+                        <a href="/panel/contacts/" style="color: #949494 !important;">
+                            Contacts
+                        </a>
                         <span ng-show="chatCtrl.TotalUnreadMessages>0" class="badge badge-success">{{chatCtrl.TotalUnreadMessages}}</span>
                     </h2>
                     <div id="group-1" class="chat-group">
                         <strong>[tr]Favorites[/tr]</strong>
                         <a ng-repeat="contact in chatCtrl.ChatList | filterChatByFavourite:true | filterChatExcludeUnaccepted | orderBy:'Name'" href="#" ng-click="chatCtrl.SetActiveChat(contact);">
                             <span class="user-status is-offline"></span>
-                            <em>{{contact.Name}} <span style="font-size:0.9em; color:#949494;">({{::contact.Username}})</span></em>
+                            <img width="20" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{::contact.Username}}/20/sqr" />
+                            <em>{{contact.Name}}</em>
                             <span class="badge badge-info" ng-show="contact.NumberOfUnreadMessages > 0">{{contact.NumberOfUnreadMessages}}</span>
                         </a>
                     </div>
@@ -202,21 +205,30 @@
                         <strong>[tr]Contacts[/tr]</strong>
                         <a ng-repeat="contact in chatCtrl.ChatList| filterChatByFavourite:false | filterChatExcludeUnaccepted | orderBy:'Name'" href="#" ng-click="chatCtrl.SetActiveChat(contact);">
                             <span class="user-status is-offline"></span>
-                            <em>{{contact.Name}} <span style="font-size:0.9em; color:#949494;">({{::contact.Username}}) </span></em>
+                            <img width="20" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{::contact.Username}}/20/sqr" />
+                            <em>{{contact.Name}}</em>
                             <span class="badge badge-info" ng-show="contact.NumberOfUnreadMessages > 0">{{contact.NumberOfUnreadMessages}}</span>
                         </a>
                     </div>
-                    
+
                 </div>
 
                 <!-- conversation template -->
-                <div class="chat-conversation" style="display: none; top: 0px; opacity: 0;">
+                <div class="chat-conversation" style="display: none; top: 0; opacity: 0;">
                     <div class="conversation-header">
-                        <a class="conversation-close" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
-                        <a style="color:#7f8186; float:right; top:3px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]Open full chat[/tr]"><span style="font-size:11px; color:#b3b6bd;">[tr]Open full chat[/tr]</span><i class="entypo-chat"></i></a>
-                        <span class="user-status"></span>
-                        <span class="display-name">{{chatCtrl.ActiveChat.Name}}</span>
-                        <small></small>
+                        <div style="overflow:auto;">
+                            <a class="conversation-close" href="#" ng-click="chatCtrl.CloseActiveChat()"><i class="entypo-cancel"></i></a>
+                            <span class="user-status"></span>
+                            <img width="30" class="img-circle" alt="" ng-src="/panel/contacts/contactthumbnail/{{::chatCtrl.ActiveChat.Username}}/30/sqr" />
+                            <span class="display-name">{{chatCtrl.ActiveChat.Name}}</span>
+                            <small>{{::chatCtrl.ActiveChat.Username}}</small>
+                        </div>
+
+                        <div style="overflow:auto;">
+                            @*<a style="color:#7f8186; float:left; top:3px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]View profile[/tr]"  data-placement="top" data-toggle="tooltip"><i class="entypo-user"></i></a>*@
+                            <a style="color:#7f8186; float:left; top:3px; margin-left:5px; position:relative;" ng-href="/panel/contacts/chat/{{chatCtrl.ActiveChat.Username}}" title="[tr]Open full chat[/tr]" data-placement="top" data-toggle="tooltip"><i class="entypo-chat"></i></a>
+                            <a style="color:#7f8186; float:left; top:3px; margin-left:5px; position:relative;" ng-href="/filemanager/sharedResources/{{chatCtrl.ActiveChat.Username}}" title="[tr]Show Shared Files[/tr]" data-placement="top" data-toggle="tooltip"><i class="entypo-docs"></i></a>
+                        </div>
                     </div>
                     <ul class="conversation-body">
                         <li ng-repeat="message in chatCtrl.ActiveChat.Messages | orderBy:'SendTime'" ng-class="{unread:chatCtrl.IsUserMessageOwner(message)}">
@@ -226,15 +238,15 @@
                         </li>
                     </ul>
                     <div class="chat-textarea">
-                        <textarea ng-disabled="chatCtrl.NewMessage.IsDisabled" ng-keypress="chatCtrl.MessageTextKeyPressed($event)" ng-model="chatCtrl.NewMessage.Message" placeholder="Type your message" class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 32px;"></textarea>
+                        <textarea ng-disabled="chatCtrl.NewMessage.IsDisabled" ng-keypress="chatCtrl.MessageTextKeyPressed($event)" ng-model="chatCtrl.NewMessage.Message" placeholder="Type your message" class="form-control autogrow" style="overflow: hidden; -ms-word-wrap:break-word; word-wrap: break-word; resize: horizontal; height: 32px;"></textarea>
                     </div>
                 </div>
-                <div id="ascrail2000" class="nicescroll-rails" style="padding-right: 3px; width: 8px; z-index: 5; position: absolute; top: 0px; left: -8px; height: 100px; cursor: default; opacity: 0; display: none;">
-                    <div style="position: relative; float: right; width: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); background-clip: padding-box; border-radius: 1px; height: 0px; top: 0px;">
+                <div id="ascrail2000" class="nicescroll-rails" style="padding-right: 3px; width: 8px; z-index: 5; position: absolute; top: 0; left: -8px; height: 100px; cursor: default; opacity: 0; display: none;">
+                    <div style="position: relative; float: right; width: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); -moz-background-clip:padding-box; -webkit-background-clip:padding-box; background-clip: padding-box; border-radius: 1px; height: 0; top: 0;">
                     </div>
                 </div>
-                <div id="ascrail2000-hr" class="nicescroll-rails" style="height: 5px; z-index: 5; top: 95px; left: 0px; position: absolute; cursor: default; opacity: 0; display: none;">
-                    <div style="position: relative; top: 0px; height: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); background-clip: padding-box; border-radius: 1px; width: 0px; left: 0px;">
+                <div id="ascrail2000-hr" class="nicescroll-rails" style="height: 5px; z-index: 5; top: 95px; left: 0; position: absolute; cursor: default; opacity: 0; display: none;">
+                    <div style="position: relative; top: 0; height: 5px; background-color: rgb(69, 74, 84); border: 1px solid rgb(69, 74, 84); -moz-background-clip:padding-box; -webkit-background-clip:padding-box; background-clip: padding-box; border-radius: 1px; width: 0; left: 0;">
                     </div>
                 </div>
             </div>

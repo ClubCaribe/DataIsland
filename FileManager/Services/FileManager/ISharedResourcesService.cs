@@ -15,5 +15,6 @@ namespace FileManager.Services.FileManager
         Task<List<ForeignSharedResource>> GetForeignResources(string ownerUsername);
         Task<bool> CheckRecipientExists(string resourceId, string recipientId, string ownerUsername);
         Task RemoveRecipientFromSharedResource(string resourceId, string userId, string ownerUsername);
+        Task<List<ForeignSharedResource>> GetForeignResourcesByUserId(string userId, string ownerUsername);
     }
 }

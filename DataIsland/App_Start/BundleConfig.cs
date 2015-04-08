@@ -83,6 +83,18 @@ namespace DataIsland.App_Start
                "~/Areas/filemanager/app/directives/diapp.directives.filemanager.foreignresourcesbrowser.js",
                "~/Areas/filemanager/app/controllers/fileManagerController.js"
                 ));
+
+            bundles.Add(new ScriptBundle("~/bundles/filemanagerusersharedresources").Include(
+               "~/Scripts/plupload/plupload.full.min.js",
+               "~/Scripts/plupload/jquery.plupload.queue/jquery.plupload.queue.min.js",
+               "~/Areas/filemanager/app/directives/diapp.directives.filemanager.imgPreload.js",
+               "~/Areas/filemanager/app/directives/diapp.directives.filemanager.plupload.js",
+               "~/Areas/filemanager/app/modules/diapp.filters.filemanager.js",
+               "~/Areas/filemanager/app/services/diapp.filemanager.services.foreignresources.js",
+               "~/Areas/filemanager/app/directives/diapp.directives.filemanager.foreignresourcesbrowser.js",
+               "~/Areas/filemanager/app/services/diapp.services.filemanager.SharedResourcesService.js",
+               "~/Areas/filemanager/app/controllers/diapp.controllers.filemanager.userSharedResourcesController.js"
+                ));
         }
     }
 }

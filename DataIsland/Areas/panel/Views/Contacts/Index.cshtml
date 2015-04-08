@@ -63,7 +63,7 @@
                             <tr>
                                 <th style="width:50px;"></th>
                                 <th>[tr]Username[/tr]</th>
-                                <th style="width:40px; text-align:center;"></th>
+                                <th style="width:80px; text-align:center;"></th>
                                 <th style="width:40px; text-align:center;"></th>
                                 <th style="width:150px;text-align:center;"></th>
                             </tr>
@@ -85,8 +85,11 @@
                                     </h4>
                                 </td>
                                 <td>
-                                    <a ng-if="user.Accepted" ng-href="/panel/contacts/chat/{{user.Username}}" style="line-height:45px;" title="[tr]Open chat[/tr]" >
+                                    <a ng-if="user.Accepted" ng-href="/panel/contacts/chat/{{user.Username}}" style="line-height:45px;" title="[tr]Open chat[/tr]" data-placement="top" data-toggle="tooltip">
                                         <i style="color:#ff0000;" class="entypo-chat"></i>
+                                    </a>
+                                    <a ng-if="user.Accepted" ng-href="/filemanager/sharedResources/{{user.Username}}" style="line-height:45px;" title="[tr]Show Shared Files[/tr]" data-placement="top" data-toggle="tooltip">
+                                        <i style="color:#ff0000;" class="entypo-docs"></i>
                                     </a>
                                 </td>
                                 <td>

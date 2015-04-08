@@ -15,6 +15,7 @@ namespace DataIsland.Areas.panel.Controllers
     [RouteArea("panel")]
     [RoutePrefix("Contacts")]
     [Route("{action=index}")]
+    [Authorize]
     public class ContactsController : Controller
     {
         

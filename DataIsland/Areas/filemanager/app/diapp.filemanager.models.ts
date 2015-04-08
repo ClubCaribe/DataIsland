@@ -41,5 +41,11 @@
         imageContainerHeight: number;
     }
 
-    
+    export interface IForeignSharedResource {
+        ID: string;
+        OwnerID: string;
+        Name: string;
+        IsDirectory: boolean;
+        IsAccessible : boolean;
+    }   
 }

@@ -1,5 +1,6 @@
 ﻿using FileManager.Models.db;
 using FileManager.Services.FileManager;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,15 @@ namespace DataIsland.Areas.filemanager.api
         public async Task<List<ForeignSharedResource>> GetResourcesSharedByOthers()
         {
             return await this.Resources.GetForeignResources(this.User.Identity.Name);
+        }
+
+        [Route("getforeignresourcesbyuserid")]
+        [HttpPost]
+        public async Task<List<ForeignSharedResource>> GetForeignResourcesByUserID(JObject data)
+        {
+            dynamic postData = data;
+            string userId = postData.userId;
+            return await this.Resources.GetForeignResourcesByUserId(userId, this.User.Identity.Name);
         }
 
         [Route("deletesharedresource/{id}")]
